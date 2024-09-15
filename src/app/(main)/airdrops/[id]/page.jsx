@@ -10,7 +10,7 @@ import React from "react";
 const page = () => {
   return (
     <section className="py-10 lg:px-0 px-2">
-      <div className="container mx-auto grid xl:grid-cols-3 grid-cols-1 gap-8">
+      <div className="container mx-auto grid xl:grid-cols-3 grid-cols-1 gap-8 w-full max-w-[1366px]">
         <Card>
           <CardHeader></CardHeader>
           <CardContent className="flex items-center gap-3">

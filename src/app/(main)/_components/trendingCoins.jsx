@@ -146,7 +146,7 @@ const TrendingCoins = () => {
   return (
     <>
       <section className="lg:px-0 px-2 py-10">
-        <div className="container mx-auto rounded border p-2">
+        <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
           <h2 className="lg:text-3xl text-xl font-semibold dark:text-white mb-4">
             Trending
           </h2>

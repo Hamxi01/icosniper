@@ -6,7 +6,7 @@ import React from "react";
 const ThreeBox = () => {
   return (
     <section className="lg:px-0 px-2 py-10">
-      <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7">
+      <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
         <Card className="bg-[#1b1f31]">
           <CardHeader>
             <CardTitle className="flex items-center gap-4">

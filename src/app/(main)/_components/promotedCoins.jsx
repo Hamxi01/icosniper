@@ -136,7 +136,7 @@ const PromotedCoins = () => {
 
   return (
     <section className="lg:px-0 px-2 py-10">
-      <div className="container mx-auto rounded border p-2">
+      <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
         <Table>
           <TableHeader>
             <TableRow>

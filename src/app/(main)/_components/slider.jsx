@@ -137,7 +137,7 @@ const Slider = () => {
           </CardFooter>
         </Card>
       </div> */}
-      <div className="container mx-auto">
+      <div className="container mx-auto w-full max-w-[1366px]">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={20}

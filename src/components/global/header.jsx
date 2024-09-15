@@ -60,7 +60,7 @@ const Header = () => {
 
   return (
     <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] py-3 ">
-      <section className="mx-auto container flex items-center justify-between gap-8">
+      <section className="mx-auto container w-full max-w-[1366px] flex items-center justify-between gap-8">
         <Link href={"/"}>
           <Image
             src={"/img/logo.webp"}

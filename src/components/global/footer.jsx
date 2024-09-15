@@ -6,7 +6,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="dark:bg-transparent py-10 bg-slate-100">
-      <section className="container mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
+      <section className="container mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 w-full max-w-[1366px]">
         <div>
           <h3 className="text-md mb-4">CRYPTOCURRENCY RANKING</h3>
           <div className="flex flex-col gap-2 text-sm mb-7">
@@ -217,7 +217,7 @@ const Footer = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7">
+      <section className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
         <Link href={"/"}>
           <Image
             src="/img/logo.webp"

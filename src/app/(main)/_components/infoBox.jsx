@@ -12,7 +12,7 @@ import React from "react";
 const InfoBox = () => {
   return (
     <section className="py-7 lg:px-0 px-2">
-      <div className="container mx-auto grid lg:grid-cols-2 grid-cols-1">
+      <div className="container mx-auto grid lg:grid-cols-2 grid-cols-1 w-full max-w-[1366px]">
         <Card className="p-10">
           <CardHeader>
             <Image

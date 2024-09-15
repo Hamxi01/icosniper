@@ -4,7 +4,7 @@ import React from "react";
 const Banner = () => {
   return (
     <section className="pb-10 pt-2">
-      <div className="container mx-auto">
+      <div className="container mx-auto w-full max-w-[1366px]">
         <div className="mb-4">
           <Image
             src={"/img/banner-1.webp"}

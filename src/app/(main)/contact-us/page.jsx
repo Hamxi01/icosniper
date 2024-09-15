@@ -26,7 +26,7 @@ import React from "react";
 const page = () => {
   return (
     <section className="py-10 lg:px-0 px-2">
-      <div className="container mx-auto">
+      <div className="container mx-auto w-full max-w-[1366px]">
         <h1 className="lg:text-4xl text-2xl font-semibold darKtext-white mb-4">
           Contact Us
         </h1>

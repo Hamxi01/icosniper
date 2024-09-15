@@ -7,7 +7,7 @@ import { Label } from "../ui/label";
 const Subscription = () => {
   return (
     <section className="lg:px-0 px-2">
-      <div className="container mx-auto grid lg:grid-cols-2 grid-cols-1 gap-10 border-2 lg:py-16 py-10 lg:px-12 px-8 rounded-lg border-white/20 bg-gradient-to-tr from-[#0d1016] to-[#160d5c]">
+      <div className="container mx-auto grid lg:grid-cols-2 grid-cols-1 gap-10 border-2 lg:py-16 py-10 lg:px-12 px-8 rounded-lg border-white/20 bg-gradient-to-tr from-[#0d1016] to-[#160d5c] w-full max-w-[1366px]">
         <div>
           <h2 className="lg:text-3xl text-xl font-semibold text-white mb-6">
             Subscribe to our newsletter
