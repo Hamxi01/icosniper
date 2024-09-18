@@ -21,6 +21,7 @@ import "swiper/swiper-bundle.css";
 // import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import Link from "next/link";
 
 const Slider = () => {
   return (
@@ -140,7 +141,7 @@ const Slider = () => {
       <div className="container mx-auto w-full max-w-[1366px]">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={20}
+          spaceBetween={10}
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
@@ -172,7 +173,7 @@ const Slider = () => {
         >
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-2.webp"}
                   alt="Slider 1"
@@ -181,13 +182,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -196,7 +201,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-3.webp"}
                   alt="Slider 1"
@@ -205,13 +210,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -220,7 +229,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-1.webp"}
                   alt="Slider 1"
@@ -229,13 +238,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -244,7 +257,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-2.webp"}
                   alt="Slider 1"
@@ -253,13 +266,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -268,7 +285,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-1.webp"}
                   alt="Slider 1"
@@ -277,13 +294,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -292,7 +313,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-3.webp"}
                   alt="Slider 1"
@@ -301,13 +322,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>
@@ -316,7 +341,7 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <Card>
-              <CardHeader>
+              <CardHeader className="p-0 pb-3">
                 <Image
                   src={"/img/pages/home/slider-1.webp"}
                   alt="Slider 1"
@@ -325,13 +350,17 @@ const Slider = () => {
                   className="w-full h-fit max-h-[160px] object-cover rounded-lg"
                 />
               </CardHeader>
-              <CardContent>
-                <CardDescription>Published August 30, 2024</CardDescription>
-                <CardTitle className="text-md">
-                  New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+              <CardContent className="pb-3 px-3">
+                <CardDescription className="text-xs">
+                  Published August 30, 2024
+                </CardDescription>
+                <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
+                  <Link href={"/blog/1"}>
+                    New Meme Coin ‘The Meme Games’ Kicks Off Crypto...
+                  </Link>
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pb-3 px-3">
                 <Badge className="rounded dark:bg-gray-600 dark:text-white">
                   News
                 </Badge>

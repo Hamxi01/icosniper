@@ -17,7 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { MenuIcon, Moon, PlusCircle, Sun } from "lucide-react";
+import { MenuIcon, Moon, PlusCircle, SearchIcon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
 import {
@@ -59,7 +59,47 @@ const Header = () => {
   );
 
   return (
-    <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] py-3 ">
+    <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] pb-3 ">
+      <div className="container mx-auto w-full max-w-[1366px] pt-1 lg:px-0 px-2">
+        <div class="swiper-wrapper text-xs flex flex-wrap">
+          <div class="space-x-1 mr-[20px]">
+            <span class="text-[#8e9197]">Market Cap:</span>
+            <span class="text-white">$2.18T</span>
+            <span class="text-[#10b981]">(+1.71%)</span>
+          </div>
+          <div class="space-x-1 mr-[20px]">
+            <span class="text-[#8e9197]">24h Volume:</span>
+            <span class="text-white">$91.32B</span>
+          </div>
+          <div class="space-x-1 mr-[20px] sm:block hidden">
+            <span class="text-[#8e9197]">BTC:</span>
+            <span class="text-white">$60469</span>
+            <span class="text-[#10b981]">(+3.77%)</span>
+          </div>
+          <div class="space-x-1 mr-[20px] sm:block hidden">
+            <span class="text-[#8e9197]">ETH:</span>
+            <span class="text-white">$2327.15</span>
+            <span class="text-[#10b981]">(+1.68%)</span>
+          </div>
+          <div class="space-x-1 mr-[20px] md:block hidden">
+            <span class="text-[#8e9197]">BNB:</span>
+            <span class="text-white">$546.24</span>
+            <span class="text-[#10b981]">(+1.96%)</span>
+          </div>
+          <div class="space-x-1 mr-[20px] lg:block hidden">
+            <span class="text-[#8e9197]">BTC Dominance:</span>
+            <span class="text-white">54.92%</span>
+          </div>
+          <div class="space-x-1 mr-[20px] xl:block hidden">
+            <span class="text-[#8e9197]">Cryptocurrencies listed:</span>
+            <span class="text-white">44605</span>
+          </div>
+          <div class="space-x-1 mr-[20px] xl:block hidden">
+            <span class="text-[#8e9197]">Total Airdrops:</span>
+            <span class="text-white">2009</span>
+          </div>
+        </div>
+      </div>
       <section className="mx-auto container w-full max-w-[1366px] flex items-center justify-between gap-8">
         <Link href={"/"}>
           <Image
@@ -70,75 +110,119 @@ const Header = () => {
             className="w-full max-w-[220px] h-fit"
           />
         </Link>
-        <Menubar className="dark:text-white dark:border-slate-500 lg:flex hidden">
+        <Menubar className="dark:text-white dark:border-slate-500 lg:flex hidden border-0">
           <MenubarMenu>
             <MenubarTrigger asChild>
-              <Link href={"/"}>Coins</Link>
+              <Link href={"/"} className="text-[1rem]">
+                Coins
+              </Link>
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
             <MenubarTrigger asChild>
-              <Link href={"/airdrops"}>Airdrops</Link>
+              <Link href={"/airdrops"} className="text-[1rem]">
+                Airdrops
+              </Link>
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger>Blog</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem]">Blog</MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
-                <Link href={"/blog"}>Latest</Link>
+                <Link href={"/blog"} className="text-sm">
+                  Latest
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?News"}>News</Link>
+                <Link href={"/blog?News"} className="text-sm">
+                  News
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Finance"}>Finance</Link>
+                <Link href={"/blog?Finance"} className="text-sm">
+                  Finance
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?DeFi news"}>DeFi news</Link>
+                <Link href={"/blog?DeFi news"} className="text-sm">
+                  DeFi news
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Dapps"}>Dapps</Link>
+                <Link href={"/blog?Dapps"} className="text-sm">
+                  Dapps
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?GameFi"}>GameFi</Link>
+                <Link href={"/blog?GameFi"} className="text-sm">
+                  GameFi
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Exchange news"}>Exchange news</Link>
+                <Link href={"/blog?Exchange news"} className="text-sm">
+                  Exchange news
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Launchpad news"}>Launchpad news</Link>
+                <Link href={"/blog?Launchpad news"} className="text-sm">
+                  Launchpad news
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Altcoins"}>Altcoins</Link>
+                <Link href={"/blog?Altcoins"} className="text-sm">
+                  Altcoins
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?NFT"}>NFT</Link>
+                <Link href={"/blog?NFT"} className="text-sm">
+                  NFT
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Tutorials"}>Tutorials</Link>
+                <Link href={"/blog?Tutorials"} className="text-sm">
+                  Tutorials
+                </Link>
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger>Company</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem]">Company</MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
-                <Link href={"/contact-us"}>Contact Us</Link>
+                <Link href={"/contact-us"} className="text-sm">
+                  Contact Us
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/ads"}>Advertise</Link>
+                <Link href={"/ads"} className="text-sm">
+                  Advertise
+                </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/partners"}>Partners</Link>
+                <Link href={"/partners"} className="text-sm">
+                  Partners
+                </Link>
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
           <MenubarSeparator />
         </Menubar>
         <div className="flex items-center gap-5">
+          <form class="hidden sm:flex flex relative h-10 w-full items-center space-x-1 rounded-md border bg-[#1e2338] p-3 border-[#1e2338]">
+            <SearchIcon className="text-[#8e9197]" />
+            <input
+              class="w-full bg-[#1e2338] text-sm text-[#8e9197] placeholder-[#8e9197] outline-none xl:text-base "
+              id="header-search-input-1"
+              type="text"
+              placeholder="Search"
+            />
+            <button class="w-3" type="button" aria-label="Clear Search">
+              <img src="/v3/x-icon.svg" class="h-3 w-full hidden" alt="Reset" />
+            </button>
+          </form>
           <Button asChild size="sm" className="sm:flex hidden">
             <Link
               href={"/add-coin"}

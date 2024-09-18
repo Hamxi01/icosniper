@@ -5,7 +5,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="dark:bg-transparent py-10 bg-slate-100">
+    <footer className="dark:bg-transparent py-10 bg-slate-100 lg:px-0 px-2">
       <section className="container mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 w-full max-w-[1366px]">
         <div>
           <h3 className="text-md mb-4">CRYPTOCURRENCY RANKING</h3>

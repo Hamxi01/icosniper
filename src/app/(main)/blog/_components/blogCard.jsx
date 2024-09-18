@@ -6,15 +6,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Link from "next/link";
 import React from "react";
 
-const BlogCard = ({ blog, hideBadge }) => {
+const BlogCard = ({
+  blog,
+  hideBadge,
+  headingClass,
+  cardHeaderClass,
+  cardContentClass,
+  imgClass,
+  cardClass,
+}) => {
   return (
-    <Card>
-      <CardHeader>
-        <img src={blog?.img} alt="" className="w-full" />
+    <Card className={`${cardClass && cardClass}`}>
+      <CardHeader className={`${cardHeaderClass && cardHeaderClass}`}>
+        <img
+          src={blog?.img}
+          alt=""
+          className={`w-full ${imgClass && imgClass}`}
+        />
       </CardHeader>
-      <CardContent>
+      <CardContent className={`${cardContentClass && cardContentClass}`}>
         <div className="flex items-center gap-4 justify-between mb-3">
           <div className="flex items-center gap-2">
             <CardDescription>{blog?.date}</CardDescription>
@@ -29,7 +42,9 @@ const BlogCard = ({ blog, hideBadge }) => {
             </Badge>
           )}
         </div>
-        <CardTitle>{blog?.title}</CardTitle>
+        <CardTitle className={`${headingClass && headingClass}`}>
+          <Link href={`/blog/${blog?.id}`}>{blog?.title}</Link>
+        </CardTitle>
       </CardContent>
     </Card>
   );

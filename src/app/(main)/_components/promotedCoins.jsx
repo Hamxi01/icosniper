@@ -135,8 +135,13 @@ const PromotedCoins = () => {
   ];
 
   return (
-    <section className="lg:px-0 px-2 py-10">
-      <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
+    <section className="lg:px-0 px-2 py-5">
+      <div
+        className="container mx-auto rounded p-2 w-full max-w-[1366px] border border-[#4c3cce66]"
+        style={{
+          boxShadow: "0 0 #0000, 0 0 #0000, 0 0 20px #4c3cce60",
+        }}
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -159,7 +164,7 @@ const PromotedCoins = () => {
               <TableRow key={coin?.id}>
                 <TableCell>{coin?.id}</TableCell>
                 <TableCell>
-                  <img src={coin?.img} alt="" className="max-w-[25px]" />
+                  <img src={coin?.img} alt="" className="max-w-[35px]" />
                 </TableCell>
                 <TableCell>
                   <p className="font-bold text-white">{coin?.name}</p>
@@ -188,8 +193,8 @@ const PromotedCoins = () => {
                 </TableCell>
                 <TableCell>
                   {coin?.price < 1 ? (
-                    <div className="p-1 bg-slate-700 w-fit rounded">
-                      <Minus />
+                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                      <Minus className="w-4" />
                     </div>
                   ) : (
                     $(coin?.price)
@@ -197,16 +202,16 @@ const PromotedCoins = () => {
                 </TableCell>
                 <TableCell>
                   {coin?.volume < 1 ? (
-                    <div className="p-1 bg-slate-700 w-fit rounded">
-                      <Minus />
+                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                      <Minus className="w-4" />
                     </div>
                   ) : (
                     $(coin?.volume)
                   )}
                 </TableCell>
                 <TableCell>
-                  <div className="p-1 bg-slate-700 w-fit rounded">
-                    <Minus />
+                  <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                    <Minus className="w-4" />
                   </div>
                 </TableCell>
                 <TableCell>{coin?.launchDate}</TableCell>

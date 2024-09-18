@@ -41,7 +41,7 @@ const LatestBlog = () => {
             <Badge className="rounded bg-[#45464e] text-white">News</Badge>
           </div>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1">
           <BlogCard
             blog={{
               img: "https://img.coinmooner.com/onF6HuSlLyRLF-c8qJhy8ye9iAw=/512x0/https%3A//cdn.coinmooner.com/article/395.webp%3Fv%3D2",
@@ -50,8 +50,9 @@ const LatestBlog = () => {
               category: "News",
               date: "September 15",
               timeToRead: "3 min read",
-              hideBadge: false,
             }}
+            headingClass={"lg:text-[1rem] text-sm"}
+            cardClass={"bg-transparent"}
           />
           <BlogCard
             blog={{
@@ -61,8 +62,9 @@ const LatestBlog = () => {
               category: "News",
               date: "September 11",
               timeToRead: "3 min read",
-              hideBadge: false,
             }}
+            headingClass={"lg:text-[1rem] text-sm"}
+            cardClass={"bg-transparent"}
           />
         </div>
       </div>

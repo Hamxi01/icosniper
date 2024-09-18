@@ -145,7 +145,7 @@ const TrendingCoins = () => {
 
   return (
     <>
-      <section className="lg:px-0 px-2 py-10">
+      <section className="lg:px-0 px-2 py-3">
         <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
           <h2 className="lg:text-3xl text-xl font-semibold dark:text-white mb-4">
             Trending
@@ -172,7 +172,7 @@ const TrendingCoins = () => {
                 <TableRow key={coin?.id}>
                   <TableCell>{coin?.id}</TableCell>
                   <TableCell>
-                    <img src={coin?.img} alt="" className="max-w-[25px]" />
+                    <img src={coin?.img} alt="" className="max-w-[35px]" />
                   </TableCell>
                   <TableCell>
                     <p className="font-bold text-white">{coin?.name}</p>
@@ -201,8 +201,8 @@ const TrendingCoins = () => {
                   </TableCell>
                   <TableCell>
                     {coin?.price < 1 ? (
-                      <div className="p-1 bg-slate-700 w-fit rounded">
-                        <Minus />
+                      <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                        <Minus className="w-4" />
                       </div>
                     ) : (
                       $(coin?.price)
@@ -210,16 +210,16 @@ const TrendingCoins = () => {
                   </TableCell>
                   <TableCell>
                     {coin?.volume < 1 ? (
-                      <div className="p-1 bg-slate-700 w-fit rounded">
-                        <Minus />
+                      <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                        <Minus className="w-4" />
                       </div>
                     ) : (
                       $(coin?.volume)
                     )}
                   </TableCell>
                   <TableCell>
-                    <div className="p-1 bg-slate-700 w-fit rounded">
-                      <Minus />
+                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                      <Minus className="w-4" />
                     </div>
                   </TableCell>
                   <TableCell>{coin?.launchDate}</TableCell>
