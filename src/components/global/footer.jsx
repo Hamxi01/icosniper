@@ -220,7 +220,7 @@ const Footer = () => {
       <section className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
         <Link href={"/"}>
           <Image
-            src="/img/logo.webp"
+            src="/img/logo-with-white.png"
             alt="Logo"
             width={300}
             height={300}

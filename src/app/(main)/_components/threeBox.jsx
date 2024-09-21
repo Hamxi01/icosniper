@@ -9,9 +9,9 @@ const ThreeBox = () => {
       <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
         <Card className="bg-[#1b1f31]">
           <CardHeader>
-            <CardTitle className="flex items-center gap-4">
+            <CardTitle className="flex items-center gap-4 text-lg">
               <span>ADS</span>
-              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black" />
+              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -84,14 +84,14 @@ const ThreeBox = () => {
           </CardContent>
         </Card>
         <Card className="bg-[#1b1f31]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-4">
+          <CardHeader className="pb-0 pt-3">
+            <CardTitle className="flex items-center gap-4 text-lg">
               <span>New Coins</span>
-              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black" />
+              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-2">
+          <CardContent className="pb-2">
+            <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between gap-4">
                 <span></span>
                 <span className="text-[#a3a3a3] text-sm">Submitted</span>
@@ -160,14 +160,14 @@ const ThreeBox = () => {
           </CardContent>
         </Card>
         <Card className="bg-[#1b1f31]">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-4">
+          <CardHeader className="pb-0 pt-3">
+            <CardTitle className="flex items-center gap-4 text-lg">
               <span>Hottest Pairs</span>
-              <FireExtinguisher className="bg-[#7c4eff] rounded-full text-black" />
+              <FireExtinguisher className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-2">
+          <CardContent className="pb-2">
+            <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between gap-4">
                 <span></span>
                 <span className="text-[#a3a3a3] text-sm">Volume</span>

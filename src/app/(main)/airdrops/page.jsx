@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Grid2X2Icon, Loader } from "lucide-react";
+import { BoxIcon, DeleteIcon, Grid2X2Icon, Loader } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -94,21 +94,38 @@ const page = () => {
         <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
           <Tabs defaultValue="all">
             <TabsList className="w-full grid grid-cols-4">
-              <TabsTrigger value="all">
+              <TabsTrigger
+                value="all"
+                className="border-r-2 border-white rounded-r-none"
+              >
                 <div className="flex items-center gap-3">
                   <Grid2X2Icon /> All
                 </div>
               </TabsTrigger>
-              <TabsTrigger value="complain">
-                <div className="flex items-center gap-3">Complain</div>
+              <TabsTrigger
+                value="complain"
+                className="border-r-2 border-white rounded-r-none"
+              >
+                <div className="flex items-center gap-3">
+                  <BoxIcon />
+                  Complain
+                </div>
               </TabsTrigger>
-              <TabsTrigger value="under review">
+              <TabsTrigger
+                value="under review"
+                className="border-r-2 border-white rounded-r-none"
+              >
                 <div className="flex items-center gap-3">
                   <Loader />
                   Under Review
                 </div>
               </TabsTrigger>
-              <TabsTrigger value="scam ICO">Scam ICO</TabsTrigger>
+              <TabsTrigger value="scam ICO">
+                <div className="flex items-center gap-3">
+                  <DeleteIcon />
+                  Scam ICO
+                </div>
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="all">
               <Table>

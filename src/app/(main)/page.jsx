@@ -8,9 +8,9 @@ import ThreeBox from "./_components/threeBox";
 export default function Home() {
   return (
     <>
-      <Slider />
-      <PromotedCoins />
       <ThreeBox />
+      <PromotedCoins />
+      <Slider />
       <TrendingCoins />
       <InfoBox />
     </>

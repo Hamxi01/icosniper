@@ -103,7 +103,7 @@ const Header = () => {
       <section className="mx-auto container w-full max-w-[1366px] flex items-center justify-between gap-8 pt-3">
         <Link href={"/"}>
           <Image
-            src={"/img/logo.webp"}
+            src={"/img/logo-with-white.png"}
             alt="Logo"
             width={200}
             height={200}
@@ -122,13 +122,13 @@ const Header = () => {
           <MenubarMenu>
             <MenubarTrigger asChild>
               <Link href={"/airdrops"} className="text-[1rem]">
-                Airdrops
+                ICO Scam
               </Link>
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger className="text-[1rem]">Blog</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem]">News</MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
                 <Link href={"/blog"} className="text-sm">
@@ -189,7 +189,7 @@ const Header = () => {
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger className="text-[1rem]">Company</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem]">About Us</MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
                 <Link href={"/contact-us"} className="text-sm">
@@ -211,7 +211,7 @@ const Header = () => {
           <MenubarSeparator />
         </Menubar>
         <div className="flex items-center gap-5">
-          <form class="hidden sm:flex flex relative h-10 w-full items-center space-x-1 rounded-md border bg-[#1e2338] p-3 border-[#1e2338]">
+          <form class="hidden sm:flex relative h-10 w-full items-center space-x-1 rounded-md border bg-[#1e2338] p-3 border-[#1e2338]">
             <SearchIcon className="text-[#8e9197]" />
             <input
               class="w-full bg-[#1e2338] text-sm text-[#8e9197] placeholder-[#8e9197] outline-none xl:text-base "
