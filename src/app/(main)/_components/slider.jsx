@@ -148,7 +148,7 @@ const Slider = () => {
           scrollbar={{ draggable: true }}
           autoplay={{
             delay: 1000, // Slide delay in milliseconds
-            disableOnInteraction: true, // Keep autoplay running even after user interaction
+            disableOnInteraction: false, // Keep autoplay running even after user interaction
           }}
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
