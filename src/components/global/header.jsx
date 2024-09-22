@@ -60,7 +60,7 @@ const Header = () => {
 
   return (
     <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] pb-3 ">
-      <div className="container mx-auto w-full max-w-[1366px] lg:px-0 px-2 border-white border-opacity-10 py-1.5 lg:border-b">
+      {/* <div className="container mx-auto w-full max-w-[1366px] lg:px-0 px-2 border-white border-opacity-10 py-1.5 lg:border-b">
         <div class="swiper-wrapper text-xs flex flex-wrap">
           <div class="space-x-1 mr-[20px]">
             <span class="text-[#8e9197]">Market Cap:</span>
@@ -99,7 +99,16 @@ const Header = () => {
             <span class="text-white">2009</span>
           </div>
         </div>
-      </div>
+      </div> */}
+      <section className="container mx-auto w-full max-w-[1366px]">
+        <script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
+        <gecko-coin-price-marquee-widget
+          locale="en"
+          dark-mode="true"
+          coin-ids=""
+          initial-currency="usd"
+        ></gecko-coin-price-marquee-widget>
+      </section>
       <section className="mx-auto container w-full max-w-[1366px] flex items-center justify-between gap-8 pt-3">
         <Link href={"/"}>
           <Image
