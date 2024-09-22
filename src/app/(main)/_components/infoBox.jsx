@@ -52,11 +52,11 @@ const InfoBox = () => {
         <Card className="p-10">
           <CardHeader>
             <Image
-              src={"/img/pages/home/infobox-1.jpg"}
+              src={"/img/logo-with-white.png"}
               alt="InfoBox 1"
               width={500}
               height={500}
-              className="w-full h-fit rounded-lg"
+              className="w-full h-fit rounded-lg mb-8"
             />
           </CardHeader>
           <CardContent>

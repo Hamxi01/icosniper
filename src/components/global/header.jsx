@@ -107,7 +107,7 @@ const Header = () => {
             alt="Logo"
             width={200}
             height={200}
-            className="w-full max-w-[220px] h-fit"
+            className="w-full max-w-[230px] h-fit"
           />
         </Link>
         <Menubar className="dark:text-white dark:border-slate-500 lg:flex hidden border-0">

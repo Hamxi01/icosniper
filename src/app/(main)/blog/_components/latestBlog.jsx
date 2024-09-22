@@ -53,7 +53,7 @@ const LatestBlog = () => {
             }}
             headingClass={"lg:text-[1rem] text-sm"}
             cardClass={"bg-transparent"}
-            imgClass={"mx-auto w-full max-w-[170px]"}
+            imgClass={"mx-auto w-full"}
           />
           <BlogCard
             blog={{
@@ -66,7 +66,7 @@ const LatestBlog = () => {
             }}
             headingClass={"lg:text-[1rem] text-sm"}
             cardClass={"bg-transparent"}
-            imgClass={"mx-auto w-full max-w-[170px]"}
+            imgClass={"mx-auto w-full"}
           />
           <BlogCard
             blog={{
@@ -79,7 +79,7 @@ const LatestBlog = () => {
             }}
             headingClass={"lg:text-[1rem] text-sm"}
             cardClass={"bg-transparent"}
-            imgClass={"mx-auto w-full max-w-[170px]"}
+            imgClass={"mx-auto w-full"}
           />
         </div>
       </div>
