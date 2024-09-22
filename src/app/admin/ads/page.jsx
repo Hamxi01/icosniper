@@ -1,4 +1,28 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -9,10 +33,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EditIcon, PlusCircleIcon, TrashIcon } from "lucide-react";
-import React from "react";
+import { cn } from "@/lib/utils";
+import {
+  CalendarIcon,
+  EditIcon,
+  PlusCircleIcon,
+  TrashIcon,
+} from "lucide-react";
+import React, { useState } from "react";
+import { format } from "date-fns";
 
 const page = () => {
+  const [date, setDate] = useState();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [editCoin, setEditCoin] = useState();
+
   return (
     <>
       <section className="">
@@ -206,12 +243,17 @@ const page = () => {
           <TabsContent value="promoted-coins" className="bg-slate-100">
             <div className="p-5">
               <div className="flex justify-end items-center">
-                <Button className="gap-3">
-                  Add New Coin <PlusCircleIcon className="w-5" />
+                <Button
+                  className="gap-3"
+                  onClick={() => {
+                    setDialogOpen(true);
+                    setEditCoin();
+                  }}
+                >
+                  Add Coin for Ads <PlusCircleIcon className="w-5" />
                 </Button>
               </div>
               <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[100px]">#</TableHead>
@@ -229,7 +271,13 @@ const page = () => {
                     <TableCell>Paid</TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <EditIcon className="cursor-pointer text-sky-500 hover:text-sky-600" />
+                        <EditIcon
+                          className="cursor-pointer text-sky-500 hover:text-sky-600"
+                          onClick={() => {
+                            setDialogOpen(true);
+                            setEditCoin({ id: 1 });
+                          }}
+                        />
                         <TrashIcon className="cursor-pointer text-red-500 hover:text-red-600" />
                       </div>
                     </TableCell>
@@ -241,7 +289,13 @@ const page = () => {
                     <TableCell>Paid</TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <EditIcon className="cursor-pointer text-sky-500 hover:text-sky-600" />
+                        <EditIcon
+                          className="cursor-pointer text-sky-500 hover:text-sky-600"
+                          onClick={() => {
+                            setDialogOpen(true);
+                            setEditCoin({ id: 1 });
+                          }}
+                        />
                         <TrashIcon className="cursor-pointer text-red-500 hover:text-red-600" />
                       </div>
                     </TableCell>
@@ -253,7 +307,31 @@ const page = () => {
                     <TableCell>Paid</TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <EditIcon className="cursor-pointer text-sky-500 hover:text-sky-600" />
+                        <EditIcon
+                          className="cursor-pointer text-sky-500 hover:text-sky-600"
+                          onClick={() => {
+                            setDialogOpen(true);
+                            setEditCoin({ id: 1 });
+                          }}
+                        />
+                        <TrashIcon className="cursor-pointer text-red-500 hover:text-red-600" />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">124</TableCell>
+                    <TableCell>Bit Coin</TableCell>
+                    <TableCell>20/10/2024</TableCell>
+                    <TableCell>Paid</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <EditIcon
+                          className="cursor-pointer text-sky-500 hover:text-sky-600"
+                          onClick={() => {
+                            setDialogOpen(true);
+                            setEditCoin({ id: 1 });
+                          }}
+                        />
                         <TrashIcon className="cursor-pointer text-red-500 hover:text-red-600" />
                       </div>
                     </TableCell>
@@ -264,6 +342,51 @@ const page = () => {
           </TabsContent>
         </Tabs>
       </section>
+      <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen(!dialogOpen)}>
+        <DialogContent className="bg-slate-50">
+          <DialogHeader>
+            <DialogTitle>{editCoin ? "Edit" : "Add "} Coin</DialogTitle>
+            <form action="" className="flex flex-col gap-4">
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="--- Status ---" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="run">Run</SelectItem>
+                  <SelectItem value="stop">Stop</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <div>
+                <Button>Update Coin</Button>
+              </div>
+            </form>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
