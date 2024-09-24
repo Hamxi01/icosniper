@@ -12,7 +12,7 @@ const layout = ({ children }) => {
   const { setTheme } = useTheme();
 
   useEffect(() => {
-    setTheme("light");
+    setTheme("dark");
   }, []);
 
   return (

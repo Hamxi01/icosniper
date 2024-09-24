@@ -30,6 +30,7 @@ const AdminSidebar = () => {
         <div className="flex flex-col gap-2">
           {pages?.map((page) => (
             <Link
+              key={page.name}
               href={`/admin${page.link}`}
               className={`bg-transparent py-2 px-4 text-center w-full border-b ${
                 page.name === currentPage ? "bg-violet-800 text-white" : ""

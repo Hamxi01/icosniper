@@ -55,6 +55,20 @@ const page = () => {
           </Button>
         </CardFooter>
       </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Total Visitors</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardTitle className="text-4xl">1000</CardTitle>
+          <CardDescription>Your total visitors</CardDescription>
+        </CardContent>
+        <CardFooter>
+          <Button asChild>
+            {/* <Link href={"/admin/coins"}>Go to News</Link> */}
+          </Button>
+        </CardFooter>
+      </Card>
     </section>
   );
 };

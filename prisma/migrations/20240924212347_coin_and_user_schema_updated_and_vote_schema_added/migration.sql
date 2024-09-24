@@ -1,0 +1,20 @@
+-- AlterTable
+ALTER TABLE `Coin` ADD COLUMN `marketCap` DOUBLE NULL,
+    ADD COLUMN `price` DOUBLE NULL,
+    ADD COLUMN `volume` DOUBLE NULL;
+
+-- CreateTable
+CREATE TABLE `Vote` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `coinId` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `date` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

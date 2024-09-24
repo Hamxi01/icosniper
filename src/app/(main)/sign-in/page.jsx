@@ -1,73 +1,142 @@
+"use client";
+
 import { EyeOffIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
+  const onSubmit = async (data) => {
+    setErrorMessage(""); // Clear any previous error message
+
+    try {
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const userData = await response.json(); // Get user data from response
+        console.log("User logged in successfully");
+
+        // Set user data in local storage
+        localStorage.setItem("tv3623315", JSON.stringify(userData));
+
+        router.push("/dashboard"); // Redirect to the dashboard or desired page
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Login failed. Please try again.");
+        console.error("Login failed", errorData);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setErrorMessage("An unexpected error occurred. Please try again.");
+    }
+  };
+
   return (
-    <>
-      <main class="container mx-auto flex flex-col items-center px-1 py-20">
-        <div class="bg-gray-200 dark:bg-[#141620] rounded-lg p-8">
-          <form>
-            <h1 class="mb-8 w-80 text-3xl text-white">Log In</h1>
-            <div class="flex flex-col">
-              <label class="text-white text-base mb-2 block" for="username">
-                Email
-              </label>
-              <input
-                class="border rounded-md focus:border-[#7a7c82] focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-[#7a7c82] focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-[#141620] p-4 placeholder-neutral-400 text-white -mt-1"
-                name="username"
-              />
-            </div>
-            <div class="mt-5 flex flex-col">
-              <label class="text-white text-base mb-2 block" for="password">
-                Password
-              </label>
-              <div class="border rounded-md focus:border-[#7a7c82] focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-[#7a7c82] focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-[#141620] p-4 placeholder-neutral-400 text-white -mt-1 flex items-center justify-center">
-                <input
-                  class="w-full bg-[#141620]  outline-none"
-                  type="password"
-                  autocomplete="password"
-                />
-                <button class="p-1" type="button">
-                  <EyeOffIcon className="w-5" />
-                </button>
-              </div>
-            </div>
-            <a
-              class="text-violet-400 hover:text-violet-500 transition-colors text-sm"
-              href="/forgot-password"
-            >
-              Forgot password?
-            </a>
-            <button
-              class="border-2 bg-[#4c3cce] border-[#6857f3] hover:bg-[#6857f3] active:bg-[#6857f3] transition-colors rounded-md text-white mt-5 w-full px-4 py-2"
-              type="submit"
-            >
-              Log In
-            </button>
-            <p class="mt-5 text-center text-red-500"></p>
-          </form>
-          <div class="my-5 flex items-center justify-between">
-            <div class="h-[1px] w-full bg-white"></div>
-            <div class="mx-5">OR</div>
-            <div class="h-[1px] w-full bg-white"></div>
+    <main className="container mx-auto flex flex-col items-center px-1 py-20">
+      <div className="bg-gray-200 dark:bg-[#141620] rounded-lg p-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1 className="mb-8 w-80 text-3xl text-white">Log In</h1>
+
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
+          <div className="flex flex-col">
+            <Label className="text-white text-base mb-2 block" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              className="h-14 bg-[#141620] text-white placeholder-neutral-400"
+            />
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
           </div>
-          <div
-            id="google-button-container"
-            class="flex justify-center min-h-[44px]"
-          ></div>
-        </div>
-        <div class="mt-5 flex justify-center">
-          <Link
-            class="text-violet-400 hover:text-violet-500 transition-colors text-sm"
-            href="/sign-up"
+
+          <div className="mt-5 flex flex-col">
+            <Label
+              className="text-white text-base mb-2 block"
+              htmlFor="password"
+            >
+              Password
+            </Label>
+            <div className="flex items-center">
+              <Input
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: "Password is required",
+                })}
+                className="flex-1 h-14 bg-[#141620] text-white placeholder-neutral-400"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="p-1"
+              >
+                <EyeOffIcon className="w-5" />
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
+            )}
+          </div>
+
+          <a
+            className="text-violet-400 hover:text-violet-500 transition-colors text-sm mt-2"
+            href="/forgot-password"
           >
-            Don't have an account? Sign up
-          </Link>
+            Forgot password?
+          </a>
+
+          <Button
+            className="border-2 bg-[#4c3cce] border-[#6857f3] hover:bg-[#6857f3] active:bg-[#6857f3] transition-colors rounded-md text-white mt-5 w-full px-4 py-2"
+            type="submit"
+          >
+            Log In
+          </Button>
+        </form>
+
+        <div className="my-5 flex items-center justify-between">
+          <div className="h-[1px] w-full bg-white"></div>
+          <div className="mx-5">OR</div>
+          <div className="h-[1px] w-full bg-white"></div>
         </div>
-      </main>
-    </>
+
+        <div
+          id="google-button-container"
+          className="flex justify-center min-h-[44px]"
+        ></div>
+      </div>
+
+      <div className="mt-5 flex justify-center">
+        <Link
+          className="text-violet-400 hover:text-violet-500 transition-colors text-sm"
+          href="/sign-up"
+        >
+          Don't have an account? Sign up
+        </Link>
+      </div>
+    </main>
   );
 };
 
-export default page;
+export default Page;
