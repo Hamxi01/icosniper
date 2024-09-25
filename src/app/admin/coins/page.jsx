@@ -185,7 +185,7 @@ const CoinsPage = () => {
                     <TableCell>{coin.projectDescription}</TableCell>
                     <TableCell>
                       {coin?.tokenContractAddress?.map((address) => (
-                        <div className="text-xs flex items-center gap-1">
+                        <div className="text-xs flex items-center gap-1 border-b border-b-sky-400">
                           <p>{address.Chain}</p>
                           <p>{address.Address}</p>
                         </div>

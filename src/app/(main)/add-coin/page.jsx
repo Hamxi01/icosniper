@@ -1,253 +1,641 @@
+"use client";
+import { useForm, useFieldArray } from "react-hook-form";
 import { UploadCloudIcon } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "@/firebaseConfig"; // Make sure you import your firebase config
+import SuccessModal from "./_components/successModal";
+
+const socialOptions = [
+  { name: "CoinGecko", icon: "cg.svg" },
+  { name: "Reddit", icon: "reddit.svg" },
+  { name: "Discord", icon: "discord.svg" },
+  { name: "GitHub", icon: "github.svg" },
+  { name: "Youtube", icon: "youtube.svg" },
+  { name: "TikTok", icon: "tiktok.svg" },
+  { name: "Medium", icon: "medium.svg" },
+  { name: "Instagram", icon: "instagram.svg" },
+];
 
 const page = () => {
+  const [user, setUser] = useState(undefined); // Initially undefined to differentiate between 'not yet checked' and 'null'
+  const router = useRouter();
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Logics for adding Coins
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm({
+    defaultValues: {
+      socials: [
+        { link: "", name: "Website" },
+        { link: "", name: "Telegram" },
+        { link: "", name: "Twitter" },
+        { link: "", name: "CoinMarketCap" },
+      ],
+    },
+  });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "socials",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [hasPresale, setHasPresale] = useState("no");
+  const [isWhitelist, setIsWhitelist] = useState("no");
+  const [availableSocials, setAvailableSocials] = useState(socialOptions);
+
+  const handleAddSocial = (socialName) => {
+    const selectedSocial = socialOptions.find(
+      (social) => social.name === socialName
+    );
+    if (selectedSocial) {
+      append({ link: "", name: selectedSocial.name });
+      setAvailableSocials(
+        availableSocials.filter((social) => social.name !== socialName)
+      );
+    }
+  };
+
+  const handleRemoveSocial = (index) => {
+    const removedSocial = fields[index].name;
+    remove(index);
+    setAvailableSocials((prev) => [
+      ...prev,
+      socialOptions.find((social) => social.name === removedSocial),
+    ]);
+  };
+
+  const [contractAddresses, setContractAddresses] = useState([
+    { Chain: "", Address: "" }, // Initial fixed address
+  ]);
+
+  // Handler to add another contract address
+  const addContractAddress = () => {
+    setContractAddresses([...contractAddresses, { Chain: "", Address: "" }]);
+  };
+
+  // Handler to update chain or address for a specific contract
+  const handleChange = (index, field, value) => {
+    const updatedAddresses = [...contractAddresses];
+    updatedAddresses[index][field] = value;
+    setContractAddresses(updatedAddresses);
+  };
+
+  // Handler to remove a specific contract address
+  const removeContractAddress = (index) => {
+    const updatedAddresses = contractAddresses.filter((_, i) => i !== index);
+    setContractAddresses(updatedAddresses);
+  };
+
+  // ================ Logo Upload Things
+  const [newLogo, setNewLogo] = useState(null); // State to hold the new logo file
+  const [uploading, setUploading] = useState(false);
+
+  const handleLogoUpload = async (file) => {
+    if (!file) return null;
+
+    const storageRef = ref(storage, `logos/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Optional: Track progress
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error("Error uploading file:", error);
+          reject(error);
+        },
+        async () => {
+          // Get the download URL once the upload is complete
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(downloadURL);
+        }
+      );
+    });
+  };
+
+  const onSubmit = async (data) => {
+    let logoUrl = "";
+
+    // If a new logo is selected, upload it to Firebase
+    if (newLogo) {
+      try {
+        const uploadedUrl = await handleLogoUpload(newLogo);
+        if (uploadedUrl) {
+          logoUrl = uploadedUrl;
+        }
+      } catch (error) {
+        alert("Error uploading logo");
+        return;
+      }
+    }
+
+    // Convert the existing social media structure to the desired format
+    const formattedSocials = data.socials.reduce((acc, social) => {
+      acc[social.name.toLowerCase()] = social.link;
+      return acc;
+    }, {});
+
+    const isWhitelistBoolean = isWhitelist === "yes" ? true : false;
+
+    const formatedData = {
+      ...data,
+      logo: logoUrl,
+      tokenContractAddresses: contractAddresses,
+      socials: formattedSocials,
+      whitelist: isWhitelistBoolean,
+      softcap: parseFloat(data.softcap),
+      hardcap: parseFloat(data.hardcap),
+    };
+    console.log("Form submitted", formatedData); // Log the submitted data
+    setErrorMessage(""); // Clear any previous error message
+
+    try {
+      const response = await fetch("/api/coins/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formatedData),
+      });
+      console.log(formatedData);
+      if (response.ok) {
+        setShowSuccessModal(true);
+        router.refresh(); // Redirect to sign-in page on success
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(
+          errorData.message || "Coin Creation failed. Please try again."
+        );
+        console.error("Coin Creation failed", errorData);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setErrorMessage("An unexpected error occurred. Please try again.");
+    }
+  };
+
+  // ================== Logics For Redirect if not loggedIn
+  useEffect(() => {
+    // Get user data from localStorage and set it in state
+    const userData = localStorage.getItem("tv3623315");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    } else {
+      setUser(null); // Explicitly set to null if no user data found
+    }
+  }, []);
+
+  useEffect(() => {
+    // Redirect to sign-in page if user is null (i.e., not logged in)
+    if (user === null) {
+      router.push("/sign-in");
+    }
+  }, [user, router]);
+
+  if (user === undefined) {
+    // Still checking for user data, show a loading state
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <main className="container mx-auto max-w-[1366px] w-full">
-        <form class="mb-10">
+        <form class="mb-10" onSubmit={handleSubmit(onSubmit)}>
           <h1 class="text-4xl font-bold text-white">Add Coin</h1>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
+          <Input
+            {...register("userId")}
+            value={user?.id}
+            name="userId"
+            type="hidden"
+          />
+
           <div class="mt-5 flex w-full flex-col gap-5 lg:flex lg:flex-row lg:gap-6">
             <div class="flex w-full flex-col gap-4 lg:w-3/4">
               <div class="bg-panel-bg rounded-lg p-8">
                 <div class="text-2xl font-bold text-white">Coin Info</div>
                 <div class="md:grid-cols-2 mt-3 gap-5 grid grid-col-1">
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Name
                       <span class="text-violet-500 text-base font-bold">*</span>
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white focus:outline-none focus:outline-indigo-700"
                       type="text"
                       placeholder="e.g. Bitcoin"
                       name="name"
                       required=""
+                      {...register("name", { required: "Name is required" })}
                     />
                   </div>
                   <div>
                     <div class="flex w-full items-center gap-2.5">
                       <div class="flex w-1/2 flex-col">
-                        <label class="text-white text-base mb-2 block">
+                        <Label class="text-white text-base mb-2 block">
                           Logo
                           <span class="text-violet-500 text-base font-bold">
                             *
                           </span>
-                        </label>
-                        <button
+                        </Label>
+                        <Button
                           type="button"
                           role="button"
                           tabindex="0"
                           class="flex h-14 items-center justify-center gap-1 rounded-md bg-indigo-700 p-5 transition-colors hover:bg-indigo-600 cursor-pointer"
+                          asChild
                         >
-                          <input
-                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                            type="file"
-                            autocomplete="off"
-                            tabindex="-1"
-                            style={{ display: "none" }}
-                          />
-                          <UploadCloudIcon />
-                          <div>Upload</div>
-                        </button>
+                          <Label htmlFor="logo">
+                            <Input
+                              id="logo"
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => setNewLogo(e.target.files[0])}
+                              style={{ display: "none" }}
+                            />
+                            {newLogo && (
+                              <img
+                                src={URL.createObjectURL(newLogo)}
+                                alt="New Logo Preview"
+                              />
+                            )}
+                            {uploading && <p>Uploading logo...</p>}
+                            <UploadCloudIcon />
+                            <div>Upload</div>
+                          </Label>
+                        </Button>
                       </div>
                     </div>
                   </div>
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Symbol
                       <span class="text-violet-500 text-base font-bold">*</span>
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
                       type="text"
                       placeholder="e.g. BTC"
                       required=""
                       name="symbol"
+                      {...register("symbol", {
+                        required: "Symbol is required",
+                      })}
                     />
                   </div>
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Launch date
                       <span class="text-violet-500 text-base font-bold">*</span>
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white color-scheme-dark"
                       type="date"
                       placeholder="10/05/2023"
                       name="launchDate"
                       required=""
+                      {...register("launchDate", {
+                        required: "Launch Date is required",
+                      })}
                     />
                   </div>
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Audit Link
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
                       type="text"
                       placeholder="e.g. https://..."
                       name="audit"
+                      {...register("auditLink")}
                     />
                   </div>
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Is your team Doxxed?
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
                       type="text"
                       placeholder="e.g. Link to the proof / youtube video / sources"
                       name="doxxedLink"
+                      {...register("teamDoxxed")}
                     />
                   </div>
                 </div>
               </div>
-              <div class="bg-panel-bg rounded-lg p-8">
-                <div class="text-2xl font-bold text-white">
+
+              {/* Token Contract Address */}
+              <div className="bg-panel-bg rounded-lg p-8">
+                <div className="text-2xl font-bold text-white">
                   Token Contract Address
                 </div>
-                <div class="md:grid-cols-2 mt-3 gap-5 grid grid-col-1 items-center">
-                  <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block mb-[1px]">
-                      Chain
-                      <span class="text-violet-500 text-base font-bold">*</span>
-                    </label>
-                    <div class="mt-2 css-b62m3t-container">
-                      <span
-                        id="react-select-2-live-region"
-                        class="css-7pg0cj-a11yText"
-                      ></span>
-                      <span
-                        aria-live="polite"
-                        aria-atomic="false"
-                        aria-relevant="additions text"
-                        role="log"
-                        class="css-7pg0cj-a11yText"
-                      ></span>
-                      <div class=" css-3d21zu-control">
-                        <div class=" css-hlgwow">
-                          <div
-                            class=" css-1jqq78o-placeholder"
-                            id="react-select-2-placeholder"
-                          >
-                            Select...
-                          </div>
-                          <div class=" css-1yt0726" data-value="">
-                            <input
-                              class=""
-                              autocapitalize="none"
-                              autocomplete="off"
-                              autocorrect="off"
-                              id="react-select-2-input"
-                              spellcheck="false"
-                              tabindex="0"
-                              type="text"
-                              aria-autocomplete="list"
-                              aria-expanded="false"
-                              aria-haspopup="true"
-                              role="combobox"
-                              aria-describedby="react-select-2-placeholder"
-                              value=""
-                              style={{
-                                color: "inherit",
-                                background: "0px center",
-                                opacity: 1,
-                                width: "100%",
-                                gridArea: "1 / 2",
-                                font: "inherit",
-                                minWidth: "2px",
-                                border: "0px",
-                                margin: "0px",
-                                outline: "0px",
-                                padding: "0px",
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div class=" css-1wy0on6">
-                          <span class=" css-1u9des2-indicatorSeparator"></span>
-                          <div
-                            class=" css-1xc3v61-indicatorContainer"
-                            aria-hidden="true"
-                          >
-                            {/* <svg
-                              height="20"
-                              width="20"
-                              viewBox="0 0 20 20"
-                              aria-hidden="true"
-                              focusable="false"
-                              class="css-8mmkcg"
-                            >
-                              <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path>
-                            </svg> */}
-                          </div>
-                        </div>
-                      </div>
+
+                {/* Fixed first contract address input */}
+                <div className="md:grid-cols-2 mt-3 gap-5 grid grid-col-1 items-center">
+                  <div className="flex w-full flex-col">
+                    <Label className="text-white text-base mb-2 block mb-[1px]">
+                      Chain{" "}
+                      <span className="text-violet-500 text-base font-bold">
+                        *
+                      </span>
+                    </Label>
+                    <div className="mt-2">
+                      <select
+                        value={contractAddresses[0].chain}
+                        onChange={(e) =>
+                          handleChange(0, "Chain", e.target.value)
+                        }
+                        className="h-14 w-full bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                      >
+                        <option value="">Select...</option>
+                        <option value="Ethereum">Ethereum</option>
+                        <option value="Binance Smart Chain">
+                          Binance Smart Chain
+                        </option>
+                        <option value="Polygon">Polygon</option>
+                        {/* Add more chain options here */}
+                      </select>
                     </div>
                   </div>
-                  <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block mb-0 flex w-full justify-between">
-                      <div>
-                        Address
-                        <span class="text-violet-500 text-base font-bold">
-                          *
-                        </span>
-                      </div>
-                    </label>
-                    <input
+
+                  <div className="flex w-full flex-col">
+                    <Label className="text-white text-base mb-2 block mb-0">
+                      Address{" "}
+                      <span className="text-violet-500 text-base font-bold">
+                        *
+                      </span>
+                    </Label>
+                    <Input
                       type="text"
-                      name="contractAddresses.0.address"
-                      class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
+                      value={contractAddresses[0].Address}
+                      onChange={(e) =>
+                        handleChange(0, "Address", e.target.value)
+                      }
+                      placeholder="Enter contract address"
+                      className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
                     />
                   </div>
                 </div>
-                <div class="md:grid-cols-2 mt-3 gap-5 grid grid-col-1">
-                  <div class="">
+
+                {/* Dynamic form for additional contract addresses */}
+                {contractAddresses.slice(1).map((contract, index) => (
+                  <div
+                    className="md:grid-cols-2 mt-3 gap-5 grid grid-col-1 items-center relative" // Add relative positioning
+                    key={index + 1} // Adjust key for subsequent items
+                  >
+                    {/* Remove Button for subsequent addresses */}
+                    <div className="absolute top-2 right-2">
+                      <button
+                        type="button"
+                        onClick={() => removeContractAddress(index + 1)} // Adjust index
+                        className="text-red-500 hover:underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    {/* Chain */}
+                    <div className="flex w-full flex-col">
+                      <Label className="text-white text-base mb-2 block mb-[1px]">
+                        Chain{" "}
+                        <span className="text-violet-500 text-base font-bold">
+                          *
+                        </span>
+                      </Label>
+                      <div className="mt-2">
+                        <select
+                          value={contract.Chain}
+                          onChange={(e) =>
+                            handleChange(index + 1, "Chain", e.target.value)
+                          } // Adjust index
+                          className="h-14 w-full bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                        >
+                          <option value="">Select...</option>
+                          <option value="Ethereum">Ethereum</option>
+                          <option value="Binance Smart Chain">
+                            Binance Smart Chain
+                          </option>
+                          <option value="Polygon">Polygon</option>
+                          {/* Add more chain options here */}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Address */}
+                    <div className="flex w-full flex-col">
+                      <Label className="text-white text-base mb-2 block mb-0">
+                        Address{" "}
+                        <span className="text-violet-500 text-base font-bold">
+                          *
+                        </span>
+                      </Label>
+                      <Input
+                        type="text"
+                        value={contract.Address}
+                        onChange={(e) =>
+                          handleChange(index + 1, "Address", e.target.value)
+                        } // Adjust index
+                        placeholder="Enter contract address"
+                        className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {/* Button to add more contract addresses */}
+                <div className="md:grid-cols-2 mt-3 gap-5 grid grid-col-1">
+                  <div>
                     <button
                       type="button"
-                      class="h-20 w-full rounded-lg bg-gray-600 transition-colors hover:bg-gray-500"
+                      onClick={addContractAddress}
+                      className="h-20 w-full rounded-lg bg-gray-600 transition-colors hover:bg-gray-500"
                     >
-                      <span class="flex items-center justify-center text-sm font-bold  text-violet-400">
-                        {/* <svg class="h-4 w-4">
-                          <use
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            xlink:href="#icon-plus"
-                          ></use>
-                        </svg> */}
+                      <span className="flex items-center justify-center text-sm font-bold text-violet-400">
+                        <svg className="h-4 w-4" viewBox="0 0 20 20">
+                          <path d="M10 4a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H5a1 1 0 110-2h4V5a1 1 0 011-1z" />
+                        </svg>
                         Add another contract address
                       </span>
-                      <p class="text-xs font-normal text-neutral-400">
+                      <p className="text-xs font-normal text-neutral-400">
                         In case of multi-chain tokens or multiple contracts
                       </p>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="bg-panel-bg rounded-lg p-8">
-                <div class="text-2xl font-bold text-white ">
+              {/* Token Contract Address */}
+
+              {/* Presale Information */}
+              <div className="bg-panel-bg rounded-lg p-8">
+                <div className="text-2xl font-bold text-white">
                   Presale Information
                 </div>
-                <label class="text-white text-base mb-2 block mt-3 flex">
+
+                {/* Do you have a presale? */}
+                <Label className="mt-3 mb-2 text-white text-base flex">
                   Do you have a presale?
-                </label>
-                <div class="flex gap-16">
-                  <label class="flex items-center">
-                    <input class="hidden" type="radio" />
-                    <span class="relative flex h-6 w-6 items-center p-1 transition-colors border-neutral-400   rounded-full border-2 ">
-                      <span class="false"></span>
+                </Label>
+                <div className="flex gap-16">
+                  <Label className="flex items-center">
+                    <Input
+                      type="radio"
+                      name="hasPresale"
+                      value="yes"
+                      checked={hasPresale === "yes"}
+                      onChange={(e) => setHasPresale(e.target.value)}
+                      className="hidden"
+                    />
+                    <span className="relative flex h-6 w-6 items-center p-1 transition-colors border-violet-500 rounded-full border-2">
+                      {hasPresale === "yes" && (
+                        <span className="inline-block h-3 w-3 rounded-full bg-violet-500"></span>
+                      )}
                     </span>
-                    <span class="ml-2 text-white">Yes</span>
-                  </label>
-                  <label class="flex items-center">
-                    <input class="hidden" type="radio" checked="" />
-                    <span class="relative flex h-6 w-6 items-center p-1 border-violet-500 rounded-full border-2 ">
-                      <span class="inline-block h-3 w-3 rounded-full bg-violet-500"></span>
+                    <span className="ml-2 text-white">Yes</span>
+                  </Label>
+                  <Label className="flex items-center">
+                    <Input
+                      type="radio"
+                      name="hasPresale"
+                      value="no"
+                      checked={hasPresale === "no"}
+                      onChange={(e) => setHasPresale(e.target.value)}
+                      className="hidden"
+                    />
+                    <span className="relative flex h-6 w-6 items-center p-1 border-neutral-400 rounded-full border-2">
+                      {hasPresale === "no" && (
+                        <span className="inline-block h-3 w-3 rounded-full bg-violet-500"></span>
+                      )}
                     </span>
-                    <span class="ml-2 text-white">No</span>
-                  </label>
+                    <span className="ml-2 text-white">No</span>
+                  </Label>
                 </div>
+
+                {/* Presale Details */}
+                {hasPresale === "yes" && (
+                  <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* Softcap */}
+                    <div className="flex flex-col w-full">
+                      <Label className="mb-2 text-white text-base">
+                        Softcap{" "}
+                        <span className="text-violet-500 font-bold">*</span>
+                      </Label>
+                      <Input
+                        type="number"
+                        name="softCap"
+                        placeholder="e.g. 100 BNB"
+                        className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                        {...register("softcap")}
+                      />
+                    </div>
+
+                    {/* Presale Link */}
+                    <div className="flex flex-col w-full">
+                      <Label className="mb-2 text-white text-base">
+                        Presale Link{" "}
+                        <span className="text-violet-500 font-bold">*</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        name="presaleLink"
+                        placeholder="e.g. https://presale.com/12313123"
+                        className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                        {...register("presaleLink")}
+                      />
+                    </div>
+
+                    {/* Hardcap */}
+                    <div className="flex flex-col w-full">
+                      <Label className="mb-2 text-white text-base">
+                        Hardcap{" "}
+                        <span className="text-violet-500 font-bold">*</span>
+                      </Label>
+                      <Input
+                        type="number"
+                        name="hardCap"
+                        placeholder="e.g. 500 BNB"
+                        className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                        {...register("hardcap")}
+                      />
+                    </div>
+
+                    {/* Presale Date */}
+                    <div className="flex flex-col w-full">
+                      <Label className="mb-2 text-white text-base">
+                        Presale Date{" "}
+                        <span className="text-violet-500 font-bold">*</span>
+                      </Label>
+                      <Input
+                        type="date"
+                        name="presaleStart"
+                        className="h-14 bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
+                        {...register("presaleDate")}
+                      />
+                    </div>
+
+                    {/* Is there a whitelist? */}
+                    <div className="flex flex-col w-full">
+                      <Label className="mb-2 text-white text-base">
+                        Is there a whitelist?{" "}
+                        <span className="text-neutral-400 font-bold">*</span>
+                      </Label>
+                      <div className="flex gap-16">
+                        <Label className="flex items-center">
+                          <Input
+                            type="radio"
+                            name="isWhitelist"
+                            value="yes"
+                            checked={isWhitelist === "yes"}
+                            onChange={(e) => setIsWhitelist(e.target.value)}
+                            className="hidden"
+                          />
+                          <span className="relative flex h-6 w-6 items-center p-1 border-neutral-400 rounded-full border-2">
+                            {isWhitelist === "yes" && (
+                              <span className="inline-block h-3 w-3 rounded-full bg-violet-500"></span>
+                            )}
+                          </span>
+                          <span className="ml-2 text-white">Yes</span>
+                        </Label>
+                        <Label className="flex items-center">
+                          <Input
+                            type="radio"
+                            name="isWhitelist"
+                            value="no"
+                            checked={isWhitelist === "no"}
+                            onChange={(e) => setIsWhitelist(e.target.value)}
+                            className="hidden"
+                          />
+                          <span className="relative flex h-6 w-6 items-center p-1 border-violet-500 rounded-full border-2">
+                            {isWhitelist === "no" && (
+                              <span className="inline-block h-3 w-3 rounded-full bg-violet-500"></span>
+                            )}
+                          </span>
+                          <span className="ml-2 text-white">No</span>
+                        </Label>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
+              {/* Presale Information */}
+
               <div class="bg-panel-bg rounded-lg p-8">
                 <div class="text-2xl font-bold text-white">
                   Project description
@@ -257,222 +645,146 @@ const page = () => {
                   <span class="text-violet-500 text-base font-bold">*</span>
                 </div>
                 <div class="flex flex-col">
-                  <textarea
+                  <Textarea
                     class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white h-32"
                     placeholder="Overall description"
                     name="description"
                     required=""
-                  ></textarea>
+                    {...register("description", {
+                      required: "Description is required",
+                    })}
+                  ></Textarea>
                 </div>
               </div>
-              <div class="bg-panel-bg rounded-lg p-8">
-                <div class="text-2xl font-bold text-white">Socials</div>
-                <div class="grid-col-1 mt-3 grid gap-9 md:grid-cols-2">
-                  <div class="flex flex-col">
-                    <label class="text-white text-base mb-2 block flex justify-between">
-                      <div>
-                        Website
-                        <span class="text-violet-500 text-base font-bold">
-                          *
-                        </span>
+
+              {/* Socials */}
+              <div className="bg-panel-bg rounded-lg p-8">
+                <div className="text-2xl font-bold text-white">Socials</div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="mt-3 grid gap-9 md:grid-cols-2">
+                    {/* Fixed social inputs */}
+                    {fields.slice(0, 4).map((item, index) => (
+                      <div key={item.id} className="flex flex-col">
+                        <label className="text-white text-base mb-2 block flex justify-between">
+                          <div>
+                            {item.name}{" "}
+                            <span className="text-violet-500 text-base font-bold">
+                              *
+                            </span>
+                          </div>
+                        </label>
+                        <input
+                          {...register(`socials.${index}.link`, {
+                            required: true,
+                          })}
+                          className="border rounded-md focus:border-panel-bg focus:outline-indigo-700 h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white pl-10"
+                          type="text"
+                          placeholder="e.g. https://..."
+                        />
+                        <img
+                          className="-mt-[2.3rem] ml-3 h-5 w-5"
+                          src={`./v3/socials/${item.name.toLowerCase()}.svg`}
+                          alt={item.name}
+                        />
                       </div>
-                    </label>
-                    <input
-                      class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white  pl-10"
-                      type="text"
-                      placeholder="e.g. https://..."
-                      name="socials.0.link"
-                    />
-                    <img
-                      class="-mt-[2.3rem] ml-3 h-5 w-5"
-                      src="./v3/socials/web.svg"
-                      alt="Website"
-                    />
-                  </div>
-                  <div class="flex flex-col">
-                    <label class="text-white text-base mb-2 block flex justify-between">
-                      <div>
-                        Telegram{" "}
-                        <span class="text-violet-500 text-base font-bold">
-                          *
-                        </span>
+                    ))}
+
+                    {/* Additional social inputs */}
+                    {fields.slice(4).map((item, index) => (
+                      <div key={item.id} className="flex flex-col relative">
+                        <label className="text-white text-base mb-2 block flex justify-between">
+                          <div>{item.name}</div>
+                        </label>
+                        <input
+                          {...register(`socials.${index + 4}.link`)}
+                          className="border rounded-md focus:border-panel-bg focus:outline-indigo-700 h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white pl-10"
+                          type="text"
+                          placeholder="e.g. https://..."
+                        />
+                        <img
+                          className="-mt-[2.3rem] ml-3 h-5 w-5"
+                          src={`./v3/socials/${item.name.toLowerCase()}.svg`}
+                          alt={item.name}
+                        />
+                        <button
+                          type="button"
+                          className="absolute top-0 right-0 text-red-500 mt-2"
+                          onClick={() => handleRemoveSocial(index + 4)}
+                        >
+                          ✕
+                        </button>
                       </div>
-                    </label>
-                    <input
-                      class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white  pl-10"
-                      type="text"
-                      placeholder="e.g. https://..."
-                      name="socials.1.link"
-                    />
-                    <img
-                      class="-mt-[2.3rem] ml-3 h-5 w-5"
-                      src="./v3/socials/telegram.svg"
-                      alt="Telegram"
-                    />
+                    ))}
                   </div>
-                  <div class="flex flex-col">
-                    <label class="text-white text-base mb-2 block flex justify-between">
-                      <div>
-                        Twitter{" "}
-                        <span class="text-violet-500 text-base font-bold">
-                          *
-                        </span>
-                      </div>
-                    </label>
-                    <input
-                      class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white  pl-10"
-                      type="text"
-                      placeholder="e.g. https://..."
-                      name="socials.2.link"
-                    />
-                    <img
-                      class="-mt-[2.3rem] ml-3 h-5 w-5"
-                      src="./v3/socials/twitter.svg"
-                      alt="Twitter"
-                    />
+
+                  {/* Additional Socials Section */}
+                  <div className="mt-8">
+                    <span className="text-white mb-2 block">
+                      Add More Socials:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {availableSocials.map((social) => (
+                        <button
+                          key={social.name}
+                          type="button"
+                          className="flex items-center justify-center gap-2 rounded-lg bg-gray-600 p-2 transition-colors hover:bg-gray-500"
+                          onClick={() => handleAddSocial(social.name)}
+                        >
+                          <img
+                            className="h-5 w-5"
+                            src={`./v3/socials/${social.icon}`}
+                            alt={social.name}
+                          />
+                          {social.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div class="flex flex-col">
-                    <label class="text-white text-base mb-2 block flex justify-between">
-                      <div>CoinMarketCap </div>
-                    </label>
-                    <input
-                      class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white  pl-10"
-                      type="text"
-                      placeholder="e.g. https://..."
-                      name="socials.3.link"
-                    />
-                    <img
-                      class="-mt-[2.3rem] ml-3 h-5 w-5"
-                      src="./v3/socials/market.png"
-                      alt="CoinMarketCap"
-                    />
-                  </div>
-                </div>
-                <div class="mt-14 flex flex-col gap-2">
-                  <span>Add More Socials</span>
-                  <div class="flex flex-wrap gap-2">
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img class="h-5 w-5" src="./v3/socials/cg.svg" alt="" />
-                      CoinGecko
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/reddit.svg"
-                        alt=""
-                      />
-                      Reddit
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/discord.svg"
-                        alt=""
-                      />
-                      Discord
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/github.svg"
-                        alt=""
-                      />
-                      GitHub
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/youtube.svg"
-                        alt=""
-                      />
-                      Youtube
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/tiktok.svg"
-                        alt=""
-                      />
-                      TikTok
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/medium.svg"
-                        alt=""
-                      />
-                      Medium
-                    </button>
-                    <button
-                      class="flex w-auto items-center justify-center gap-2 rounded-lg bg-gray-600 p-3 transition-colors hover:bg-gray-500"
-                      type="button"
-                    >
-                      <img
-                        class="h-5 w-5"
-                        src="./v3/socials/instagram.svg"
-                        alt=""
-                      />
-                      Instagram
-                    </button>
-                  </div>
-                </div>
+                </form>
               </div>
+              {/* Socials */}
+
               <div class="bg-panel-bg rounded-lg p-8">
                 <div class="text-2xl font-bold text-white">
                   Contact Information
                 </div>
                 <div class="md:grid-cols-2 mt-3 gap-5 grid grid-col-1">
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Email{" "}
                       <span class="text-violet-500 text-base font-bold">
                         {" "}
                         *
                       </span>
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="email"
                       required=""
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
                       placeholder="contact@coinmooner.com"
                       name="email"
+                      {...register("contactEmail", {
+                        required: "Email is required",
+                      })}
                     />
                   </div>
                   <div class="flex w-full flex-col">
-                    <label class="text-white text-base mb-2 block">
+                    <Label class="text-white text-base mb-2 block">
                       Contact Telegram
                       <span class="text-violet-500 text-base font-bold">
                         {" "}
                         *
                       </span>
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       required=""
                       class="border rounded-md focus:border-panel-bg focus:outline-indigo-700 focus:outline-offset-0 focus:outline-none focus-within:border-panel-bg focus-within:outline-indigo-700 focus-within:outline-offset-0 focus-within:outline-none h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white"
                       placeholder="@CoinMoonerAdverts"
                       name="contactTelegram"
+                      {...register("contactTelegram", {
+                        required: "Contact Telegram is required",
+                      })}
                     />
                   </div>
                 </div>
@@ -482,7 +794,7 @@ const page = () => {
                 <div class="md:grid-cols-2 mt-3 gap-5 grid grid-col-1">
                   <div class="flex h-full flex-col justify-center gap-2">
                     <div class="flex w-full items-center gap-2">
-                      <input
+                      <Input
                         type="checkbox"
                         class="h-5 w-5 rounded-md bg-gray-600"
                         required=""
@@ -501,7 +813,7 @@ const page = () => {
                       </span>
                     </div>
                   </div>
-                  <div class="flex w-full flex-col">
+                  {/* <div class="flex w-full flex-col">
                     <div class="rounded">
                       <div>
                         <div style={{ width: "304px", height: "78px" }}>
@@ -536,16 +848,16 @@ const page = () => {
                         <iframe style={{ display: "none" }}></iframe>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div class="mt-4 flex flex-col items-center">
-                <button
+                <Button
                   class="rounded-md border-2 border-purple-100 bg-mediumslateblue-200 px-10 py-3 text-xl text-white backdrop-blur-[50px] transition-colors hover:bg-purple-100"
                   type="submit"
                 >
                   Submit
-                </button>
+                </Button>
               </div>
             </div>
             <div class="w-full lg:w-1/4">
@@ -581,6 +893,10 @@ const page = () => {
           </div>
         </form>
       </main>
+      <SuccessModal
+        visible={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)} // Close the modal
+      />
     </>
   );
 };

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Menubar,
   MenubarContent,
@@ -27,8 +27,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("tv3623315"));
+    setUser(userData);
+  }, []);
+
   const { setTheme } = useTheme();
 
   const ThemeChange = () => (
@@ -57,6 +66,12 @@ const Header = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
+  const handleLogout = () => {
+    localStorage.removeItem("tv3623315");
+    router.refresh();
+    router.push("/sign-in");
+  };
 
   return (
     <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] pb-3 ">
@@ -251,20 +266,43 @@ const Header = () => {
               </SheetHeader>
             </SheetContent>
           </Sheet>
-          <div className="items-center gap-2 text-sm lg:flex hidden">
-            <Link
-              href={"/sign-in"}
-              className="text-[#a78bfa] hover:text-[#8b5cf6]"
-            >
-              Login
-            </Link>
-            <Link
-              href={"/sign-up"}
-              className="text-[#a78bfa] hover:text-[#8b5cf6]"
-            >
-              Register
-            </Link>
-          </div>
+          {user ? (
+            <>
+              <div className="items-center gap-2 text-sm lg:flex hidden">
+                <Link
+                  href={"/dashboard"}
+                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                >
+                  Dashboard
+                </Link>
+                <Button
+                  variant="ghost"
+                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="items-center gap-2 text-sm lg:flex hidden">
+                <Link
+                  href={"/sign-in"}
+                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                >
+                  Login
+                </Link>
+                <Link
+                  href={"/sign-up"}
+                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                >
+                  Register
+                </Link>
+              </div>
+            </>
+          )}
+
           <ThemeChange />
         </div>
       </section>

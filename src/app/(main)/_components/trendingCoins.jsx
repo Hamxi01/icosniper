@@ -1,13 +1,7 @@
+"use client";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -16,132 +10,69 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Minus } from "lucide-react";
+import axios from "axios";
+import { useToast } from "@/components/global/use-toast";
 import React from "react";
 
 const TrendingCoins = () => {
-  const trendingCoins = [
-    {
-      id: 1,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 2,
-      name: "The Meme Games",
-      shortName: "MGMES",
-      img: "https://cdn.coinmooner.com/logo/43452.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 3 days",
-      votes: 250238,
-    },
-    {
-      id: 3,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 4,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 5,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 6,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 7,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 8,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 9,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 10,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-  ];
+  const [coins, setCoins] = useState([]);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    fetchCoins();
+  }, [page, search]);
+
+  const fetchCoins = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get("/api/coins", {
+        params: { page, search },
+      });
+      setCoins(data.coins);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      addToast({ title: "Error fetching coins", description: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const formatRelativeTime = (date) => {
+    const now = new Date();
+    const secondsDiff = Math.floor((date - now) / 1000);
+
+    // If the difference is negative, use absolute value and indicate it's in the past
+    const absSecondsDiff = Math.abs(secondsDiff);
+
+    const minutesDiff = Math.floor(absSecondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    const monthsDiff = Math.floor(daysDiff / 30);
+
+    // Define the time direction based on the original difference
+    const direction = secondsDiff >= 0 ? "in" : "ago";
+
+    if (absSecondsDiff < 60) return `${direction} ${absSecondsDiff} seconds`;
+    if (minutesDiff < 60) return `${direction} ${minutesDiff} minutes`;
+    if (hoursDiff < 24) return `${direction} ${hoursDiff} hours`;
+    if (daysDiff < 30) return `${direction} ${daysDiff} days`;
+    if (monthsDiff < 12) return `${direction} ${monthsDiff} months`;
+
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <>
@@ -150,117 +81,116 @@ const TrendingCoins = () => {
           <h2 className="lg:text-3xl text-xl font-semibold dark:text-white mb-4">
             Trending
           </h2>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead></TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Chain</TableHead>
-                <TableHead>Market Cap </TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Volume</TableHead>
-                <TableHead>24h</TableHead>
-                <TableHead>Launch Date</TableHead>
-                <TableHead>Votes</TableHead>
-                <TableHead>Votes 24</TableHead>
-                <TableHead>Vote</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {trendingCoins?.map((coin) => (
-                <TableRow key={coin?.id}>
-                  <TableCell>{coin?.id}</TableCell>
-                  <TableCell>
-                    <img src={coin?.img} alt="" className="max-w-[35px]" />
-                  </TableCell>
-                  <TableCell>
-                    <p className="font-bold text-white">{coin?.name}</p>
-                    <span className="text-xs text-[#a3a3a3]">
-                      {coin?.shortName}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <img src={coin?.chain} alt="" className="w-[20px]" />
-                  </TableCell>
-                  <TableCell>
-                    {coin?.marketCap < 1 ? (
-                      <>
-                        <div className="flex items-center gap-1">
-                          <img
-                            src="https://coinmooner.com/v3/spinner.svg"
-                            alt=""
-                            className="w-[25px]"
-                          />
-                          <span>Presale</span>
-                        </div>
-                      </>
-                    ) : (
-                      $(coin?.marketCap)
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {coin?.price < 1 ? (
-                      <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
-                        <Minus className="w-4" />
-                      </div>
-                    ) : (
-                      $(coin?.price)
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {coin?.volume < 1 ? (
-                      <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
-                        <Minus className="w-4" />
-                      </div>
-                    ) : (
-                      $(coin?.volume)
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
-                      <Minus className="w-4" />
-                    </div>
-                  </TableCell>
-                  <TableCell>{coin?.launchDate}</TableCell>
-                  <TableCell>{coin?.votes}</TableCell>
-                  <TableCell>1</TableCell>
-                  <TableCell>
+
+          {loading ? (
+            <p className="text-center">Loading...</p>
+          ) : (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>#</TableHead>
+                    <TableHead></TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Chain</TableHead>
+                    <TableHead>Market Cap</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Volume</TableHead>
+                    <TableHead>24h</TableHead>
+                    <TableHead>Launch Date</TableHead>
+                    <TableHead>Votes</TableHead>
+                    <TableHead>Votes 24</TableHead>
+                    <TableHead>Vote</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {coins?.map((coin) => (
+                    <TableRow key={coin?.id}>
+                      <TableCell>{coin?.id}</TableCell>
+                      <TableCell>
+                        <img src={coin?.logo} alt="" className="max-w-[35px]" />
+                      </TableCell>
+                      <TableCell>
+                        <p className="font-bold text-white">{coin?.name}</p>
+                        <span className="text-xs text-[#a3a3a3]">
+                          {coin?.symbol}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <img src={coin?.chain} alt="" className="w-[20px]" />
+                      </TableCell>
+                      <TableCell>
+                        {coin?.marketcap ? (
+                          coin?.marketcap < 1 ? (
+                            <span>Presale</span>
+                          ) : (
+                            `$(coin?.marketcap)`
+                          )
+                        ) : (
+                          "N/A"
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {coin?.price < 1 ? <span>-</span> : `$(coin?.price)`}
+                      </TableCell>
+                      <TableCell>
+                        {coin?.volume < 1 ? <span>-</span> : `$(coin?.volume)`}
+                      </TableCell>
+                      <TableCell>
+                        <span>-</span>
+                      </TableCell>
+                      <TableCell>
+                        {formatRelativeTime(new Date(coin?.launchDate))}
+                      </TableCell>
+                      <TableCell>{coin?.votes}</TableCell>
+                      <TableCell>1</TableCell>
+                      <TableCell>
+                        <Button
+                          size="xs"
+                          className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                        >
+                          Vote
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+              {/* Pagination */}
+              <div className="mt-4 flex justify-between items-center">
+                <Button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={page === 1}
+                >
+                  <ChevronLeft /> Previous
+                </Button>
+
+                <div className="flex items-center">
+                  {Array.from({ length: totalPages }, (_, index) => (
                     <Button
-                      size="xs"
-                      className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                      key={index + 1}
+                      onClick={() => setPage(index + 1)}
+                      className={`mx-1 ${
+                        page === index + 1 ? "bg-blue-500 text-white" : ""
+                      }`}
                     >
-                      Vote
+                      {index + 1}
                     </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Pagination className="mt-5">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={() =>
+                    setPage((prev) => (prev < totalPages ? prev + 1 : prev))
+                  }
+                  disabled={page === totalPages}
+                >
+                  Next <ChevronRight />
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </>

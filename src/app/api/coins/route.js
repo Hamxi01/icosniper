@@ -98,18 +98,18 @@ export async function POST(req) {
     logo,
     symbol,
     launchDate,
-    auditLink,
-    teamDoxxed,
-    softcap,
-    presaleLink,
-    hardcap,
-    presaleDate,
-    whitelist,
+    auditLink = null,
+    teamDoxxed = null,
+    softcap = null, // Default to null if not provided
+    presaleLink = null, // Default to null if not provided
+    hardcap = null, // Default to null if not provided
+    presaleDate = null, // Default to null if not provided
+    whitelist = null, // Default to null if not provided
     description,
     socials,
     contactEmail,
     contactTelegram,
-    tokenContractAddresses, // Array of token contract addresses
+    tokenContractAddresses = [], // Array of token contract addresses
   } = await req.json();
 
   // Validate required fields
@@ -120,26 +120,42 @@ export async function POST(req) {
     );
   }
 
+  // Validate dates if they exist
+  const launchDateObject = new Date(launchDate);
+  const presaleDateObject = presaleDate ? new Date(presaleDate) : null;
+
+  if (
+    isNaN(launchDateObject.getTime()) ||
+    (presaleDate && isNaN(presaleDateObject.getTime()))
+  ) {
+    return new Response(JSON.stringify({ message: "Invalid date provided." }), {
+      status: 400,
+    });
+  }
+
   try {
     const coin = await prisma.coin.create({
       data: {
         name,
         logo,
         symbol,
-        launchDate,
+        launchDate: launchDateObject,
         auditLink,
         teamDoxxed,
         softcap,
         presaleLink,
         hardcap,
-        presaleDate,
+        presaleDate: presaleDateObject, // Use the parsed date or null
         whitelist,
         description,
         socials,
         contactEmail,
         contactTelegram,
         tokenContractAddress: {
-          create: tokenContractAddresses, // Insert related token contract addresses
+          create: tokenContractAddresses.map((address) => ({
+            Chain: address.Chain, // Ensure this matches your Prisma schema
+            Address: address.Address, // Ensure this matches your Prisma schema
+          })),
         },
       },
     });
@@ -147,9 +163,15 @@ export async function POST(req) {
     return new Response(JSON.stringify(coin), { status: 201 });
   } catch (error) {
     console.error("Error creating coin:", error);
-    return new Response(JSON.stringify({ message: "Coin creation failed." }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({
+        message: "Coin creation failed.",
+        error: error.message,
+      }),
+      {
+        status: 500,
+      }
+    );
   }
 }
 
