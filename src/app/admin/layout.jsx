@@ -7,13 +7,18 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { usePathname } from "next/navigation"; // Use usePathname instead of useRouter
 
-const layout = ({ children }) => {
+const Layout = ({ children }) => {
   const { setTheme } = useTheme();
+  const pathname = usePathname(); // Get the current pathname
 
   useEffect(() => {
     setTheme("dark");
-  }, []);
+  }, [setTheme]);
+
+  // Extracting the current page name from the pathname
+  const currentPage = pathname.split("/").pop().toLowerCase();
 
   return (
     <main className="min-h-screen flex flex-col w-full h-full">
@@ -24,7 +29,8 @@ const layout = ({ children }) => {
               <MenuIcon />
             </SheetTrigger>
             <SheetContent side="left">
-              <AdminSidebar />
+              <AdminSidebar currentPage={currentPage} />{" "}
+              {/* Pass currentPage as a prop */}
             </SheetContent>
           </Sheet>
           <Link href={"/admin"}>
@@ -43,7 +49,8 @@ const layout = ({ children }) => {
       </div>
       <div className="flex w-full h-full flex-1">
         <div className="lg:w-[250px] w-0 hidden lg:block h-auto border-r border-r-violet-700">
-          <AdminSidebar />
+          <AdminSidebar currentPage={currentPage} />{" "}
+          {/* Pass currentPage as a prop */}
         </div>
         <div className="flex-1 p-4">{children}</div>
       </div>
@@ -51,4 +58,4 @@ const layout = ({ children }) => {
   );
 };
 
-export default layout;
+export default Layout;

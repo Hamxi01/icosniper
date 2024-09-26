@@ -80,12 +80,12 @@ model Banner {
 }
 
 model PromotedCoin {
-  id         Int      @id @default(autoincrement())
-  coin       Coin     @relation(fields: [coinId], references: [id])
-  coinId     Int
-  startDate  DateTime
-  endDate    DateTime
-  status     String
+  id        Int      @id @default(autoincrement())
+  coinId    Int
+  status    Boolean  // Change this to Boolean
+  startDate DateTime
+  endDate   DateTime
+  coin      Coin     @relation(fields: [coinId], references: [id])
 }
 
 model HottestPair {
@@ -94,7 +94,7 @@ model HottestPair {
   coinId     Int
   startDate  DateTime
   endDate    DateTime
-  status     String
+  status     Boolean
 }
 
 model News {
@@ -104,7 +104,7 @@ model News {
   date        DateTime
   description String
   tags        Json     // Use JSON instead of list of strings
-  categories  Json     // Use JSON instead of list of strings
+  categories  String     // Use JSON instead of list of strings
   status      String
   user        User?    @relation(fields: [userId], references: [id])
   userId      Int?
