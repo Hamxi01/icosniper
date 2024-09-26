@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebaseConfig"; // Make sure you import your firebase config
 import SuccessModal from "./_components/successModal";
+import { handleFileUpload } from "@/lib/firebaseFileUpload";
 
 const socialOptions = [
   { name: "CoinGecko", icon: "cg.svg" },
@@ -100,41 +101,13 @@ const page = () => {
   const [newLogo, setNewLogo] = useState(null); // State to hold the new logo file
   const [uploading, setUploading] = useState(false);
 
-  const handleLogoUpload = async (file) => {
-    if (!file) return null;
-
-    const storageRef = ref(storage, `logos/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    return new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Optional: Track progress
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-        },
-        (error) => {
-          console.error("Error uploading file:", error);
-          reject(error);
-        },
-        async () => {
-          // Get the download URL once the upload is complete
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve(downloadURL);
-        }
-      );
-    });
-  };
-
   const onSubmit = async (data) => {
     let logoUrl = "";
 
     // If a new logo is selected, upload it to Firebase
     if (newLogo) {
       try {
-        const uploadedUrl = await handleLogoUpload(newLogo);
+        const uploadedUrl = await handleFileUpload(newLogo, "logos/");
         if (uploadedUrl) {
           logoUrl = uploadedUrl;
         }

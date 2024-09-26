@@ -12,6 +12,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { handleFileUpload } from "@/lib/firebaseFileUpload";
 
 const EditCoinComponent = ({ coin, onSave, onClose }) => {
   const [editedCoin, setEditedCoin] = useState(coin);
@@ -37,40 +38,12 @@ const EditCoinComponent = ({ coin, onSave, onClose }) => {
   const [newLogo, setNewLogo] = useState(null); // State to hold the new logo file
   const [uploading, setUploading] = useState(false);
 
-  const handleLogoUpload = async (file) => {
-    if (!file) return null;
-
-    const storageRef = ref(storage, `logos/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    return new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          // Optional: Track progress
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-        },
-        (error) => {
-          console.error("Error uploading file:", error);
-          reject(error);
-        },
-        async () => {
-          // Get the download URL once the upload is complete
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve(downloadURL);
-        }
-      );
-    });
-  };
-
   const handleSave = async () => {
     let logoUrl = editedCoin.logo;
     // If a new logo is selected, upload it to Firebase
     if (newLogo) {
       try {
-        const uploadedUrl = await handleLogoUpload(newLogo);
+        const uploadedUrl = await handleFileUpload(newLogo, "logos/");
         if (uploadedUrl) {
           logoUrl = uploadedUrl;
         }

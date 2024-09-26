@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function GET(req) {
@@ -52,7 +53,7 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   try {
-    const { id } = req.params;
+    const { id } = await req.json(); // Get ID from the request body
     await prisma.banner.delete({
       where: { id: parseInt(id) },
     });
