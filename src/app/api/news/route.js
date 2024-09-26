@@ -106,31 +106,31 @@ export async function DELETE(request, { params }) {
 }
 
 // Get Single News by ID
-export async function GET(request, { params }) {
-  const { id } = params;
+// export async function GET(request, { params }) {
+//   const { id } = params;
 
-  const news = await prisma.news.findUnique({
-    where: { id: Number(id) },
-  });
+//   const news = await prisma.news.findUnique({
+//     where: { id: Number(id) },
+//   });
 
-  if (!news) {
-    return NextResponse.json({ message: "News not found" }, { status: 404 });
-  }
+//   if (!news) {
+//     return NextResponse.json({ message: "News not found" }, { status: 404 });
+//   }
 
-  return NextResponse.json(news);
-}
+//   return NextResponse.json(news);
+// }
 
 // Get News Based on Specific Category
-export async function GET(request, { params }) {
-  const { category } = params;
+// export async function GET(request, { params }) {
+//   const { category } = params;
 
-  const news = await prisma.news.findMany({
-    where: {
-      categories: {
-        contains: category,
-      },
-    },
-  });
+//   const news = await prisma.news.findMany({
+//     where: {
+//       categories: {
+//         contains: category,
+//       },
+//     },
+//   });
 
-  return NextResponse.json(news);
-}
+//   return NextResponse.json(news);
+// }
