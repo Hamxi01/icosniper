@@ -56,11 +56,14 @@ export async function POST(request) {
     userId,
   } = await request.json();
 
+  // Default date to the current date if not provided
+  const newsDate = date || new Date();
+
   const news = await prisma.news.create({
     data: {
       title,
       thumbnail,
-      date,
+      date: newsDate,
       description,
       tags,
       categories,
@@ -73,36 +76,58 @@ export async function POST(request) {
 }
 
 // Edit News
-export async function PUT(request, { params }) {
-  const { id } = params;
-  const { title, thumbnail, date, description, tags, categories, status } =
-    await request.json();
+export async function PUT(request) {
+  const {
+    id, // Extracting ID from the request body
+    title,
+    thumbnail,
+    date,
+    description,
+    tags,
+    categories,
+    status,
+  } = await request.json();
 
-  const news = await prisma.news.update({
-    where: { id: Number(id) },
-    data: {
-      title,
-      thumbnail,
-      date,
-      description,
-      tags,
-      categories,
-      status,
-    },
-  });
+  try {
+    const news = await prisma.news.update({
+      where: { id: Number(id) }, // Ensure id is a number
+      data: {
+        title,
+        thumbnail,
+        date: date || new Date(), // Default to current date if not provided
+        description,
+        tags,
+        categories,
+        status,
+      },
+    });
 
-  return NextResponse.json(news);
+    return NextResponse.json(news);
+  } catch (error) {
+    console.error("Error updating news:", error);
+    return NextResponse.json(
+      { error: "Failed to update news" },
+      { status: 500 }
+    );
+  }
 }
 
 // Delete News
-export async function DELETE(request, { params }) {
-  const { id } = params;
+export async function DELETE(request) {
+  const { id } = await request.json(); // Read the ID from the request body
 
-  await prisma.news.delete({
-    where: { id: Number(id) },
-  });
+  try {
+    const deletedNews = await prisma.news.delete({
+      where: {
+        id: parseInt(id), // Ensure the ID is parsed correctly
+      },
+    });
 
-  return NextResponse.json({ message: "News deleted successfully" });
+    return NextResponse.json({ message: "News deleted successfully" });
+  } catch (error) {
+    console.error(error); // Log error for debugging
+    return NextResponse.error(); // Send an error response
+  }
 }
 
 // Get Single News by ID
