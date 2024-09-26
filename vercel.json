@@ -7,7 +7,7 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_DATABASE_URL": "@your_database_url"
+    "NEXT_PUBLIC_DATABASE_URL": "mysql://u674860995_tv3623315:U674860995_tv3623315@185.166.188.103:3306/u674860995_tv3623315?sslmode=disable&connect_timeout=30"
   },
   "buildCommand": "prisma generate && next build"
 }
