@@ -76,6 +76,7 @@ model Banner {
   placement  String
   value      Float
   status     String
+  mediaType  String
 }
 
 model PromotedCoin {

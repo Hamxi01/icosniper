@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `role` VARCHAR(191) NOT NULL,
+    `role` VARCHAR(191) NOT NULL DEFAULT 'user',
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -17,29 +17,42 @@ CREATE TABLE `Coin` (
     `logo` VARCHAR(191) NOT NULL,
     `symbol` VARCHAR(191) NOT NULL,
     `launchDate` DATETIME(3) NOT NULL,
-    `auditLink` VARCHAR(191) NOT NULL,
-    `teamDoxxed` BOOLEAN NOT NULL,
-    `chain` VARCHAR(191) NOT NULL,
-    `address` VARCHAR(191) NOT NULL,
+    `auditLink` VARCHAR(191) NULL,
+    `teamDoxxed` VARCHAR(191) NULL,
+    `softcap` DOUBLE NULL,
+    `presaleLink` VARCHAR(191) NULL,
+    `hardcap` DOUBLE NULL,
+    `presaleDate` DATETIME(3) NULL,
+    `whitelist` BOOLEAN NULL,
     `description` VARCHAR(191) NOT NULL,
     `socials` JSON NOT NULL,
     `contactEmail` VARCHAR(191) NOT NULL,
     `contactTelegram` VARCHAR(191) NOT NULL,
+    `marketCap` DOUBLE NULL,
+    `price` DOUBLE NULL,
+    `volume` DOUBLE NULL,
+    `userId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Presale` (
+CREATE TABLE `TokenContractAddress` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `coinId` INTEGER NOT NULL,
-    `softcap` DOUBLE NOT NULL,
-    `presaleLink` VARCHAR(191) NOT NULL,
-    `hardcap` DOUBLE NOT NULL,
-    `presaleDate` DATETIME(3) NOT NULL,
-    `whitelist` BOOLEAN NOT NULL,
+    `Chain` VARCHAR(191) NOT NULL,
+    `Address` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `Presale_coinId_key`(`coinId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Vote` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `coinId` INTEGER NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `date` DATETIME(3) NOT NULL,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -54,6 +67,7 @@ CREATE TABLE `Banner` (
     `placement` VARCHAR(191) NOT NULL,
     `value` DOUBLE NOT NULL,
     `status` VARCHAR(191) NOT NULL,
+    `mediaType` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -112,7 +126,16 @@ CREATE TABLE `Meta` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Presale` ADD CONSTRAINT `Presale_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Coin` ADD CONSTRAINT `Coin_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `TokenContractAddress` ADD CONSTRAINT `TokenContractAddress_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Vote` ADD CONSTRAINT `Vote_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PromotedCoin` ADD CONSTRAINT `PromotedCoin_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
