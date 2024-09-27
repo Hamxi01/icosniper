@@ -110,6 +110,26 @@ const AddEditBlogPage = () => {
     setStatus(statusValue);
   };
 
+  const handleImageInsert = async () => {
+    if (typeof window !== "undefined") {
+      // Check if in browser environment
+      const input = document.createElement("input");
+      input.setAttribute("type", "file");
+      input.setAttribute("accept", "image/*");
+      input.click();
+
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (file) {
+          const imageUrl = await handleImageUpload(file); // Get the uploaded image URL
+          const quill = quillRef.current.getEditor(); // Get the Quill editor instance
+          const range = quill.getSelection(); // Get the current selection range
+          quill.insertEmbed(range.index, "image", imageUrl); // Insert image URL into editor
+        }
+      };
+    }
+  };
+
   return (
     <div className="flex flex-row min-h-screen dark:bg-gray-900 text-white">
       <div className="w-3/4 p-6">
