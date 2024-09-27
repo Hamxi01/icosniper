@@ -10,6 +10,8 @@ const AdminSidebar = ({ currentPage }) => {
     { name: "Coins", link: "/coins" },
     { name: "News", link: "/news" },
     { name: "Users", link: "/users" },
+    { name: "Partner", link: "/partner" },
+    { name: "ICO-Scam", link: "/ico-scam" },
     { name: "Banners", link: "/banners" },
     { name: "Promoted", link: "/promoted" },
     { name: "Hottest-Pairs", link: "/hottest-pairs" },

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { handleFileUpload } from "@/lib/firebaseFileUpload";
+import { handleFileUpload } from "@/lib/firebaseFileUpload"; // Assume you have this utility function for handling Firebase uploads
 
 const AddEditBlogPage = () => {
   const [blog, setBlog] = useState(null);
@@ -263,26 +263,25 @@ const AddEditBlogPage = () => {
         <button
           onClick={() => toggleStatus("draft")}
           className={`mb-2 w-full py-2 rounded ${
-            status === "draft" ? "bg-blue-600" : "bg-gray-700"
+            status === "draft" ? "bg-blue-600" : "bg-gray-600"
           }`}
         >
           Draft
         </button>
         <button
           onClick={() => toggleStatus("published")}
-          className={`mb-2 w-full py-2 rounded ${
-            status === "published" ? "bg-blue-600" : "bg-gray-700"
+          className={`mb-4 w-full py-2 rounded ${
+            status === "published" ? "bg-blue-600" : "bg-gray-600"
           }`}
         >
-          Publish
+          Published
         </button>
         <button
-          type="button"
+          className="w-full py-2 bg-green-600 rounded"
           onClick={handleThumbnailUpload}
-          className="bg-blue-600 w-full py-2 rounded"
           disabled={uploading}
         >
-          {uploading ? "Uploading..." : "Save"}
+          {uploading ? "Uploading..." : blogId ? "Update Blog" : "Create Blog"}
         </button>
       </div>
     </div>
