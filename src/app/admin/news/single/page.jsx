@@ -270,19 +270,21 @@ const AddEditBlogPage = () => {
         </button>
         <button
           onClick={() => toggleStatus("published")}
-          className={`mb-4 w-full py-2 rounded ${
+          className={`w-full py-2 rounded ${
             status === "published" ? "bg-blue-600" : "bg-gray-600"
           }`}
         >
-          Published
+          Publish
         </button>
-        <button
-          className="w-full py-2 bg-green-600 rounded"
-          onClick={handleThumbnailUpload}
-          disabled={uploading}
-        >
-          {uploading ? "Uploading..." : blogId ? "Update Blog" : "Create Blog"}
-        </button>
+        <div className="mt-6">
+          <button
+            onClick={handleThumbnailUpload}
+            disabled={uploading}
+            className="w-full py-2 rounded bg-green-600 text-white"
+          >
+            {uploading ? "Uploading..." : blogId ? "Update Blog" : "Add Blog"}
+          </button>
+        </div>
       </div>
     </div>
   );
