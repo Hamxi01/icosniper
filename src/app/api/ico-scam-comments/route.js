@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 // Helper function for pagination and filtering
 const paginateAndFilter = (icoScamId, page, limit) => {
