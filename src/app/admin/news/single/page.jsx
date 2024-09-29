@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
@@ -263,14 +264,13 @@ const AddEditBlogPage = () => {
             onChange={handleFileChange}
           />
         </div>
-        <h2 className="text-xl font-bold mb-4">Status</h2>
         <button
           onClick={() => toggleStatus("draft")}
           className={`mb-2 w-full py-2 rounded ${
             status === "draft" ? "bg-blue-600" : "bg-gray-600"
           }`}
         >
-          Draft
+          Save as Draft
         </button>
         <button
           onClick={() => toggleStatus("published")}
@@ -292,4 +292,13 @@ const AddEditBlogPage = () => {
   );
 };
 
-export default AddEditBlogPage;
+// Wrap the component in Suspense
+const SuspenseWrapper = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddEditBlogPage />
+    </Suspense>
+  );
+};
+
+export default SuspenseWrapper;
