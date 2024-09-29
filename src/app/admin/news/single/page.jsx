@@ -2,9 +2,12 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic"; // Import dynamic from Next.js
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { handleFileUpload } from "@/lib/firebaseFileManage"; // Assume you have this utility function for handling Firebase uploads
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddEditBlogPage = () => {
   const [blog, setBlog] = useState(null);
@@ -112,7 +115,6 @@ const AddEditBlogPage = () => {
 
   const handleImageInsert = async () => {
     if (typeof window !== "undefined") {
-      // Check if in browser environment
       const input = document.createElement("input");
       input.setAttribute("type", "file");
       input.setAttribute("accept", "image/*");
