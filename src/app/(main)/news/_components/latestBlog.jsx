@@ -36,7 +36,9 @@ const LatestBlog = () => {
               className="w-full rounded h-fit max-h-[750px]"
             />
             <h2 className="lg:text-4xl text-2xl font-semibold mt-5">
-              <Link href={`/news/${news[0]?.id}`}>{news[0]?.title}</Link>
+              <Link href={`/news/single?id=${news[0]?.id}`}>
+                {news[0]?.title}
+              </Link>
             </h2>
             {/* Render truncated description */}
             <div className="text-lg mt-6">
@@ -67,6 +69,7 @@ const LatestBlog = () => {
             <BlogCard
               key={blog.id}
               blog={{
+                id: blog.id,
                 thumbnail: blog.thumbnail,
                 title: blog.title,
                 category: blog.categories,

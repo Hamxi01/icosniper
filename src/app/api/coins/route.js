@@ -6,8 +6,8 @@ export async function GET(request) {
   const url = new URL(request.url); // Correctly parse the request URL
   const search = url.searchParams.get("search") || ""; // Get the search parameter
   const page = parseInt(url.searchParams.get("page")) || 1; // Get the page parameter and convert to number
+  const limit = parseInt(url.searchParams.get("limit")) || 10; // Get the page parameter and convert to number
 
-  const limit = 10; // Items per page
   const skip = (page - 1) * limit;
 
   // Build the where condition: only apply filtering if search string is provided
@@ -41,33 +41,6 @@ export async function GET(request) {
     );
   } catch (error) {
     return new Response(JSON.stringify({ error: "Error fetching coins" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-}
-
-// GET a single coin by ID
-export async function GET_COIN(request) {
-  const { id } = request.nextUrl;
-
-  try {
-    const coin = await prisma.coin.findUnique({
-      where: { id: parseInt(id) },
-      include: {
-        tokenContractAddress: true, // Include related token contract addresses
-      },
-    });
-
-    if (!coin) {
-      return new Response("Coin not found", { status: 404 });
-    }
-
-    return new Response(JSON.stringify(coin), {
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: "Error fetching coin" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
