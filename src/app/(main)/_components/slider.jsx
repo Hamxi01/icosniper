@@ -96,7 +96,7 @@ const Slider = () => {
                       {new Date(item.publishedAt).toLocaleDateString()}
                     </CardDescription>
                     <CardTitle className="w-full rounded-md text-sm font-normal leading-8 hover:text-silver lg:text-base">
-                      <Link href={`/news/${item.id}`}>
+                      <Link href={`/news/single?id=${item.id}`}>
                         {" "}
                         {/* Adjust link to your news detail page */}
                         {item.title}

@@ -25,6 +25,7 @@ import React, { useEffect, useState } from "react";
 
 const page = () => {
   const [icoscams, setIcoScams] = useState([]);
+  const [total, setTotal] = useState(0);
   const [currentIcoScamTab, setCurrentIcoScamTab] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -47,6 +48,8 @@ const page = () => {
   useEffect(() => {
     fetchIcoScams(page, limit, query, currentIcoScamTab);
   }, [page, limit, query, currentIcoScamTab]);
+
+  const totalPages = Math.ceil(total / limit); // Calculate total pages
 
   return (
     <>
@@ -108,7 +111,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -117,7 +120,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
                             {coin?.description}
@@ -161,7 +164,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
                             src={coin?.img}
                             alt=""
@@ -170,7 +173,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
                             {coin?.description}
@@ -202,7 +205,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
                             src={coin?.img}
                             alt=""
@@ -211,7 +214,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
                             {coin?.description}
@@ -243,7 +246,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
                             src={coin?.img}
                             alt=""
@@ -252,7 +255,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/${coin?.id}`}>
+                        <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
                             {coin?.description}
@@ -273,24 +276,36 @@ const page = () => {
           <Pagination className="mt-5">
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page > 1) setPage((prev) => prev - 1);
+                  }}
+                />
               </PaginationItem>
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index + 1}>
+                  <PaginationLink
+                    href="#"
+                    isActive={page === index + 1}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPage(index + 1);
+                    }}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
               <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (page < totalPages) setPage((prev) => prev + 1);
+                  }}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

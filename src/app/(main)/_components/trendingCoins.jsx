@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { useToast } from "@/components/global/use-toast";
 import React from "react";
+import Link from "next/link";
 
 const TrendingCoins = () => {
   const [coins, setCoins] = useState([]);
@@ -74,6 +75,8 @@ const TrendingCoins = () => {
     });
   };
 
+  const handleAddVote = (coin) => {};
+
   return (
     <>
       <section className="lg:px-0 px-2 py-3">
@@ -108,13 +111,21 @@ const TrendingCoins = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <img src={coin?.logo} alt="" className="max-w-[35px]" />
+                        <Link href={`/coins/single?id=${coin?.id}`}>
+                          <img
+                            src={coin?.logo}
+                            alt=""
+                            className="max-w-[35px]"
+                          />
+                        </Link>
                       </TableCell>
                       <TableCell>
-                        <p className="font-bold text-white">{coin?.name}</p>
-                        <span className="text-xs text-[#a3a3a3]">
-                          {coin?.symbol}
-                        </span>
+                        <Link href={`/coins/single?id=${coin?.id}`}>
+                          <p className="font-bold text-white">{coin?.name}</p>
+                          <span className="text-xs text-[#a3a3a3]">
+                            {coin?.symbol}
+                          </span>
+                        </Link>
                       </TableCell>
                       <TableCell>
                         <img src={coin?.chain} alt="" className="w-[20px]" />
@@ -148,6 +159,7 @@ const TrendingCoins = () => {
                         <Button
                           size="xs"
                           className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                          onClick={() => handleAddVote(coin)}
                         >
                           Vote
                         </Button>

@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Minus } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const PromotedCoins = () => {
@@ -53,6 +54,8 @@ const PromotedCoins = () => {
     });
   };
 
+  const handleAddVote = (coin) => {};
+
   return (
     <section className="lg:px-0 px-2 py-5">
       <div
@@ -83,19 +86,23 @@ const PromotedCoins = () => {
               <TableRow key={promotedCoin.coin?.id}>
                 <TableCell>{promotedCoin.coin?.id}</TableCell>
                 <TableCell>
-                  <img
-                    src={promotedCoin.coin?.logo}
-                    alt=""
-                    className="max-w-[35px]"
-                  />
+                  <Link href={`/coins/single?id=${promotedCoin?.coin?.id}`}>
+                    <img
+                      src={promotedCoin.coin?.logo}
+                      alt=""
+                      className="max-w-[35px]"
+                    />
+                  </Link>
                 </TableCell>
                 <TableCell>
-                  <p className="font-bold text-white">
-                    {promotedCoin.coin?.name}
-                  </p>
-                  <span className="text-xs text-[#a3a3a3]">
-                    {promotedCoin.coin?.chain}
-                  </span>
+                  <Link href={`/coins/single?id=${promotedCoin?.coin?.id}`}>
+                    <p className="font-bold text-white">
+                      {promotedCoin.coin?.name}
+                    </p>
+                    <span className="text-xs text-[#a3a3a3]">
+                      {promotedCoin.coin?.chain}
+                    </span>
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <img
@@ -152,6 +159,7 @@ const PromotedCoins = () => {
                   <Button
                     size="xs"
                     className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                    onClick={() => handleAddVote(coin)}
                   >
                     Vote
                   </Button>

@@ -69,13 +69,3 @@ export async function DELETE(req) {
   });
   return NextResponse.json(deletedIcoScam);
 }
-
-export async function GET_SINGLE(request) {
-  const { id } = await request.json();
-  const icoScam = await prisma.icoScam.findUnique({ where: { id } });
-
-  if (!icoScam) {
-    return new Response(null, { status: 404 });
-  }
-  return new Response(JSON.stringify(icoScam), { status: 200 });
-}
