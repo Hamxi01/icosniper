@@ -3,6 +3,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   listAll,
+  deleteObject,
 } from "firebase/storage";
 import { storage } from "@/firebaseConfig"; // Ensure firebaseConfig is properly set up
 
@@ -20,7 +21,7 @@ export const handleFileUpload = async (file, fileType = "logos/") => {
 
   // Function to check for existing files and create a new unique file name
   const findUniqueFileName = async (name) => {
-    const listRef = ref(storage, "banners/"); // Reference to the banners folder
+    const listRef = ref(storage, fileType); // Reference to the banners folder
     const fileList = await listAll(listRef); // List all files in the folder
     const existingFiles = fileList.items.map((item) => item.name); // Get existing file names
 
@@ -34,7 +35,7 @@ export const handleFileUpload = async (file, fileType = "logos/") => {
 
   // Find a unique file name
   uniqueFileName = await findUniqueFileName(uniqueFileName);
-  const uniqueStorageRef = ref(storage, `banners/${uniqueFileName}`); // Create a ref with the unique name
+  const uniqueStorageRef = ref(storage, `${fileType}${uniqueFileName}`); // Create a ref with the unique name
   uploadTask = uploadBytesResumable(uniqueStorageRef, file);
 
   return new Promise((resolve, reject) => {
@@ -55,4 +56,18 @@ export const handleFileUpload = async (file, fileType = "logos/") => {
       }
     );
   });
+};
+
+// Firebase file delete handler
+export const handleFileDelete = async (filePath) => {
+  if (!filePath) return;
+
+  const fileRef = ref(storage, filePath); // Create a reference to the file
+
+  try {
+    await deleteObject(fileRef); // Delete the file
+    console.log(`Successfully deleted file: ${filePath}`);
+  } catch (error) {
+    console.error(`Error deleting file: ${error.message}`);
+  }
 };

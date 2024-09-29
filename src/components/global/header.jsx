@@ -155,57 +155,57 @@ const Header = () => {
             <MenubarTrigger className="text-[1rem]">News</MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
-                <Link href={"/blog"} className="text-sm">
+                <Link href={"/news"} className="text-sm">
                   Latest
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?News"} className="text-sm">
+                <Link href={"/news?News"} className="text-sm">
                   News
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Finance"} className="text-sm">
+                <Link href={"/news?Finance"} className="text-sm">
                   Finance
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?DeFi news"} className="text-sm">
+                <Link href={"/news?DeFi news"} className="text-sm">
                   DeFi news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Dapps"} className="text-sm">
+                <Link href={"/news?Dapps"} className="text-sm">
                   Dapps
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?GameFi"} className="text-sm">
+                <Link href={"/news?GameFi"} className="text-sm">
                   GameFi
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Exchange news"} className="text-sm">
+                <Link href={"/news?Exchange news"} className="text-sm">
                   Exchange news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Launchpad news"} className="text-sm">
+                <Link href={"/news?Launchpad news"} className="text-sm">
                   Launchpad news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Altcoins"} className="text-sm">
+                <Link href={"/news?Altcoins"} className="text-sm">
                   Altcoins
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?NFT"} className="text-sm">
+                <Link href={"/news?NFT"} className="text-sm">
                   NFT
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/blog?Tutorials"} className="text-sm">
+                <Link href={"/news?Tutorials"} className="text-sm">
                   Tutorials
                 </Link>
               </MenubarItem>

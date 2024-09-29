@@ -29,6 +29,7 @@ import { useToast } from "@/components/global/use-toast"; // Now correctly impor
 import { Modal, message } from "antd";
 import EditCoinComponent from "./_components/EditCoinComponent";
 import Link from "next/link";
+import { handleFileDelete } from "@/lib/firebaseFileManage";
 
 const CoinsPage = () => {
   const router = useRouter();
@@ -60,7 +61,7 @@ const CoinsPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (coin) => {
     Modal.confirm({
       title: "Are you sure you want to delete this coin?",
       onOk: async () => {
@@ -70,9 +71,12 @@ const CoinsPage = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }), // Pass the id in the request body
+            body: JSON.stringify({ id: coin.id }), // Pass the id in the request body
           });
           if (res.ok) {
+            // Call the delete function to remove the logo from Firebase
+            await handleFileDelete(coin.logo); // Use the logo path to delete the file
+
             message.success("Coin deleted successfully!");
             fetchCoins(); // Refresh the coin list
           } else {
@@ -225,7 +229,7 @@ const CoinsPage = () => {
                               <Button
                                 variant="ghost"
                                 className="w-full text-left text-red-500"
-                                onClick={() => handleDelete(coin.id)}
+                                onClick={() => handleDelete(coin)}
                               >
                                 <TrashIcon />
                               </Button>

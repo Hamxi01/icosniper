@@ -12,7 +12,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { handleFileUpload } from "@/lib/firebaseFileUpload";
+import { handleFileUpload } from "@/lib/firebaseFileManage";
 
 const EditCoinComponent = ({ coin, onSave, onClose }) => {
   const [editedCoin, setEditedCoin] = useState(coin);

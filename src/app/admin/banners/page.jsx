@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai"; // Adjust the import based on your icon library
-import { handleFileUpload } from "@/lib/firebaseFileUpload";
+import { handleFileDelete, handleFileUpload } from "@/lib/firebaseFileManage";
 
 const BannerManagement = () => {
   const [banners, setBanners] = useState([]);
@@ -34,7 +34,7 @@ const BannerManagement = () => {
   // Fetch banners data from API
   const fetchBanners = async () => {
     try {
-      const response = await fetch("/api/banners"); // Adjust endpoint
+      const response = await fetch("/api/banners?showAll=true"); // Adjust endpoint
       const data = await response.json();
       setBanners(data);
     } catch (error) {
@@ -200,7 +200,7 @@ const BannerManagement = () => {
   };
 
   // Delete a banner with confirmation
-  const deleteBanner = async (id) => {
+  const deleteBanner = async (banner) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this banner?"
     );
@@ -212,10 +212,13 @@ const BannerManagement = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }), // Send ID in the body
+        body: JSON.stringify({ id: banner.id }), // Send ID in the body
       });
 
       if (response.ok) {
+        // Call the delete function to remove the logo from Firebase
+        await handleFileDelete(banner.media); // Use the logo path to delete the file
+
         await fetchBanners(); // Refresh banners list
       } else {
         console.error("Failed to delete banner:", response.statusText);
@@ -329,7 +332,7 @@ const BannerManagement = () => {
                       </button>
                       <button
                         className="flex items-center bg-red-600 text-white text-sm px-3 py-1 rounded-lg transition duration-300 hover:bg-red-500 shadow-md"
-                        onClick={() => deleteBanner(banner.id)}
+                        onClick={() => deleteBanner(banner)}
                       >
                         <AiOutlineDelete className="mr-1" /> Delete
                       </button>

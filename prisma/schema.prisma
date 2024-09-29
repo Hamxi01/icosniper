@@ -9,14 +9,16 @@ generator client {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String?
-  email    String   @unique
-  password String
-  role     String  @default("user") // Default role
-  news     News[]   // Back-reference for relation to News
-  Votes    Vote[]
-  Coins    Coin[]
+  id                Int      @id @default(autoincrement())
+  name              String?
+  email             String   @unique
+  password          String
+  role              String  @default("user") // Default role
+  news              News[]   // Back-reference for relation to News
+  Votes             Vote[]
+  Coins             Coin[]
+  IcoScamComment    IcoScamComment[]
+  watchlistCoins    WatchlistCoin[]
 }
 
 model Coin {
@@ -47,6 +49,7 @@ model Coin {
   hottestPairs            HottestPair[]  // A coin can have many hottestPair entries
   tokenContractAddress    TokenContractAddress[]
   Votes                   Vote[]
+  watchlistCoins          WatchlistCoin[]
 }
 
 model TokenContractAddress {
@@ -64,6 +67,14 @@ model Vote {
   user        User      @relation(fields: [userId], references: [id])
   userId      Int
   date        DateTime
+}
+
+model WatchlistCoin {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  coinId    Int
+  coin      Coin      @relation(fields: [coinId], references: [id])
 }
 
 model Banner {
@@ -122,4 +133,42 @@ model Meta {
   referrer     String?  // Optional: referrer URL
   pageViews    Int      // Number of pages viewed during the visit
   // Other details you want to track can be added here
+}
+
+
+model Partner {
+  id          Int       @id @default(autoincrement())
+  logo        String
+  title       String
+  description String
+  link        String
+}
+
+model IcoScam {
+  id                Int       @id @default(autoincrement())
+  logo              String
+  title             String
+  description       String
+  status            IcoScamStatus
+  IcoScamComment    IcoScamComment[]
+}
+
+enum IcoScamStatus {
+  COMPLAIN
+  UNDER_REVIEW
+  SCAM_ICO
+}
+
+model IcoScamComment {
+  id             Int                @id @default(autoincrement())
+  IcoScamId      Int
+  IcoScam        IcoScam            @relation(fields: [IcoScamId], references: [id])
+  userId         Int
+  user           User                @relation(fields: [userId], references: [id])
+  comment        String
+  replayId       Int?
+  replay         IcoScamComment?    @relation("ReplyToComment", fields: [replayId], references: [id]) // Define the self-relation
+
+  // Optional: Add a back-reference to get all replies
+  replies        IcoScamComment[]    @relation("ReplyToComment")
 }

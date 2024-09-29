@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -8,131 +9,49 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Minus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const PromotedCoins = () => {
-  const promotedCoins = [
-    {
-      id: 1,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 2,
-      name: "The Meme Games",
-      shortName: "MGMES",
-      img: "https://cdn.coinmooner.com/logo/43452.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 3 days",
-      votes: 250238,
-    },
-    {
-      id: 3,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 4,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 5,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 6,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 7,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 8,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 9,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-    {
-      id: 10,
-      name: "Pepe Unchained",
-      shortName: "PEPU",
-      img: "https://cdn.coinmooner.com/logo/42683.webp?v=0",
-      chain: "https://coinmooner.com/v3/chains/ethereum.svg",
-      marketCap: 0,
-      price: 0,
-      volume: 0,
-      launchDate: "in 24 hours",
-      votes: 250238,
-    },
-  ];
+  const [promotedCoins, setPromotedCoins] = useState([]);
+
+  useEffect(() => {
+    const fetchPromotedCoins = async () => {
+      const data = await fetch(`/api/promoted-coins`);
+      if (data.ok) {
+        const { promotedCoins } = await data.json();
+        setPromotedCoins(promotedCoins);
+      }
+    };
+    fetchPromotedCoins();
+  }, []);
+
+  const formatRelativeTime = (date) => {
+    const now = new Date();
+    const secondsDiff = Math.floor((date - now) / 1000);
+
+    // If the difference is negative, use absolute value and indicate it's in the past
+    const absSecondsDiff = Math.abs(secondsDiff);
+
+    const minutesDiff = Math.floor(absSecondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    const monthsDiff = Math.floor(daysDiff / 30);
+
+    // Define the time direction based on the original difference
+    const direction = secondsDiff >= 0 ? "in" : "ago";
+
+    if (absSecondsDiff < 60) return `${direction} ${absSecondsDiff} seconds`;
+    if (minutesDiff < 60) return `${direction} ${minutesDiff} minutes`;
+    if (hoursDiff < 24) return `${direction} ${hoursDiff} hours`;
+    if (daysDiff < 30) return `${direction} ${daysDiff} days`;
+    if (monthsDiff < 12) return `${direction} ${monthsDiff} months`;
+
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <section className="lg:px-0 px-2 py-5">
@@ -160,23 +79,33 @@ const PromotedCoins = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {promotedCoins?.map((coin) => (
-              <TableRow key={coin?.id}>
-                <TableCell>{coin?.id}</TableCell>
+            {promotedCoins?.map((promotedCoin) => (
+              <TableRow key={promotedCoin.coin?.id}>
+                <TableCell>{promotedCoin.coin?.id}</TableCell>
                 <TableCell>
-                  <img src={coin?.img} alt="" className="max-w-[35px]" />
+                  <img
+                    src={promotedCoin.coin?.logo}
+                    alt=""
+                    className="max-w-[35px]"
+                  />
                 </TableCell>
                 <TableCell>
-                  <p className="font-bold text-white">{coin?.name}</p>
+                  <p className="font-bold text-white">
+                    {promotedCoin.coin?.name}
+                  </p>
                   <span className="text-xs text-[#a3a3a3]">
-                    {coin?.shortName}
+                    {promotedCoin.coin?.chain}
                   </span>
                 </TableCell>
                 <TableCell>
-                  <img src={coin?.chain} alt="" className="w-[20px]" />
+                  <img
+                    src={promotedCoin.coin?.chain}
+                    alt=""
+                    className="w-[20px]"
+                  />
                 </TableCell>
                 <TableCell>
-                  {coin?.marketCap < 1 ? (
+                  {promotedCoin.coin?.marketCap < 1 ? (
                     <>
                       <div className="flex items-center gap-1">
                         <img
@@ -188,25 +117,25 @@ const PromotedCoins = () => {
                       </div>
                     </>
                   ) : (
-                    $(coin?.marketCap)
+                    $(promotedCoin.coin?.marketCap)
                   )}
                 </TableCell>
                 <TableCell>
-                  {coin?.price < 1 ? (
+                  {promotedCoin.coin?.price < 1 ? (
                     <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
                       <Minus className="w-4" />
                     </div>
                   ) : (
-                    $(coin?.price)
+                    $(promotedCoin.coin?.price)
                   )}
                 </TableCell>
                 <TableCell>
-                  {coin?.volume < 1 ? (
+                  {promotedCoin.coin?.volume < 1 ? (
                     <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
                       <Minus className="w-4" />
                     </div>
                   ) : (
-                    $(coin?.volume)
+                    $(promotedCoin.coin?.volume)
                   )}
                 </TableCell>
                 <TableCell>
@@ -214,8 +143,10 @@ const PromotedCoins = () => {
                     <Minus className="w-4" />
                   </div>
                 </TableCell>
-                <TableCell>{coin?.launchDate}</TableCell>
-                <TableCell>{coin?.votes}</TableCell>
+                <TableCell>
+                  {formatRelativeTime(new Date(promotedCoin.coin?.launchDate))}
+                </TableCell>
+                <TableCell>{promotedCoin.coin?.votes}</TableCell>
                 <TableCell>1</TableCell>
                 <TableCell>
                   <Button

@@ -1,41 +1,88 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Banner = () => {
+  const [mainBanner, setMainBanner] = useState(null);
+  const [rotatingBanners, setRotatingBanners] = useState([]);
+
+  useEffect(() => {
+    // Fetch banners from the API
+    const fetchBanners = async () => {
+      try {
+        // Fetch the main banner (placement: 'main')
+        const mainRes = await fetch("/api/banners?placement=main");
+        const mainData = await mainRes.json();
+        setMainBanner(mainData[0]); // Expecting 1 banner for main
+
+        // Fetch the rotating banners (placement: 'rotating')
+        const rotatingRes = await fetch("/api/banners?placement=rotating");
+        const rotatingData = await rotatingRes.json();
+        setRotatingBanners(rotatingData); // Store all rotating banners
+      } catch (error) {
+        console.error("Error fetching banners:", error);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
   return (
     <section className="pb-4 pt-2 lg:px-0 px-2">
       <div className="container mx-auto w-full max-w-[1366px]">
         <div className="mb-3">
-          <Image
-            src={"/img/banner-1.webp"}
-            alt="Banner 2"
-            width={1000}
-            height={200}
-            className="w-full h-fit object-cover rounded max-h-[110px]"
-          />
+          {/* Render the main banner */}
+          {mainBanner && (
+            <a href={mainBanner.url} target="_blank" rel="noopener noreferrer">
+              {mainBanner.mediaType === "image" ? (
+                <Image
+                  src={mainBanner.media}
+                  alt={mainBanner.alt || "Main Banner"}
+                  width={1000}
+                  height={200}
+                  className="w-full h-fit object-cover rounded max-h-[110px]"
+                />
+              ) : (
+                <video
+                  src={mainBanner.media}
+                  className="w-full h-fit object-cover rounded max-h-[110px]"
+                  autoPlay
+                  loop
+                  muted
+                ></video>
+              )}
+            </a>
+          )}
         </div>
+
         <div className="grid grid-cols-2 lg:gap-3 gap-1">
-          <Image
-            src={"/img/banner-2.webp"}
-            alt="Banner 2"
-            width={1000}
-            height={150}
-            className="w-full h-fit object-cover rounded max-h-[85px]"
-          />
-          <video
-            src="/img/banner-3.mp4"
-            className="w-full h-fit object-cover rounded max-h-[85px]"
-            // controls
-            autoPlay
-            loop
-          ></video>
-          {/* <Image
-            src={"/img/banner-3.mp4"}
-            alt="Banner 2"
-            width={1000}
-            height={150}
-            className="w-full h-fit object-cover rounded-lg max-h-[850px]"
-          /> */}
+          {/* Render the rotating banners */}
+          {rotatingBanners.slice(0, 2).map((banner, index) => (
+            <a
+              key={index}
+              href={banner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {banner.mediaType === "image" ? (
+                <Image
+                  src={banner.media}
+                  alt={banner.alt || `Rotating Banner ${index + 1}`}
+                  width={1000}
+                  height={150}
+                  className="w-full h-fit object-cover rounded max-h-[85px]"
+                />
+              ) : (
+                <video
+                  src={banner.media}
+                  className="w-full h-fit object-cover rounded max-h-[85px]"
+                  autoPlay
+                  loop
+                  muted
+                ></video>
+              )}
+            </a>
+          ))}
         </div>
       </div>
     </section>

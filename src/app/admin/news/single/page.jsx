@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { handleFileUpload } from "@/lib/firebaseFileUpload"; // Assume you have this utility function for handling Firebase uploads
+import { handleFileUpload } from "@/lib/firebaseFileManage"; // Assume you have this utility function for handling Firebase uploads
 
 const AddEditBlogPage = () => {
   const [blog, setBlog] = useState(null);

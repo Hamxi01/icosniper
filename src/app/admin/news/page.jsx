@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Pagination } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; // Import useRouter
+import { handleFileDelete } from "@/lib/firebaseFileManage";
 
 const NewsPage = () => {
   const router = useRouter(); // Initialize router
@@ -33,11 +34,15 @@ const NewsPage = () => {
     fetchNews();
   }, [search, category, page, limit]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (news) => {
     if (confirm("Are you sure you want to delete this news?")) {
       await axios.delete(`/api/news`, {
-        data: { id }, // Send the ID in the body
+        data: { id: news.id }, // Send the ID in the body
       });
+
+      // Call the delete function to remove the logo from Firebase
+      await handleFileDelete(news.thumbnail); // Use the logo path to delete the file
+
       setNews(news.filter((item) => item.id !== id));
     }
   };
@@ -123,7 +128,7 @@ const NewsPage = () => {
                   </Button>
                   <Button
                     className="bg-red-500 hover:bg-red-600"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item)}
                   >
                     Delete
                   </Button>

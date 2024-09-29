@@ -1,17 +1,56 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-const prisma = new PrismaClient();
 
 export async function GET(req) {
+  const url = new URL(req.url); // Correctly parse the request URL
+  const placement = url.searchParams.get("placement") || ""; // Get the search parameter
+  const showAll = url.searchParams.get("showAll") === "true"; // Check if 'showAll' is set to true
+
+  // Build the where condition: only apply filtering if search string is provided
+  const whereCondition = placement
+    ? {
+        placement: { contains: placement },
+      }
+    : {}; // No filtering if search is empty, return all banners
+
   try {
-    const banners = await prisma.banner.findMany();
-    return new Response(JSON.stringify(banners), { status: 200 });
+    const banners = await prisma.banner.findMany({
+      where: whereCondition,
+    });
+
+    let selectedBanners = banners;
+
+    if (!showAll) {
+      // Logic for 'rotating' placement: Select 2 random banners
+      if (placement === "rotating") {
+        // Shuffle the banners and pick the first two
+        selectedBanners = shuffleArray(banners).slice(0, 2);
+      } else {
+        // For other placements, select only one banner (the first one)
+        selectedBanners = banners.slice(0, 1); // Assuming at least 1 banner exists
+      }
+    }
+
+    // Return the selected banners using NextResponse
+    return NextResponse.json(selectedBanners, { status: 200 });
   } catch (error) {
     console.error("Error fetching banners:", error);
-    return new Response(JSON.stringify({ error: "Failed to fetch banners" }), {
-      status: 500,
-    });
+
+    // Return error response using NextResponse
+    return NextResponse.json(
+      { error: "Failed to fetch banners" },
+      { status: 500 }
+    );
   }
+}
+
+// Helper function to shuffle an array (Fisher-Yates shuffle)
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 export async function POST(req) {

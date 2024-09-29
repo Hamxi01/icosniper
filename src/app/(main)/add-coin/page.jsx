@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebaseConfig"; // Make sure you import your firebase config
 import SuccessModal from "./_components/successModal";
-import { handleFileUpload } from "@/lib/firebaseFileUpload";
+import { handleFileUpload } from "@/lib/firebaseFileManage";
 
 const socialOptions = [
   { name: "CoinGecko", icon: "cg.svg" },

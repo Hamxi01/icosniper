@@ -5,12 +5,12 @@ import prisma from "@/lib/prisma";
 
 // Get All News with Search, Filter, and Pagination
 export async function GET(request) {
-  const {
-    search,
-    category,
-    page = 1,
-    limit = 10,
-  } = request.nextUrl.searchParams;
+  const search = request.nextUrl.searchParams.get("search") || "";
+  const category = request.nextUrl.searchParams.get("category") || "";
+  const page = parseInt(request.nextUrl.searchParams.get("page")) || 1;
+  const limit = parseInt(request.nextUrl.searchParams.get("limit")) || 10;
+  const showPublishedOnly =
+    request.nextUrl.searchParams.get("showPublishedOnly") === "true";
 
   const where = {
     ...(search && {
@@ -25,6 +25,7 @@ export async function GET(request) {
         mode: "insensitive",
       },
     }),
+    ...(showPublishedOnly && { status: "published" }), // Only include if true
   };
 
   const news = await prisma.news.findMany({
