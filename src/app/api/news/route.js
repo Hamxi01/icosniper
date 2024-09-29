@@ -6,26 +6,24 @@ import prisma from "@/lib/prisma";
 // Get All News with Search, Filter, and Pagination
 export async function GET(request) {
   const search = request.nextUrl.searchParams.get("search") || "";
-  const category = request.nextUrl.searchParams.get("category") || "";
   const page = parseInt(request.nextUrl.searchParams.get("page")) || 1;
   const limit = parseInt(request.nextUrl.searchParams.get("limit")) || 10;
   const showPublishedOnly =
     request.nextUrl.searchParams.get("showPublishedOnly") === "true";
 
+  // Check if a category is requested and if it's a valid category
+  const category = request.nextUrl.searchParams.get("category") || "";
+  const showForCategory = category ? true : false; // This will determine if we need to filter by category
+
   const where = {
     ...(search && {
       title: {
         contains: search,
-        mode: "insensitive", // case insensitive search
-      },
-    }),
-    ...(category && {
-      categories: {
-        contains: category,
-        mode: "insensitive",
+        // mode: "insensitive", // Uncomment for case insensitive search
       },
     }),
     ...(showPublishedOnly && { status: "published" }), // Only include if true
+    ...(showForCategory && { categories: category }), // Only include if a category is provided
   };
 
   const news = await prisma.news.findMany({

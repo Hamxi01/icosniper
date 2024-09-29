@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import React from "react";
+import { formatDate } from "./utils";
 
 const BlogCard = ({
   blog,
@@ -21,16 +22,18 @@ const BlogCard = ({
   return (
     <Card className={`${cardClass && cardClass}`}>
       <CardHeader className={`${cardHeaderClass && cardHeaderClass}`}>
-        <img
-          src={blog?.img}
-          alt=""
-          className={`w-full ${imgClass && imgClass}`}
-        />
+        <Link href={`/news/single?id=${blog?.id}`}>
+          <img
+            src={blog?.thumbnail}
+            alt=""
+            className={`w-full ${imgClass && imgClass}`}
+          />
+        </Link>
       </CardHeader>
       <CardContent className={`${cardContentClass && cardContentClass}`}>
-        <div className="flex items-center gap-4 justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <CardDescription>{blog?.date}</CardDescription>
+        <div className="flex items-center gap-4 justify-between mb-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
+            <CardDescription>{formatDate(blog?.date)}</CardDescription>
             <span className="block w-2 h-2 rounded-xs bg-[#6857f3]"></span>
             <CardDescription>{blog?.timeToRead}</CardDescription>
           </div>
@@ -43,7 +46,7 @@ const BlogCard = ({
           )}
         </div>
         <CardTitle className={`${headingClass && headingClass}`}>
-          <Link href={`/blog/${blog?.id}`}>{blog?.title}</Link>
+          <Link href={`/news/single?id=${blog?.id}`}>{blog?.title}</Link>
         </CardTitle>
       </CardContent>
     </Card>

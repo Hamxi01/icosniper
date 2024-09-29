@@ -10,6 +10,8 @@ import ExchangeBlog from "./_components/exchangeBlog";
 import LaunchpadBlog from "./_components/launchpadBlog";
 import NewsBlog from "./_components/newsBlog";
 import SponsoredBlog from "./_components/sponsoredBlog";
+import FinanceBlog from "./_components/financeBlog";
+import InterviewBlog from "./_components/interviewBlog";
 
 const page = () => {
   const currentCategory = "";
@@ -38,6 +40,10 @@ const page = () => {
       <NewsBlog />
       <hr className="mt-6 mb-4" />
       <SponsoredBlog />
+      <div className="mb-10"></div>
+      <FinanceBlog />
+      <div className="mb-10"></div>
+      <InterviewBlog />
       <div className="mb-10"></div>
     </main>
   );

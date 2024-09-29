@@ -1,0 +1,23 @@
+.reset-headings h1,
+.reset-headings h2,
+.reset-headings h3,
+.reset-headings h4,
+.reset-headings h5,
+.reset-headings h6 {
+  all: unset; /* Remove all inherited styles */
+  font-size: revert;
+}
+/* .reset-headings h1 {
+  font-size: revert;
+}
+.reset-headings h2 {
+  font-size: revert;
+} */
+
+.reset-headings p,
+.reset-headings ul,
+.reset-headings ol,
+.reset-headings span {
+  all: unset; /* Optionally reset other elements */
+  font-size: revert;
+}
