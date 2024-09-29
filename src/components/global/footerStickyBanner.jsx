@@ -43,7 +43,7 @@ const FooterStickyBanner = () => {
   return (
     <>
       {showBanner && bannerContent && (
-        <div className="bg-gray-100 w-full h-[48px] fixed bottom-0 left-0 right-0 flex items-center justify-between px-2 shadow-md">
+        <div className="bg-gray-100 w-full h-[48px] fixed bottom-0 left-0 right-0 flex items-center justify-between px-2 shadow-md z-50">
           {/* Banner content */}
           {bannerContent && (
             <a
