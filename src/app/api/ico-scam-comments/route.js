@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 // Helper function for pagination and filtering
@@ -25,18 +26,34 @@ export async function GET(request) {
   return new Response(JSON.stringify({ comments, total }), { status: 200 });
 }
 
-export async function POST(request) {
-  const { IcoScamId, userId, comment, replayId } = await request.json();
-  const newComment = await prisma.icoScamComment.create({
-    data: {
-      IcoScamId,
-      userId,
-      comment,
-      replayId, // Optional
-    },
-  });
+export async function POST(req) {
+  const { IcoScamId, comment, userId, replayId = null } = await req.json();
 
-  return new Response(JSON.stringify(newComment), { status: 201 });
+  // Validate input
+  if (!IcoScamId || !comment || !userId) {
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const newComment = await prisma.icoScamComment.create({
+      data: {
+        IcoScamId: parseInt(IcoScamId, 10), // Ensure it's an integer
+        userId: parseInt(userId, 10), // Ensure it's an integer
+        comment,
+        replayId,
+      },
+    });
+    return NextResponse.json(newComment, { status: 201 });
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return NextResponse.json(
+      { error: "Failed to create comment" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PUT(request) {

@@ -44,12 +44,6 @@ const Footer = () => {
               Submit a presale coin
             </Link>
             <Link
-              href={"/add-airdrop"}
-              className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
-            >
-              Submit an airdrop
-            </Link>
-            <Link
               href={"/contact-us"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
@@ -79,19 +73,25 @@ const Footer = () => {
               Email promotion
             </Link>
           </div>
-          <h3 className="text-md mb-4">AUDIT</h3>
+          <h3 className="text-md mb-4">ICO SCAM</h3>
           <div className="flex flex-col gap-2 text-sm">
             <Link
-              href={"/audit"}
+              href={"/airdrops"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
-              Smart contract audit
+              COMPLAIN
             </Link>
             <Link
-              href={"/audit"}
+              href={"/airdrops"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
-              Audited coins
+              UNDER REVIEW
+            </Link>
+            <Link
+              href={"/airdrops"}
+              className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
+            >
+              SCAM ICO
             </Link>
           </div>
         </div>
@@ -228,9 +228,7 @@ const Footer = () => {
           />
         </Link>
         <div className="flex items-center justify-center">
-          <p className="text-center text-xs text-[#a3a3a3]">
-            CoinMooner © 2024
-          </p>
+          <p className="text-center text-xs text-[#a3a3a3]">ICOSNIPER © 2024</p>
         </div>
         <div className="flex items-center gap-2 justify-center">
           <MessageCircleDashed className="w-8 h-fit text-[#a3a3a3]" />
