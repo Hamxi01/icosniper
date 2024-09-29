@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import {
   Pagination,
@@ -17,77 +18,36 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { message } from "antd";
 import { BoxIcon, DeleteIcon, Grid2X2Icon, Loader } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-
-export const airDropsList = [
-  {
-    id: 1,
-    title: "Crypto Robots City Free Mint Giveaway",
-    description:
-      "Robocity CRC is a token made to reward p2e, give passive income and unlock special minting options.",
-    img: "https://cdn.coinmooner.com/logo/a2552.webp?v=0",
-    status: "complain",
-  },
-  {
-    id: 2,
-    title: "THE $BYIN AIRDROP",
-    description: "The $Byin Airdrop Lunch",
-    img: "https://cdn.coinmooner.com/logo/a2550.webp?v=0",
-    status: "complain",
-  },
-  {
-    id: 3,
-    title: "Hoxo logo",
-    description:
-      "Hoxo trading memes & pools https://explorer.perawallet.app/asset/737045660/",
-    img: "https://cdn.coinmooner.com/logo/a2548.webp?v=0",
-    status: "under review",
-  },
-  {
-    id: 4,
-    title: "Cuckoo AI logo",
-    description:
-      "Cuckoo AI Cuckoo AI is an Onchain Creative Platform for Creators and Builders",
-    img: "https://cdn.coinmooner.com/logo/a2541.webp?v=0",
-    status: "scam ICO",
-  },
-  {
-    id: 5,
-    title: "MEME FARMING logo",
-    description:
-      "MEME FARMING Complete quests and receive free rewards in tokens and USDT/USDC",
-    img: "https://cdn.coinmooner.com/logo/a2539.webp?v=0",
-    status: "under review",
-  },
-  {
-    id: 6,
-    title: "LATAM COIN TOKEN logo",
-    description:
-      "LATAM COIN TOKEN Revolutionizing financial inclusion and growth in Latin America with stability and commitment.",
-    img: "https://cdn.coinmooner.com/logo/a2537.webp?v=0",
-    status: "scam ICO",
-  },
-  {
-    id: 7,
-    title: "MicroBnb Airdrop logo",
-    description:
-      "MicroBnb Airdrop Empowering the Micro-Economy with Seamless Crypto Payments.",
-    img: "https://cdn.coinmooner.com/logo/a2536.webp?v=0",
-    status: "complain",
-  },
-  {
-    id: 8,
-    title: "Invites logo",
-    description:
-      "Invites Invites token (symbol: NVIT) on BASE Chain. Utility token of Inviteny APP. Listing Date: 28 Sep",
-    img: "https://cdn.coinmooner.com/logo/a2532.webp?v=0",
-    status: "under review",
-  },
-];
+import React, { useEffect, useState } from "react";
 
 const page = () => {
+  const [icoscams, setIcoScams] = useState([]);
+  const [currentIcoScamTab, setCurrentIcoScamTab] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [query, setQuery] = useState("");
+
+  const fetchIcoScams = async (page, limit, query, currentIcoScamTab) => {
+    try {
+      const res = await fetch(
+        `/api/ico-scams?page=${page}&limit=${limit}&query=${query}&status=${currentIcoScamTab}`
+      );
+      const data = await res.json();
+      setIcoScams(data.icoScams);
+      setTotal(data.total);
+    } catch (error) {
+      message.error("Failed to fetch ICO scams.");
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    fetchIcoScams(page, limit, query, currentIcoScamTab);
+  }, [page, limit, query, currentIcoScamTab]);
+
   return (
     <>
       <section className="lg:px-0 px-2 py-10">
@@ -97,6 +57,7 @@ const page = () => {
               <TabsTrigger
                 value="all"
                 className="border-r-2 border-white rounded-r-none"
+                onClick={() => setCurrentIcoScamTab("")}
               >
                 <div className="flex items-center gap-3">
                   <Grid2X2Icon /> All
@@ -105,6 +66,7 @@ const page = () => {
               <TabsTrigger
                 value="complain"
                 className="border-r-2 border-white rounded-r-none"
+                onClick={() => setCurrentIcoScamTab("COMPLAIN")}
               >
                 <div className="flex items-center gap-3">
                   <BoxIcon />
@@ -114,13 +76,17 @@ const page = () => {
               <TabsTrigger
                 value="under review"
                 className="border-r-2 border-white rounded-r-none"
+                onClick={() => setCurrentIcoScamTab("UNDER_REVIEW")}
               >
                 <div className="flex items-center gap-3">
                   <Loader />
                   Under Review
                 </div>
               </TabsTrigger>
-              <TabsTrigger value="scam ICO">
+              <TabsTrigger
+                value="scam ICO"
+                onClick={() => setCurrentIcoScamTab("SCAM_ICO")}
+              >
                 <div className="flex items-center gap-3">
                   <DeleteIcon />
                   Scam ICO
@@ -138,13 +104,13 @@ const page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {airDropsList?.map((coin) => (
+                  {icoscams?.map((coin) => (
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
                         <Link href={`/airdrops/${coin?.id}`}>
                           <img
-                            src={coin?.img}
+                            src={coin?.logo}
                             alt=""
                             className="max-w-[25px]"
                           />
@@ -159,17 +125,17 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        {coin?.status === "complain" && (
+                        {coin?.status === "COMPLAIN" && (
                           <Badge className="bg-yellow-500 text-white">
                             Complain
                           </Badge>
                         )}
-                        {coin?.status === "under review" && (
+                        {coin?.status === "UNDER_REVIEW" && (
                           <Badge className="bg-orange-500 text-white">
                             Under Review
                           </Badge>
                         )}
-                        {coin?.status === "scam ICO" && (
+                        {coin?.status === "SCAM_ICO" && (
                           <Badge className="bg-red-500 text-white">
                             Scam ICO
                           </Badge>
@@ -191,39 +157,33 @@ const page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {airDropsList?.map((coin) =>
-                    coin?.status === "complain" ? (
-                      <TableRow key={coin?.id}>
-                        <TableCell>{coin?.id}</TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <img
-                              src={coin?.img}
-                              alt=""
-                              className="max-w-[25px]"
-                            />
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <p className="font-bold text-white">
-                              {coin?.title}
-                            </p>
-                            <span className="text-xs text-[#a3a3a3]">
-                              {coin?.description}
-                            </span>
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className="bg-yellow-500 text-white">
-                            Complain
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <></>
-                    )
-                  )}
+                  {icoscams?.map((coin) => (
+                    <TableRow key={coin?.id}>
+                      <TableCell>{coin?.id}</TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <img
+                            src={coin?.img}
+                            alt=""
+                            className="max-w-[25px]"
+                          />
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <p className="font-bold text-white">{coin?.title}</p>
+                          <span className="text-xs text-[#a3a3a3]">
+                            {coin?.description}
+                          </span>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="bg-yellow-500 text-white">
+                          Complain
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TabsContent>
@@ -238,39 +198,33 @@ const page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {airDropsList?.map((coin) =>
-                    coin?.status === "under review" ? (
-                      <TableRow key={coin?.id}>
-                        <TableCell>{coin?.id}</TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <img
-                              src={coin?.img}
-                              alt=""
-                              className="max-w-[25px]"
-                            />
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <p className="font-bold text-white">
-                              {coin?.title}
-                            </p>
-                            <span className="text-xs text-[#a3a3a3]">
-                              {coin?.description}
-                            </span>
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className="bg-orange-500 text-white">
-                            Under Review
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <></>
-                    )
-                  )}
+                  {icoscams?.map((coin) => (
+                    <TableRow key={coin?.id}>
+                      <TableCell>{coin?.id}</TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <img
+                            src={coin?.img}
+                            alt=""
+                            className="max-w-[25px]"
+                          />
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <p className="font-bold text-white">{coin?.title}</p>
+                          <span className="text-xs text-[#a3a3a3]">
+                            {coin?.description}
+                          </span>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="bg-orange-500 text-white">
+                          Under Review
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TabsContent>
@@ -285,39 +239,33 @@ const page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {airDropsList?.map((coin) =>
-                    coin?.status === "scam ICO" ? (
-                      <TableRow key={coin?.id}>
-                        <TableCell>{coin?.id}</TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <img
-                              src={coin?.img}
-                              alt=""
-                              className="max-w-[25px]"
-                            />
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Link href={`/airdrops/${coin?.id}`}>
-                            <p className="font-bold text-white">
-                              {coin?.title}
-                            </p>
-                            <span className="text-xs text-[#a3a3a3]">
-                              {coin?.description}
-                            </span>
-                          </Link>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className="bg-red-500 text-white">
-                            Scam ICO
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <></>
-                    )
-                  )}
+                  {icoscams?.map((coin) => (
+                    <TableRow key={coin?.id}>
+                      <TableCell>{coin?.id}</TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <img
+                            src={coin?.img}
+                            alt=""
+                            className="max-w-[25px]"
+                          />
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link href={`/airdrops/${coin?.id}`}>
+                          <p className="font-bold text-white">{coin?.title}</p>
+                          <span className="text-xs text-[#a3a3a3]">
+                            {coin?.description}
+                          </span>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="bg-red-500 text-white">
+                          Scam ICO
+                        </Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TabsContent>

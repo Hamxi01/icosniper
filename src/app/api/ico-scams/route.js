@@ -6,43 +6,40 @@ export async function GET(req) {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
   const query = searchParams.get("query") || "";
+  const status = searchParams.get("status") || null; // Set to null if not provided
+
+  const whereConditions = {
+    OR: [
+      {
+        title: {
+          contains: query,
+          // mode: "insensitive", // Uncommented for case insensitivity
+        },
+      },
+      {
+        description: {
+          contains: query,
+          // mode: "insensitive", // Uncommented for case insensitivity
+        },
+      },
+    ],
+  };
+
+  // Only add status filter if it exists
+  if (status) {
+    whereConditions.status = status; // Ensure this is the correct field
+  }
 
   const icoScams = await prisma.icoScam.findMany({
-    where: {
-      OR: [
-        {
-          title: {
-            contains: query,
-            // mode: "insensitive"
-          },
-        },
-        {
-          description: {
-            contains: query,
-            // mode: "insensitive"
-          },
-        },
-      ],
-    },
+    where: whereConditions,
     skip: (page - 1) * limit,
     take: limit,
   });
+
   const total = await prisma.icoScam.count({
     where: {
-      OR: [
-        {
-          title: {
-            contains: query,
-            // mode: "insensitive"
-          },
-        },
-        {
-          description: {
-            contains: query,
-            // mode: "insensitive"
-          },
-        },
-      ],
+      ...whereConditions, // Use the same conditions for total count
+      // Include status condition if needed
     },
   });
 
