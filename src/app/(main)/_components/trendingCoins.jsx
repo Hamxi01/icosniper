@@ -115,7 +115,7 @@ const TrendingCoins = () => {
                           <img
                             src={coin?.logo}
                             alt=""
-                            className="max-w-[35px]"
+                            className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
@@ -158,7 +158,7 @@ const TrendingCoins = () => {
                       <TableCell>
                         <Button
                           size="xs"
-                          className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                          className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
                           onClick={() => handleAddVote(coin)}
                         >
                           Vote

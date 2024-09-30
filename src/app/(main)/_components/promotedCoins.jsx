@@ -59,7 +59,7 @@ const PromotedCoins = () => {
   return (
     <section className="lg:px-0 px-2 py-5">
       <div
-        className="container mx-auto rounded p-2 w-full max-w-[1366px] border border-[#4c3cce66]"
+        className="container mx-auto rounded p-2 w-full max-w-[1366px] border border-[#223645]"
         style={{
           boxShadow: "0 0 #0000, 0 0 #0000, 0 0 20px #4c3cce60",
         }}
@@ -90,7 +90,7 @@ const PromotedCoins = () => {
                     <img
                       src={promotedCoin.coin?.logo}
                       alt=""
-                      className="max-w-[35px]"
+                      className="max-w-[50px]"
                     />
                   </Link>
                 </TableCell>
@@ -158,7 +158,7 @@ const PromotedCoins = () => {
                 <TableCell>
                   <Button
                     size="xs"
-                    className="py-1 px-3 bg-[#4c3cce] hover:bg-[#6857f3] border-2 border-[#6857f3] text-white"
+                    className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
                     onClick={() => handleAddVote(coin)}
                   >
                     Vote

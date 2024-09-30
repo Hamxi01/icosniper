@@ -131,7 +131,7 @@ const ThreeBox = () => {
     <section className="lg:px-0 px-2 py-3">
       <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
         {/* Box Banner */}
-        <Card className="bg-[#1b1f31] ">
+        <Card className="bg-[#223645] ">
           <CardHeader>
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>ADS</span>
@@ -244,7 +244,7 @@ const ThreeBox = () => {
             </div>
           </CardContent>
         </Card> */}
-        <Card className="bg-[#1b1f31]">
+        <Card className="bg-[#223645]">
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>New Coins</span>
@@ -287,7 +287,7 @@ const ThreeBox = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1b1f31]">
+        <Card className="bg-[#223645]">
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>Hottest Pairs</span>

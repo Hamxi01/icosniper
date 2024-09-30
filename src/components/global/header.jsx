@@ -28,6 +28,7 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { useRouter } from "next/navigation";
+import "./header.css";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -72,9 +73,10 @@ const Header = () => {
     router.refresh();
     router.push("/sign-in");
   };
+  // bg-gradient-to-b to-[#6254d42e] from-[#0b162700]
 
   return (
-    <header className="bg-gradient-to-b to-[#6254d42e] from-[#0b162700] pb-3 ">
+    <header className="!bg-[#223645] pb-3 ">
       {/* <div className="container mx-auto w-full max-w-[1366px] lg:px-0 px-2 border-white border-opacity-10 py-1.5 lg:border-b">
         <div class="swiper-wrapper text-xs flex flex-wrap">
           <div class="space-x-1 mr-[20px]">
@@ -115,14 +117,20 @@ const Header = () => {
           </div>
         </div>
       </div> */}
-      <section className="container mx-auto w-full max-w-[1366px]">
+      <section className="w-full">
         <script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
         <gecko-coin-price-marquee-widget
           locale="en"
           dark-mode="true"
           coin-ids=""
           initial-currency="usd"
+          className="!bg-transparent"
         ></gecko-coin-price-marquee-widget>
+        <style jsx>{`
+          .gecko-widget.gecko-dark {
+            background: transparent !important;
+          }
+        `}</style>
       </section>
       <section className="mx-auto container w-full max-w-[1366px] flex items-center justify-between gap-8 pt-3">
         <Link href={"/"}>
@@ -250,7 +258,7 @@ const Header = () => {
           <Button asChild size="sm" className="sm:flex hidden">
             <Link
               href={"/add-coin"}
-              className="flex gap-2 !bg-[#4c3cce] text-white hover:!bg-[#6857f3]"
+              className="flex gap-2 !bg-[#2498d6] text-white hover:!bg-[#2498d6]"
             >
               <span>Add Coin</span>
               <PlusCircle className="w-4" />
@@ -271,13 +279,13 @@ const Header = () => {
               <div className="items-center gap-2 text-sm lg:flex hidden">
                 <Link
                   href={"/dashboard"}
-                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                  className="text-[#2498d6] hover:text-[#2498d6]"
                 >
                   Dashboard
                 </Link>
                 <Button
                   variant="ghost"
-                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                  className="text-[#2498d6] hover:text-[#2498d6]"
                   onClick={() => handleLogout()}
                 >
                   Logout
@@ -289,13 +297,13 @@ const Header = () => {
               <div className="items-center gap-2 text-sm lg:flex hidden">
                 <Link
                   href={"/sign-in"}
-                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                  className="text-[#2498d6] hover:text-[#2498d6]"
                 >
                   Login
                 </Link>
                 <Link
                   href={"/sign-up"}
-                  className="text-[#a78bfa] hover:text-[#8b5cf6]"
+                  className="text-[#2498d6] hover:text-[#2498d6]"
                 >
                   Register
                 </Link>
