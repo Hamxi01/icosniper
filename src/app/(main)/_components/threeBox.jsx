@@ -248,7 +248,8 @@ const ThreeBox = () => {
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>New Coins</span>
-              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
+              <img src="/img/plus.gif" alt="" className="w-full max-w-[40px]" />
+              {/* <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" /> */}
             </CardTitle>
           </CardHeader>
           <CardContent className="pb-2">

@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,9 +9,40 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const page = () => {
+  const [coins, setCoins] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const response = JSON.parse(localStorage.getItem("tv3623315"));
+    setUser(response);
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const fetchCoins = async () => {
+        const response = await fetch(`/api/coins?userId=${user?.id}&limit=50`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setCoins(data.coins);
+        }
+      };
+      const fetchWatchlist = async () => {
+        const response = await fetch(`/api/watchlist?userId=${user?.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setWatchlist(data.watchlistCoin);
+        }
+      };
+      fetchCoins();
+      fetchWatchlist();
+    }
+  }, [user]);
+
   return (
     <>
       <main class="container mx-auto w-full max-w-[1366px] mb-28 flex flex-col items-center p-1">
@@ -82,70 +114,81 @@ const page = () => {
                     <TableHead>Launch Date</TableHead>
                     <TableHead>Votes</TableHead>
                     <TableHead>Votes 24</TableHead>
-                    <TableHead>Vote</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>
-                      <img
-                        src="https://cdn.coinmooner.com/logo/42683.png?v=0"
-                        alt=""
-                        className="w-10"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <h4>Pepe Unchained</h4>
-                      <p>PEPU</p>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <img
-                          src="https://coinmooner.com/v3/chains/ethereum.svg"
-                          alt=""
-                          className="w-5"
-                        />
-                        <span>ETH</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <img
-                          src="https://coinmooner.com/v3/spinner.svg"
-                          alt=""
-                          className="w-5"
-                        />
-                        <span>Presale</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
-                        -
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
-                        -
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
-                        -
-                      </Badge>
-                    </TableCell>
-                    <TableCell>In 13 Days</TableCell>
-                    <TableCell>250,256 </TableCell>
-                    <TableCell>4</TableCell>
-                    <TableCell>
-                      <Button
-                        size="sm"
-                        className="!py-1 px-4 bg-[#4c3cce] border-2 border-[#6857f3] text-white hover:bg-[#6857f3] h-fit"
-                      >
-                        Vote
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                  {watchlist?.length > 0 ? (
+                    watchlist?.map((coin) => (
+                      <TableRow>
+                        <TableCell>{coin?.coin?.id}</TableCell>
+                        <TableCell>
+                          <img src={coin?.coin?.logo} alt="" className="w-10" />
+                        </TableCell>
+                        <TableCell>
+                          <h4>{coin?.coin?.name}</h4>
+                          <p>{coin?.coin?.symbol}</p>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <img
+                              src="https://coinmooner.com/v3/chains/ethereum.svg"
+                              alt=""
+                              className="w-5"
+                            />
+                            <span>{coin?.coin?.symbol}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            {coin?.coin?.marketCap ? (
+                              coin?.coin?.marketCap
+                            ) : (
+                              <>
+                                <img
+                                  src="https://coinmooner.com/v3/spinner.svg"
+                                  alt=""
+                                  className="w-5"
+                                />
+                                <span>Presale</span>
+                              </>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {coin?.coin?.price ? (
+                            coin?.coin?.price
+                          ) : (
+                            <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
+                              -
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {coin?.coin?.volumn ? (
+                            coin?.coin?.volumn
+                          ) : (
+                            <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
+                              -
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Badge className="rounded py-0 text-xl dark:bg-gray-700 dark:text-slate-200">
+                            -
+                          </Badge>
+                        </TableCell>
+                        <TableCell>In 13 Days</TableCell>
+                        <TableCell>
+                          {coin?.coin?.votes ? coin?.coin?.votes : 0}
+                        </TableCell>
+                        <TableCell>
+                          {coin?.coin?.votes24 ? coin?.coin?.votes24 : 0}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <></>
+                  )}
                 </TableBody>
               </Table>
             </div>
@@ -179,11 +222,48 @@ const page = () => {
                     <TableHead>Launch Date</TableHead>
                     <TableHead>Votes</TableHead>
                     <TableHead>Votes 24</TableHead>
-                    <TableHead>Vote</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow></TableRow>
+                  {coins?.length > 0 ? (
+                    coins?.map((coin) => (
+                      <>
+                        <TableRow key={coin.id}>
+                          <TableCell>{coin?.id}</TableCell>
+                          <TableCell>
+                            <img src={coin?.logo} alt="" className="w-10" />
+                          </TableCell>
+                          <TableCell>{coin?.name}</TableCell>
+                          <TableCell>{coin?.symbol}</TableCell>
+                          <TableCell>
+                            {coin?.marketCap ? coin.marketCap : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin?.marketCap ? coin.price : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin?.marketCap ? coin.volumn : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin?.marketCap ? coin.volumn : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin.launchDate
+                              ? new Date(coin.launchDate).toLocaleDateString()
+                              : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin?.votes ? coin?.votes : "N/A"}
+                          </TableCell>
+                          <TableCell>
+                            {coin?.votes24 ? coin?.votes24 : "N/A"}
+                          </TableCell>
+                        </TableRow>
+                      </>
+                    ))
+                  ) : (
+                    <></>
+                  )}
                 </TableBody>
               </Table>
             </div>

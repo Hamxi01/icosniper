@@ -129,7 +129,7 @@ const MainComponent = () => {
             <img
               src={icoScam.logo}
               alt={icoScam.title}
-              className="w-full max-w-[100px] rounded"
+              className="w-full max-w-[130px] rounded"
             />
             <div>
               <h2 className="xl:text-xl text-lg dark:text-white">

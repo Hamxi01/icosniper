@@ -6,16 +6,27 @@ export async function GET(request) {
   const url = new URL(request.url); // Correctly parse the request URL
   const search = url.searchParams.get("search") || ""; // Get the search parameter
   const page = parseInt(url.searchParams.get("page")) || 1; // Get the page parameter and convert to number
-  const limit = parseInt(url.searchParams.get("limit")) || 10; // Get the page parameter and convert to number
+  const userId = parseInt(url.searchParams.get("userId"), 10) || null; // Get the userId from the query params
+  const limit = parseInt(url.searchParams.get("limit")) || 10; // Get the limit parameter and convert to number
 
   const skip = (page - 1) * limit;
 
-  // Build the where condition: only apply filtering if search string is provided
-  const whereCondition = search
-    ? {
-        OR: [{ name: { contains: search } }, { symbol: { contains: search } }],
-      }
-    : {}; // No filtering if search is empty, return all coins
+  // Build the where condition: include userId if provided, and apply search filter
+  const whereCondition = {
+    ...(search
+      ? {
+          OR: [
+            { name: { contains: search } },
+            { symbol: { contains: search } },
+          ],
+        }
+      : {}),
+    ...(userId
+      ? {
+          userId: userId, // Only include coins related to the specific userId
+        }
+      : {}),
+  };
 
   try {
     // Fetch coins from the database based on the condition, including related token contract addresses
@@ -46,6 +57,56 @@ export async function GET(request) {
     });
   }
 }
+
+// import prisma from "@/lib/prisma"; // Ensure you have prisma set up here
+// import { NextResponse } from "next/server";
+
+// // GET all coins with pagination and search
+// export async function GET(request) {
+//   const url = new URL(request.url); // Correctly parse the request URL
+//   const search = url.searchParams.get("search") || ""; // Get the search parameter
+//   const page = parseInt(url.searchParams.get("page")) || 1; // Get the page parameter and convert to number
+//   const userId = parseInt(url.searchParams.get("userId"), 10) || null;
+//   const limit = parseInt(url.searchParams.get("limit")) || 10; // Get the page parameter and convert to number
+
+//   const skip = (page - 1) * limit;
+
+//   // Build the where condition: only apply filtering if search string is provided
+//   const whereCondition = search
+//     ? {
+//         OR: [{ name: { contains: search } }, { symbol: { contains: search } }],
+//       }
+//     : {}; // No filtering if search is empty, return all coins
+
+//   try {
+//     // Fetch coins from the database based on the condition, including related token contract addresses
+//     const coins = await prisma.coin.findMany({
+//       where: whereCondition,
+//       skip,
+//       take: limit,
+//       include: {
+//         tokenContractAddress: true, // Include related token contract addresses
+//       },
+//     });
+
+//     // Count total coins for pagination
+//     const totalCoins = await prisma.coin.count({
+//       where: whereCondition,
+//     });
+
+//     return new Response(
+//       JSON.stringify({ coins, totalPages: Math.ceil(totalCoins / limit) }),
+//       {
+//         headers: { "Content-Type": "application/json" },
+//       }
+//     );
+//   } catch (error) {
+//     return new Response(JSON.stringify({ error: "Error fetching coins" }), {
+//       status: 500,
+//       headers: { "Content-Type": "application/json" },
+//     });
+//   }
+// }
 
 // DELETE coin by ID
 export async function DELETE(req) {
@@ -83,6 +144,7 @@ export async function POST(req) {
     contactEmail,
     contactTelegram,
     tokenContractAddresses = [], // Array of token contract addresses
+    userId = null,
   } = await req.json();
 
   // Validate required fields
@@ -130,6 +192,7 @@ export async function POST(req) {
             Address: address.Address, // Ensure this matches your Prisma schema
           })),
         },
+        userId,
       },
     });
 
