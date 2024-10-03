@@ -40,9 +40,25 @@ const page = () => {
           </div>
           <div>
             <p className="dark:text-[#a3a3a3]">
-              CoinMooner aims to deliver the most accurate and up-to-date data
-              on the crypto market. We are surrounded by a vibrant ecosystem of
-              partners and crypto enthusiasts that help us achieve this goal.
+              Discover DeFi tokens and coins that could rocket you to the Moon!
+              <br />
+              <br />
+              ICOSniper is a platform designed to make cryptocurrencies more
+              accessible, user-friendly, and enjoyable. We offer a variety of
+              engaging features, including the latest crypto news, tutorials,
+              and other valuable resources and tools.
+              <br />
+              <br />
+              Our mission is to stay ahead of emerging trends and provide our
+              audience with the most up-to-date information. As passionate
+              crypto enthusiasts, we believe cryptocurrencies are the future of
+              finance, and we&#39;re here to help you discover the best projects
+              and opportunities to propel you to the Moon!
+              <br />
+              <br />
+              We&#39;re continually enhancing our site and adding new features.
+              If you have any suggestions or ideas, don&#39;t hesitate to reach
+              out!
             </p>
           </div>
         </div>

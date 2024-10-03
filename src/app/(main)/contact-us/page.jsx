@@ -37,13 +37,13 @@ const page = () => {
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-8">
           <div className="">
             <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-5">
-              <Link href={"/"}>
+              <Link href={"https://t.me/ICOSNIPERAD"}>
                 <Card className="dark:bg-[#141620]">
                   <CardHeader className="flex items-center flex-row gap-2">
                     <SendIcon /> Telegram
                   </CardHeader>
                   <CardContent>
-                    <CardDescription>@CoinMoonerAdverts</CardDescription>
+                    <CardDescription>https://t.me/ICOSNIPERAD</CardDescription>
                   </CardContent>
                 </Card>
               </Link>
