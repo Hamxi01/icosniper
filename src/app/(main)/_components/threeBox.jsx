@@ -135,7 +135,8 @@ const ThreeBox = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>ADS</span>
-              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
+              <img src="/img/time.gif" alt="" className="w-full max-w-[40px]" />
+              {/* <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" /> */}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -292,7 +293,12 @@ const ThreeBox = () => {
           <CardHeader className="pb-0 pt-3">
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>Hottest Pairs</span>
-              <FireExtinguisher className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
+              <img
+                src="/img/Badge.gif"
+                alt=""
+                className="w-full max-w-[40px]"
+              />
+              {/* <FireExtinguisher className="bg-[#7c4eff] rounded-full text-black w-5 h-5" /> */}
             </CardTitle>
           </CardHeader>
           <CardContent className="pb-2">
