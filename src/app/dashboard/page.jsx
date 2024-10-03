@@ -177,7 +177,13 @@ const page = () => {
                             -
                           </Badge>
                         </TableCell>
-                        <TableCell>In 13 Days</TableCell>
+                        <TableCell>
+                          {coin?.coin?.launchDate
+                            ? new Date(
+                                coin?.coin?.launchDate
+                              ).toLocaleDateString()
+                            : "N/A"}
+                        </TableCell>
                         <TableCell>
                           {coin?.coin?.votes ? coin?.coin?.votes : 0}
                         </TableCell>

@@ -38,14 +38,68 @@ import { NextResponse } from "next/server";
 //     );
 //   }
 // }
-export async function GET() {
+
+export async function GET(request) {
+  const url = new URL(request.url);
+  const votedUserId = url.searchParams.get("votedUserId") // Get the votedUserId from query params
+    ? parseInt(url.searchParams.get("votedUserId"), 10)
+    : null;
+
   try {
+    // Get the current date and time
+    const currentDateTime = new Date();
+    // Calculate the date and time for 24 hours ago
+    const twentyFourHoursAgo = new Date(
+      currentDateTime.getTime() - 24 * 60 * 60 * 1000
+    );
+
     const promotedCoins = await prisma.promotedCoin.findMany({
       include: {
-        coin: true, // Include related coin data
+        coin: {
+          include: {
+            // Include vote data to calculate counts and check voting status
+            Votes: true,
+          },
+        },
       },
     });
-    return NextResponse.json({ promotedCoins });
+
+    // Process each promoted coin to add additional information
+    const modifiedPromotedCoins = await Promise.all(
+      promotedCoins.map(async (promotedCoin) => {
+        const coin = promotedCoin.coin;
+
+        // Count total votes
+        const voteCount = coin.Votes.length;
+
+        // Count votes in the last 24 hours
+        const last24HourVotesCount = await prisma.vote.count({
+          where: {
+            coinId: coin.id, // Count votes for this specific coin
+            date: {
+              gte: twentyFourHoursAgo, // Votes that are greater than or equal to 24 hours ago
+            },
+          },
+        });
+
+        // Determine if the user has voted for this coin
+        const hasVoted = votedUserId
+          ? coin.Votes.some((vote) => vote.userId === votedUserId)
+          : false;
+
+        return {
+          ...promotedCoin,
+          coin: {
+            ...coin,
+            voteCount,
+            last24HourVotesCount,
+            hasVoted,
+          },
+        };
+      })
+    );
+
+    return NextResponse.json({ promotedCoins: modifiedPromotedCoins });
   } catch (error) {
     console.error("Error fetching promoted coins:", error); // Log the complete error
     return NextResponse.json(

@@ -11,16 +11,20 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebaseConfig"; // Make sure you import your firebase config
 import SuccessModal from "./_components/successModal";
 import { handleFileUpload } from "@/lib/firebaseFileManage";
+import ChainIcons from "@/components/global/chain-icons";
 
 const socialOptions = [
-  { name: "CoinGecko", icon: "cg.svg" },
-  { name: "Reddit", icon: "reddit.svg" },
-  { name: "Discord", icon: "discord.svg" },
-  { name: "GitHub", icon: "github.svg" },
-  { name: "Youtube", icon: "youtube.svg" },
-  { name: "TikTok", icon: "tiktok.svg" },
-  { name: "Medium", icon: "medium.svg" },
-  { name: "Instagram", icon: "instagram.svg" },
+  { name: "CoinGecko", icon: "https://coinmooner.com/v3/socials/cg.svg" },
+  { name: "Reddit", icon: "https://coinmooner.com/v3/socials/reddit.svg" },
+  { name: "Discord", icon: "https://coinmooner.com/v3/socials/discord.svg" },
+  { name: "GitHub", icon: "https://coinmooner.com/v3/socials/github.svg" },
+  { name: "Youtube", icon: "https://coinmooner.com/v3/socials/youtube.svg" },
+  { name: "TikTok", icon: "https://coinmooner.com/v3/socials/tiktok.svg" },
+  { name: "Medium", icon: "https://coinmooner.com/v3/socials/medium.svg" },
+  {
+    name: "Instagram",
+    icon: "https://coinmooner.com/v3/socials/instagram.svg",
+  },
 ];
 
 const page = () => {
@@ -38,10 +42,26 @@ const page = () => {
   } = useForm({
     defaultValues: {
       socials: [
-        { link: "", name: "Website" },
-        { link: "", name: "Telegram" },
-        { link: "", name: "Twitter" },
-        { link: "", name: "CoinMarketCap" },
+        {
+          link: "",
+          name: "Website",
+          icon: "https://coinmooner.com/v3/socials/web.svg",
+        },
+        {
+          link: "",
+          name: "Telegram",
+          icon: "https://coinmooner.com/v3/socials/telegram.svg",
+        },
+        {
+          link: "",
+          name: "Twitter",
+          icon: "https://coinmooner.com/v3/socials/twitter.svg",
+        },
+        {
+          link: "",
+          name: "CoinMarketCap",
+          icon: "https://coinmooner.com/v3/socials/market.png",
+        },
       ],
     },
   });
@@ -59,7 +79,11 @@ const page = () => {
       (social) => social.name === socialName
     );
     if (selectedSocial) {
-      append({ link: "", name: selectedSocial.name });
+      append({
+        link: "",
+        name: selectedSocial.name,
+        icon: selectedSocial.icon,
+      });
       setAvailableSocials(
         availableSocials.filter((social) => social.name !== socialName)
       );
@@ -332,19 +356,18 @@ const page = () => {
                     </Label>
                     <div className="mt-2">
                       <select
-                        value={contractAddresses[0].chain}
+                        value={contractAddresses[0].Chain}
                         onChange={(e) =>
                           handleChange(0, "Chain", e.target.value)
                         }
                         className="h-14 w-full bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
                       >
-                        <option value="">Select...</option>
-                        <option value="Ethereum">Ethereum</option>
-                        <option value="Binance Smart Chain">
-                          Binance Smart Chain
-                        </option>
-                        <option value="Polygon">Polygon</option>
                         {/* Add more chain options here */}
+                        {ChainIcons.map((icon) => (
+                          <option key={icon.id} value={icon.name}>
+                            {icon.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -401,12 +424,11 @@ const page = () => {
                           } // Adjust index
                           className="h-14 w-full bg-panel-bg text-white placeholder-neutral-400 border rounded-md focus:border-panel-bg focus:outline-indigo-700 p-4"
                         >
-                          <option value="">Select...</option>
-                          <option value="Ethereum">Ethereum</option>
-                          <option value="Binance Smart Chain">
-                            Binance Smart Chain
-                          </option>
-                          <option value="Polygon">Polygon</option>
+                          {ChainIcons.map((icon) => (
+                            <option key={icon.id} value={icon.name}>
+                              {icon.name}
+                            </option>
+                          ))}
                           {/* Add more chain options here */}
                         </select>
                       </div>
@@ -656,7 +678,7 @@ const page = () => {
                         />
                         <img
                           className="-mt-[2.3rem] ml-3 h-5 w-5"
-                          src={`./v3/socials/${item.name.toLowerCase()}.svg`}
+                          src={`${item.icon}`}
                           alt={item.name}
                         />
                       </div>
@@ -676,7 +698,7 @@ const page = () => {
                         />
                         <img
                           className="-mt-[2.3rem] ml-3 h-5 w-5"
-                          src={`./v3/socials/${item.name.toLowerCase()}.svg`}
+                          src={`${item.icon}`}
                           alt={item.name}
                         />
                         <button
@@ -705,7 +727,7 @@ const page = () => {
                         >
                           <img
                             className="h-5 w-5"
-                            src={`./v3/socials/${social.icon}`}
+                            src={`${social.icon}`}
                             alt={social.name}
                           />
                           {social.name}

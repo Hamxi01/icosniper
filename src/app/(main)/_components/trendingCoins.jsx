@@ -14,8 +14,10 @@ import axios from "axios";
 import { useToast } from "@/components/global/use-toast";
 import React from "react";
 import Link from "next/link";
+import ChainIcons from "@/components/global/chain-icons";
 
 const TrendingCoins = () => {
+  const [user, setUser] = useState(null);
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -24,15 +26,26 @@ const TrendingCoins = () => {
   const { addToast } = useToast();
 
   useEffect(() => {
+    const response = JSON.parse(localStorage.getItem("tv3623315"));
+    setUser(response);
+  }, []);
+
+  useEffect(() => {
     fetchCoins();
-  }, [page, search]);
+  }, [page, search, user]);
 
   const fetchCoins = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/coins", {
-        params: { page, search },
-      });
+      // Create params object with required parameters
+      const params = {
+        page,
+        search,
+        ...(user?.id && { votedUserId: user.id }), // Only add votedUserId if user.id exists
+      };
+
+      const { data } = await axios.get(`/api/coins`, { params });
+
       setCoins(data.coins);
       setTotalPages(data.totalPages);
     } catch (error) {
@@ -40,11 +53,6 @@ const TrendingCoins = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const formatRelativeTime = (date) => {
@@ -75,7 +83,27 @@ const TrendingCoins = () => {
     });
   };
 
-  const handleAddVote = (coin) => {};
+  const handleAddVote = async (coin) => {
+    if (user?.id) {
+      const response = await fetch(
+        `/api/votes?userId=${user?.id}&coinId=${coin?.id}`
+      );
+      if (response.ok) {
+        addToast({ title: "Vote Added Successfully" });
+        fetchCoins();
+      }
+    } else {
+      addToast({
+        title: "Please Login To Add A Vote ",
+        // description: error.message,
+      });
+    }
+  };
+
+  const chainIconRes = (chain) => {
+    const res = ChainIcons.find((item) => item.name === chain);
+    return res ? res.icon : null; // Return the icon if found, otherwise return null
+  };
 
   return (
     <>
@@ -128,7 +156,17 @@ const TrendingCoins = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <img src={coin?.chain} alt="" className="w-[20px]" />
+                        {coin?.tokenContractAddress?.length > 0 ? (
+                          <img
+                            src={chainIconRes(
+                              coin?.tokenContractAddress[0]?.Chain
+                            )}
+                            alt=""
+                            className="w-[20px]"
+                          />
+                        ) : (
+                          "N/A"
+                        )}
                       </TableCell>
                       <TableCell>
                         {coin?.marketcap ? (
@@ -153,15 +191,16 @@ const TrendingCoins = () => {
                       <TableCell>
                         {formatRelativeTime(new Date(coin?.launchDate))}
                       </TableCell>
-                      <TableCell>{coin?.votes}</TableCell>
-                      <TableCell>1</TableCell>
+                      <TableCell>{coin?.voteCount}</TableCell>
+                      <TableCell>{coin?.last24HourVotesCount}</TableCell>
                       <TableCell>
                         <Button
                           size="xs"
                           className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
                           onClick={() => handleAddVote(coin)}
+                          disabled={coin?.hasVoted}
                         >
-                          Vote
+                          {coin?.hasVoted ? "Voted" : "Vote"}
                         </Button>
                       </TableCell>
                     </TableRow>

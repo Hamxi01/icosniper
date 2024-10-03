@@ -9,9 +9,14 @@ export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   const addToast = (toast) => {
-    setToasts((prev) => [...prev, { id: Date.now(), ...toast }]);
+    // setToasts((prev) => [...prev, { id: Date.now(), ...toast }]);
+    // setTimeout(() => {
+    //   setToasts((prev) => prev.filter((t) => t.id !== toast.id));
+    // }, 3000); // Automatically remove toast after 3 seconds
+    const toastWithId = { id: Date.now(), ...toast }; // Assign the id immediately
+    setToasts((prev) => [...prev, toastWithId]); // Use the new toast with id
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== toast.id));
+      setToasts((prev) => prev.filter((t) => t.id !== toastWithId.id)); // Use the correct id here
     }, 3000); // Automatically remove toast after 3 seconds
   };
 

@@ -1,4 +1,5 @@
 "use client";
+import ChainIcons from "@/components/global/chain-icons";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,18 +14,24 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const PromotedCoins = () => {
+  const [user, setUser] = useState(null);
   const [promotedCoins, setPromotedCoins] = useState([]);
 
   useEffect(() => {
-    const fetchPromotedCoins = async () => {
-      const data = await fetch(`/api/promoted-coins`);
-      if (data.ok) {
-        const { promotedCoins } = await data.json();
-        setPromotedCoins(promotedCoins);
-      }
-    };
-    fetchPromotedCoins();
+    const response = JSON.parse(localStorage.getItem("tv3623315"));
+    setUser(response);
   }, []);
+
+  const fetchPromotedCoins = async () => {
+    const data = await fetch(`/api/promoted-coins?votedUserId=${user?.id}`);
+    if (data.ok) {
+      const { promotedCoins } = await data.json();
+      setPromotedCoins(promotedCoins);
+    }
+  };
+  useEffect(() => {
+    fetchPromotedCoins();
+  }, [user]);
 
   const formatRelativeTime = (date) => {
     const now = new Date();
@@ -54,7 +61,27 @@ const PromotedCoins = () => {
     });
   };
 
-  const handleAddVote = (coin) => {};
+  const handleAddVote = async (coin) => {
+    if (user?.id) {
+      const response = await fetch(
+        `/api/votes?userId=${user?.id}&coinId=${coin?.id}`
+      );
+      if (response.ok) {
+        addToast({ title: "Vote Added Successfully" });
+        fetchPromotedCoins();
+      }
+    } else {
+      addToast({
+        title: "Please Login To Add A Vote ",
+        // description: error.message,
+      });
+    }
+  };
+
+  const chainIconRes = (chain) => {
+    const res = ChainIcons.find((item) => item.name === chain);
+    return res ? res.icon : null; // Return the icon if found, otherwise return null
+  };
 
   return (
     <section className="lg:px-0 px-2 py-5">
@@ -100,16 +127,22 @@ const PromotedCoins = () => {
                       {promotedCoin.coin?.name}
                     </p>
                     <span className="text-xs text-[#a3a3a3]">
-                      {promotedCoin.coin?.chain}
+                      {promotedCoin.coin?.symbol}
                     </span>
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <img
-                    src={promotedCoin.coin?.chain}
-                    alt=""
-                    className="w-[20px]"
-                  />
+                  {promotedCoin.coin?.tokenContractAddress?.length > 0 ? (
+                    <img
+                      src={chainIconRes(
+                        promotedCoin.coin?.tokenContractAddress[0]?.Chain
+                      )}
+                      alt=""
+                      className="w-[20px]"
+                    />
+                  ) : (
+                    "N/A"
+                  )}
                 </TableCell>
                 <TableCell>
                   {promotedCoin.coin?.marketCap < 1 ? (
@@ -153,15 +186,18 @@ const PromotedCoins = () => {
                 <TableCell>
                   {formatRelativeTime(new Date(promotedCoin.coin?.launchDate))}
                 </TableCell>
-                <TableCell>{promotedCoin.coin?.votes}</TableCell>
-                <TableCell>1</TableCell>
+                <TableCell>{promotedCoin.coin?.voteCount}</TableCell>
+                <TableCell>
+                  {promotedCoin?.coin?.last24HourVotesCount}
+                </TableCell>
                 <TableCell>
                   <Button
                     size="xs"
                     className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
                     onClick={() => handleAddVote(coin)}
+                    disabled={promotedCoin?.coin?.hasVoted}
                   >
-                    Vote
+                    {promotedCoin?.coin?.hasVoted ? "Voted" : "Vote"}
                   </Button>
                 </TableCell>
               </TableRow>

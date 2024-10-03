@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { handleFileUpload } from "@/lib/firebaseFileManage";
+import ChainIcons from "@/components/global/chain-icons";
 
 const EditCoinComponent = ({ coin, onSave, onClose }) => {
   const [editedCoin, setEditedCoin] = useState(coin);
@@ -293,7 +294,8 @@ const EditCoinComponent = ({ coin, onSave, onClose }) => {
             <div key={index} className="grid grid-cols-2 gap-2 mb-2">
               <div>
                 <Label htmlFor={`Chain_${index}`}>Chain</Label>
-                <Input
+                <select
+                  className="w-full"
                   id={`Chain_${index}`}
                   placeholder="Chain"
                   value={contract.Chain}
@@ -304,7 +306,13 @@ const EditCoinComponent = ({ coin, onSave, onClose }) => {
                       e.target.value
                     )
                   }
-                />
+                >
+                  {ChainIcons.map((icon) => (
+                    <option key={icon.id} value={icon.name}>
+                      {icon.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <Label htmlFor={`Address_${index}`}>Address</Label>

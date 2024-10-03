@@ -7,6 +7,9 @@ export async function GET(request) {
   const search = url.searchParams.get("search") || ""; // Get the search parameter
   const page = parseInt(url.searchParams.get("page")) || 1; // Get the page parameter and convert to number
   const userId = parseInt(url.searchParams.get("userId"), 10) || null; // Get the userId from the query params
+  const votedUserId = url.searchParams.get("votedUserId")
+    ? parseInt(url.searchParams.get("votedUserId"), 10)
+    : null; // Get the votedUserId (can be null)
   const limit = parseInt(url.searchParams.get("limit")) || 10; // Get the limit parameter and convert to number
 
   const skip = (page - 1) * limit;
@@ -29,6 +32,13 @@ export async function GET(request) {
   };
 
   try {
+    // Get the current date and time
+    const currentDateTime = new Date();
+    // Calculate the date and time for 24 hours ago
+    const twentyFourHoursAgo = new Date(
+      currentDateTime.getTime() - 24 * 60 * 60 * 1000
+    );
+
     // Fetch coins from the database based on the condition, including related token contract addresses
     const coins = await prisma.coin.findMany({
       where: whereCondition,
@@ -36,6 +46,12 @@ export async function GET(request) {
       take: limit,
       include: {
         tokenContractAddress: true, // Include related token contract addresses
+        // Include a count of the votes
+        _count: {
+          select: { Votes: true },
+        },
+        // Include all votes (this will not throw an error if votedUserId is null)
+        Votes: true,
       },
     });
 
@@ -44,8 +60,35 @@ export async function GET(request) {
       where: whereCondition,
     });
 
+    // Modify the response to include a `hasVoted` field for the logged-in user
+    // Calculate last 24 hours vote count for each coin
+    const modifiedCoins = await Promise.all(
+      coins.map(async (coin) => {
+        const last24HourVotesCount = await prisma.vote.count({
+          where: {
+            coinId: coin.id, // Count votes for this specific coin
+            date: {
+              gte: twentyFourHoursAgo, // Votes that are greater than or equal to 24 hours ago
+            },
+          },
+        });
+
+        return {
+          ...coin,
+          voteCount: coin._count.Votes, // Use the _count.Votes for total votes
+          last24HourVotesCount, // Count of votes in the last 24 hours for this coin
+          hasVoted: votedUserId
+            ? coin.Votes.some((vote) => vote.userId === votedUserId)
+            : false, // Check if the logged-in user has voted
+        };
+      })
+    );
+
     return new Response(
-      JSON.stringify({ coins, totalPages: Math.ceil(totalCoins / limit) }),
+      JSON.stringify({
+        coins: modifiedCoins,
+        totalPages: Math.ceil(totalCoins / limit),
+      }),
       {
         headers: { "Content-Type": "application/json" },
       }

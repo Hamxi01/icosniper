@@ -211,9 +211,16 @@ const AddEditBlogPage = () => {
               className="w-full px-4 py-2 rounded bg-gray-700 text-white"
               required
             >
-              <option value="tech">Tech</option>
-              <option value="health">Health</option>
-              <option value="business">Business</option>
+              <option value="News">News</option>
+              <option value="Finance">Finance</option>
+              <option value="DeFi News">DeFi News</option>
+              <option value="Dapps">Dapps</option>
+              <option value="GameFi">GameFi</option>
+              <option value="Exchange News">Exchange News</option>
+              <option value="Launchpad News">Launchpad News</option>
+              <option value="Altcoins">Altcoins</option>
+              <option value="NFT">NFT</option>
+              <option value="Tutorials">Tutorials</option>
             </select>
           </div>
           <div className="mb-4">
