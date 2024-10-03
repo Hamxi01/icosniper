@@ -85,17 +85,34 @@ const TrendingCoins = () => {
 
   const handleAddVote = async (coin) => {
     if (user?.id) {
-      const response = await fetch(
-        `/api/votes?userId=${user?.id}&coinId=${coin?.id}`
-      );
-      if (response.ok) {
-        addToast({ title: "Vote Added Successfully" });
-        fetchCoins();
+      try {
+        const response = await fetch(`/api/votes`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }, // Corrected header key
+          body: JSON.stringify({ userId: user?.id, coinId: coin?.id }),
+        });
+
+        if (response.ok) {
+          addToast({ title: "Vote Added Successfully" });
+          fetchCoins(); // Assuming you want to refresh all coins, not just promoted ones
+        } else {
+          // Handle error response
+          const errorData = await response.json();
+          addToast({
+            title: "Error Adding Vote",
+            description: errorData.message || "Something went wrong",
+          });
+        }
+      } catch (error) {
+        // Catch any other errors (network, etc.)
+        addToast({
+          title: "Error Adding Vote",
+          description: error.message,
+        });
       }
     } else {
       addToast({
-        title: "Please Login To Add A Vote ",
-        // description: error.message,
+        title: "Please Login To Add A Vote",
       });
     }
   };

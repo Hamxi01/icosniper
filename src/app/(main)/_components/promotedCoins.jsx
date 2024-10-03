@@ -1,5 +1,6 @@
 "use client";
 import ChainIcons from "@/components/global/chain-icons";
+import { useToast } from "@/components/global/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -16,6 +17,7 @@ import React, { useEffect, useState } from "react";
 const PromotedCoins = () => {
   const [user, setUser] = useState(null);
   const [promotedCoins, setPromotedCoins] = useState([]);
+  const { addToast } = useToast();
 
   useEffect(() => {
     const response = JSON.parse(localStorage.getItem("tv3623315"));
@@ -63,17 +65,34 @@ const PromotedCoins = () => {
 
   const handleAddVote = async (coin) => {
     if (user?.id) {
-      const response = await fetch(
-        `/api/votes?userId=${user?.id}&coinId=${coin?.id}`
-      );
-      if (response.ok) {
-        addToast({ title: "Vote Added Successfully" });
-        fetchPromotedCoins();
+      try {
+        const response = await fetch(`/api/votes`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }, // Corrected header key
+          body: JSON.stringify({ userId: user?.id, coinId: coin?.id }),
+        });
+
+        if (response.ok) {
+          addToast({ title: "Vote Added Successfully" });
+          fetchCoins(); // Assuming you want to refresh all coins, not just promoted ones
+        } else {
+          // Handle error response
+          const errorData = await response.json();
+          addToast({
+            title: "Error Adding Vote",
+            description: errorData.message || "Something went wrong",
+          });
+        }
+      } catch (error) {
+        // Catch any other errors (network, etc.)
+        addToast({
+          title: "Error Adding Vote",
+          description: error.message,
+        });
       }
     } else {
       addToast({
-        title: "Please Login To Add A Vote ",
-        // description: error.message,
+        title: "Please Login To Add A Vote",
       });
     }
   };
@@ -194,7 +213,7 @@ const PromotedCoins = () => {
                   <Button
                     size="xs"
                     className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
-                    onClick={() => handleAddVote(coin)}
+                    onClick={() => handleAddVote(promotedCoin?.coin)}
                     disabled={promotedCoin?.coin?.hasVoted}
                   >
                     {promotedCoin?.coin?.hasVoted ? "Voted" : "Vote"}

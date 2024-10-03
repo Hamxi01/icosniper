@@ -57,6 +57,7 @@ export async function GET(request) {
       include: {
         coin: {
           include: {
+            tokenContractAddress: true,
             // Include vote data to calculate counts and check voting status
             Votes: true,
           },
