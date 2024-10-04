@@ -31,8 +31,8 @@ const page = () => {
           Contact Us
         </h1>
         <p className="mb-8 text-[#a3a3a3]">
-          If you need to contact us - do it by writing to any convenient for you
-          messenger, or fill out the feedback form.
+          If you need to get in touch with us, please feel free to use any
+          messaging platform of your choice or complete the feedback form.
         </p>
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-8">
           <div className="">

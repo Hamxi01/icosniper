@@ -34,31 +34,14 @@ const page = () => {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 shadow rounded py-10 px-16 border dark:bg-gradient-to-t to-[#272535] from-[#11141b] mb-8">
           <div>
             <h2 className="lg:text-2xl text-xl dark:text-white">
-              Vibrant Data Aggregator <br />
-              Surrounded By a Vibrant Ecosystem
+              ICOSniper, we strive to provide the most accurate and up-to-date
+              data on the crypto market.
             </h2>
           </div>
           <div>
             <p className="dark:text-[#a3a3a3]">
-              Discover DeFi tokens and coins that could rocket you to the Moon!
-              <br />
-              <br />
-              ICOSniper is a platform designed to make cryptocurrencies more
-              accessible, user-friendly, and enjoyable. We offer a variety of
-              engaging features, including the latest crypto news, tutorials,
-              and other valuable resources and tools.
-              <br />
-              <br />
-              Our mission is to stay ahead of emerging trends and provide our
-              audience with the most up-to-date information. As passionate
-              crypto enthusiasts, we believe cryptocurrencies are the future of
-              finance, and we&#39;re here to help you discover the best projects
-              and opportunities to propel you to the Moon!
-              <br />
-              <br />
-              We&#39;re continually enhancing our site and adding new features.
-              If you have any suggestions or ideas, don&#39;t hesitate to reach
-              out!
+              Supported by a vibrant ecosystem of partners and crypto
+              enthusiasts, we are driven to achieve this goal
             </p>
           </div>
         </div>

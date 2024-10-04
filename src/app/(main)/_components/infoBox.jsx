@@ -25,27 +25,26 @@ const InfoBox = () => {
           </CardHeader>
           <CardContent>
             <CardTitle className="">
-              Find DeFi tokens and coins that will take you to the Moon!
+              Discover DeFi tokens and coins that could rocket you to the Moon!
             </CardTitle>
           </CardContent>
           <CardFooter>
             <CardDescription>
-              CoinMooner is a platform that aims to make cryptocurrencies more
-              accessible, easy, and fun to use. CoinMooner provides entertaining
-              features, crypto-related news, tutorials, as well as other
-              valuable materials and tools.
+              ICOSniper is a platform designed to make cryptocurrencies more
+              accessible, user-friendly, and enjoyable. We offer a variety of
+              engaging features, including the latest crypto news, tutorials,
+              and other valuable resources and tools.
               <br />
               <br />
-              We want to keep up with the latest trends and provide our visitors
-              with the most relevant information. We are a team of crypto
-              enthusiasts who believe that cryptocurrencies are the future of
-              the financial world. We are here to help you find the best
-              projects and opportunities that will take you to the Moon!
+              Our mission is to stay ahead of emerging trends and provide our
+              audience with the most up-to-date information. As passionate
+              crypto enthusiasts, we believe cryptocurrencies are the future of
+              finance, and we're here to help you discover the best projects and
+              opportunities to propel you to the Moon!
               <br />
               <br />
-              We are constantly working on improving our website and adding new
-              features. If you have any suggestions or ideas, feel free to
-              contact us.
+              We're continually enhancing our site and adding new features. If
+              you have any suggestions or ideas, don't hesitate to reach out!
             </CardDescription>
           </CardFooter>
         </Card>
@@ -61,35 +60,33 @@ const InfoBox = () => {
           </CardHeader>
           <CardContent>
             <CardTitle className="mb-5">
-              CoinMooner - the place where you can find the best crypto
-              projects!
+              ICOSniper – Truly community driven crypto ICO listing
             </CardTitle>
             <CardDescription>
-              We are a popular cryptocurrency listing and ranking website.
-              Together with our community and our partners, we work hard to
-              ensure the information on our website is up-to-date and
-              accessible.
+              We are a leading cryptocurrency listing and ranking platform. In
+              collaboration with our community and partners, we strive to keep
+              the information on our site accurate and easily accessible.
               <br />
               <br />
-              Most of the cryptocurrencies can be found on CoinMooner before
-              they are listed on CoinMarketCap & CoinGecko.
+              Many cryptocurrencies appear on ICOSniper before being listed on
+              platforms like CoinMarketCap .
             </CardDescription>
-            <CardTitle className="my-5">How does CoinMooner work?</CardTitle>
+            <CardTitle className="my-5">
+              How does ICOSniper work for ICO and Community?
+            </CardTitle>
             <CardDescription>
-              New cryptocurrency projects can be submitted using our Submit
-              Token form. Once the project is successfully submitted, it gets
-              listed under NEW COINS tab on our front page, and the project`s
-              community can start voting. Votes are very important to the
-              overall success of the project. The higher the vote count, the
-              higher the project will be ranked on our website, thus increasing
-              its visibility.
+              New cryptocurrency projects can be submitted through our Submit
+              Token form. Once your project is successfully submitted, it will
+              appear under the "NEW COINS" tab on our homepage, allowing the
+              community to start voting. These votes are crucial to the
+              project's success; higher vote counts lead to better rankings on
+              our site, increasing visibility.
               <br />
               <br />
-              We monitor new projects every day without exceptions, and if
-              anything seems wrong, we will contact the token owner. Our
-              competent support is monitoring new information and updates daily
-              - 24/7. We are always ready to help you with any questions you may
-              have.
+              We review new projects daily and will reach out to the token owner
+              if any issues arise. Our dedicated support team monitors updates
+              around the clock, 24/7, and is always available to assist with any
+              questions you may have.
             </CardDescription>
           </CardContent>
           <CardFooter></CardFooter>

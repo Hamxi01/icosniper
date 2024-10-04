@@ -96,7 +96,7 @@ model PromotedCoin {
   status    Boolean  // Change this to Boolean
   startDate DateTime
   endDate   DateTime
-  coin      Coin     @relation(fields: [coinId], references: [id])
+  coin      Coin     @relation(fields: [coinId], references: [id], onDelete: Cascade)
 }
 
 model HottestPair {

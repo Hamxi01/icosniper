@@ -32,6 +32,7 @@ const page = () => {
   const router = useRouter();
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Logics for adding Coins
   const {
@@ -126,6 +127,7 @@ const page = () => {
   const [uploading, setUploading] = useState(false);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     let logoUrl = "";
 
     // If a new logo is selected, upload it to Firebase
@@ -157,6 +159,7 @@ const page = () => {
       whitelist: isWhitelistBoolean,
       softcap: parseFloat(data.softcap),
       hardcap: parseFloat(data.hardcap),
+      userId: parseInt(data?.userId),
     };
     console.log("Form submitted", formatedData); // Log the submitted data
     setErrorMessage(""); // Clear any previous error message
@@ -172,6 +175,9 @@ const page = () => {
       console.log(formatedData);
       if (response.ok) {
         setShowSuccessModal(true);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+        }, 4000);
         router.refresh(); // Redirect to sign-in page on success
       } else {
         const errorData = await response.json();
@@ -184,6 +190,7 @@ const page = () => {
       console.error("Unexpected error:", error);
       setErrorMessage("An unexpected error occurred. Please try again.");
     }
+    setLoading(false);
   };
 
   // ================== Logics For Redirect if not loggedIn
@@ -270,6 +277,7 @@ const page = () => {
                               <img
                                 src={URL.createObjectURL(newLogo)}
                                 alt="New Logo Preview"
+                                className="w-full max-w-[40px] h-fit rounded"
                               />
                             )}
                             {uploading && <p>Uploading logo...</p>}
@@ -850,8 +858,9 @@ const page = () => {
                 <Button
                   class="rounded-md border-2 border-purple-100 bg-mediumslateblue-200 px-10 py-3 text-xl text-white backdrop-blur-[50px] transition-colors hover:bg-purple-100"
                   type="submit"
+                  disabled={loading}
                 >
-                  Submit
+                  {loading ? "Submitting..." : "Submit"}
                 </Button>
               </div>
             </div>

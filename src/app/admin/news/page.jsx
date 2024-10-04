@@ -77,9 +77,16 @@ const NewsPage = () => {
           onChange={(e) => setCategory(e.target.value)}
           className="dark:bg-gray-700 dark:border-gray-600 text-white rounded px-3 py-2"
         >
-          <option value="">All Categories</option>
-          <option value="tech">Tech</option>
-          <option value="health">Health</option>
+          <option value="News">News</option>
+          <option value="Finance">Finance</option>
+          <option value="DeFi News">DeFi News</option>
+          <option value="Dapps">Dapps</option>
+          <option value="GameFi">GameFi</option>
+          <option value="Exchange News">Exchange News</option>
+          <option value="Launchpad News">Launchpad News</option>
+          <option value="Altcoins">Altcoins</option>
+          <option value="NFT">NFT</option>
+          <option value="Tutorials">Tutorials</option>
           {/* Add more categories as needed */}
         </select>
       </div>

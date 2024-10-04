@@ -153,16 +153,47 @@ export async function GET(request) {
 
 // DELETE coin by ID
 export async function DELETE(req) {
-  const { id } = await req.json(); // Extract the id from the request body
-
   try {
-    await prisma.coin.delete({
-      where: { id }, // Use the id to delete the coin
+    const body = await req.json();
+    const { id } = body; // Extract the coin ID
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID is missing from the request body" },
+        { status: 400 }
+      );
+    }
+
+    // Use a Prisma transaction to delete related records first, then the Coin
+    await prisma.$transaction([
+      prisma.vote.deleteMany({
+        where: { coinId: id },
+      }),
+      prisma.promotedCoin.deleteMany({
+        where: { coinId: id },
+      }),
+      prisma.hottestPair.deleteMany({
+        where: { coinId: id },
+      }),
+      prisma.watchlistCoin.deleteMany({
+        where: { coinId: id },
+      }),
+      prisma.tokenContractAddress.deleteMany({
+        where: { coinId: id },
+      }),
+      // Finally, delete the Coin itself
+      prisma.coin.delete({
+        where: { id },
+      }),
+    ]);
+
+    return NextResponse.json({
+      message: "Coin and related records deleted successfully.",
     });
-    return NextResponse.json({ message: "Coin deleted successfully." });
   } catch (error) {
+    console.error("Error during coin deletion:", error);
     return NextResponse.json(
-      { error: "Coin deletion failed." },
+      { error: "Coin deletion failed.", details: error.message },
       { status: 500 }
     );
   }
