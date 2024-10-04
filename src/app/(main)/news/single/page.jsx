@@ -128,7 +128,7 @@ const MainComponent = () => {
                 /> */}
                 <source srcset={singleNews?.thumbnail} type="image/png" />
                 <img
-                  class="w-full object-cover"
+                  class="w-full object-fill max-h-[560px]"
                   src={singleNews?.thumbnail}
                   alt="New Thumbnail"
                 />
