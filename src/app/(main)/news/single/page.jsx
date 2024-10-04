@@ -103,24 +103,16 @@ const MainComponent = () => {
               <div class="flex justify-between p-6">
                 <div class="flex items-center gap-3.5">
                   <picture>
-                    <source
-                      srcset="https://cdn.coinmooner.com/article-author/6.webp"
-                      type="image/webp"
-                    />
-                    <source
-                      srcset="https://cdn.coinmooner.com/article-author/6.png"
-                      type="image/png"
-                    />
                     <img
                       loading="lazy"
-                      src="https://cdn.coinmooner.com/article-author/6.png"
+                      src="/img/favicon.png"
                       width="40"
                       height="40"
                       alt="coinmooner logo"
                     />
                   </picture>
                   <div>
-                    <div class="text-bold font-sm uppercase">CoinMooner</div>
+                    <div class="text-bold font-sm uppercase">COINSNIPER</div>
                     <div class="text-xs font-medium text-neutral-400">
                       Publisher
                     </div>

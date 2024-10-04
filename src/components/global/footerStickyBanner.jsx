@@ -50,7 +50,7 @@ const FooterStickyBanner = () => {
               href={bannerContent.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full"
+              className="w-full h-full"
             >
               {bannerContent.mediaType === "image" ? (
                 <Image
@@ -58,12 +58,12 @@ const FooterStickyBanner = () => {
                   alt={bannerContent.alt || "Footer Banner"}
                   width={1000}
                   height={200}
-                  className="w-full h-fit object-cover rounded max-h-[110px]"
+                  className="w-full h-full object-cover rounded max-h-[110px]"
                 />
               ) : (
                 <video
                   src={bannerContent.media}
-                  className="w-full h-fit object-cover rounded max-h-[110px]"
+                  className="w-full h-full object-cover rounded max-h-[110px]"
                   autoPlay
                   loop
                   muted

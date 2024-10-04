@@ -118,9 +118,9 @@ const PromotedCoins = () => {
               <TableHead>Name</TableHead>
               <TableHead>Chain</TableHead>
               <TableHead className="text-center">Market Cap </TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Volume</TableHead>
-              <TableHead>24h</TableHead>
+              <TableHead className="text-center">Price</TableHead>
+              <TableHead className="text-center">Volume</TableHead>
+              <TableHead className="text-center">24h</TableHead>
               <TableHead className="text-center">Launch Date</TableHead>
               <TableHead className="text-center">Votes</TableHead>
               <TableHead className="text-center">Votes 24</TableHead>
@@ -157,7 +157,7 @@ const PromotedCoins = () => {
                         promotedCoin.coin?.tokenContractAddress[0]?.Chain
                       )}
                       alt=""
-                      className="w-[20px]"
+                      className="w-[30px]"
                     />
                   ) : (
                     "N/A"
@@ -181,7 +181,7 @@ const PromotedCoins = () => {
                 </TableCell>
                 <TableCell>
                   {promotedCoin.coin?.price < 1 ? (
-                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center mx-auto">
                       <Minus className="w-4" />
                     </div>
                   ) : (
@@ -190,7 +190,7 @@ const PromotedCoins = () => {
                 </TableCell>
                 <TableCell>
                   {promotedCoin.coin?.volume < 1 ? (
-                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                    <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center mx-auto">
                       <Minus className="w-4" />
                     </div>
                   ) : (
@@ -198,7 +198,7 @@ const PromotedCoins = () => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center">
+                  <div className="bg-[#ffffff26] w-6 h-6 rounded text-neutral-400 opacity-90 flex items-center justify-center mx-auto">
                     <Minus className="w-4" />
                   </div>
                 </TableCell>

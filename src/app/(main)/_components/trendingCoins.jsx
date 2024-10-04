@@ -142,9 +142,9 @@ const TrendingCoins = () => {
                     <TableHead>Name</TableHead>
                     <TableHead>Chain</TableHead>
                     <TableHead className="text-center">Market Cap</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Volume</TableHead>
-                    <TableHead>24h</TableHead>
+                    <TableHead className="text-center">Price</TableHead>
+                    <TableHead className="text-center">Volume</TableHead>
+                    <TableHead className="text-center">24h</TableHead>
                     <TableHead className="text-center">Launch Date</TableHead>
                     <TableHead className="text-center">Votes</TableHead>
                     <TableHead className="text-center">Votes 24</TableHead>
@@ -179,7 +179,7 @@ const TrendingCoins = () => {
                               coin?.tokenContractAddress[0]?.Chain
                             )}
                             alt=""
-                            className="w-[20px]"
+                            className="w-[30px]"
                           />
                         ) : (
                           "N/A"
@@ -200,13 +200,13 @@ const TrendingCoins = () => {
                           />
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {coin?.price < 1 ? <span>-</span> : `$(coin?.price)`}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {coin?.volume < 1 ? <span>-</span> : `$(coin?.volume)`}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         <span>-</span>
                       </TableCell>
                       <TableCell className="text-center">

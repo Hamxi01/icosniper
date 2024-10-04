@@ -208,12 +208,6 @@ const Footer = () => {
             >
               Disclaimer
             </Link>
-            <Link
-              href={"/operating-entities"}
-              className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
-            >
-              Operating entities
-            </Link>
           </div>
         </div>
       </section>

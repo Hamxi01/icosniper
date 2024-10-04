@@ -4,6 +4,7 @@ import { formatDate } from "../../news/_components/utils";
 import { useSearchParams } from "next/navigation";
 import PromotedCoins from "../../_components/promotedCoins";
 import { useToast } from "@/components/global/use-toast";
+import TwitterPosts from "./_components/twitter-post";
 
 const CoinDetailComponent = () => {
   const searchParams = useSearchParams();
@@ -152,7 +153,7 @@ const CoinDetailComponent = () => {
                     height="22"
                     decoding="async"
                     data-nimg="1"
-                    src="/_next/static/media/metamask.9eeb7e72.svg"
+                    src="/img/meta-mask.jpg"
                     style={{ color: "transparent" }}
                   />
                   <span className="text-xs font-medium text-white">
@@ -209,7 +210,7 @@ const CoinDetailComponent = () => {
                     decoding="async"
                     data-nimg="1"
                     className="mr-2"
-                    src="/_next/static/media/metamask.9eeb7e72.svg"
+                    src="/img/meta-mask.jpg"
                     style={{ color: "transparent" }}
                   />
                   <span>Add to MetaMask</span>
@@ -453,6 +454,7 @@ const CoinDetailComponent = () => {
                 </div>
               </div>
             </div>
+            <TwitterPosts username={coin?.socials?.twitter} coin={coin} />
           </div>
         </div>
       </section>
