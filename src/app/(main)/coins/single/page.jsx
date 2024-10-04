@@ -3,12 +3,20 @@ import React, { Suspense, useEffect, useState } from "react";
 import { formatDate } from "../../news/_components/utils";
 import { useSearchParams } from "next/navigation";
 import PromotedCoins from "../../_components/promotedCoins";
+import { useToast } from "@/components/global/use-toast";
 
 const CoinDetailComponent = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id"); // Access the 'id' query parameter
   const [coin, setCoin] = useState(null);
   const [moreCoins, setMoreCoins] = useState([]);
+  const [user, setUser] = useState(null);
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    const response = JSON.parse(localStorage.getItem("tv3623315"));
+    setUser(response);
+  }, []);
 
   useEffect(() => {
     const fetchMoreCoins = async () => {
@@ -37,6 +45,40 @@ const CoinDetailComponent = () => {
 
   const toggleWatchlist = () => {
     setIsWatchlisted(!isWatchlisted);
+  };
+
+  const handleAddVote = async () => {
+    if (user?.id) {
+      try {
+        const response = await fetch(`/api/votes`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }, // Corrected header key
+          body: JSON.stringify({ userId: user?.id, coinId: coin?.id }),
+        });
+
+        if (response.ok) {
+          addToast({ title: "Vote Added Successfully" });
+          fetchCoins(); // Assuming you want to refresh all coins, not just promoted ones
+        } else {
+          // Handle error response
+          const errorData = await response.json();
+          addToast({
+            title: "Error Adding Vote",
+            description: errorData.message || "Something went wrong",
+          });
+        }
+      } catch (error) {
+        // Catch any other errors (network, etc.)
+        addToast({
+          title: "Error Adding Vote",
+          description: error.message,
+        });
+      }
+    } else {
+      addToast({
+        title: "Please Login To Add A Vote",
+      });
+    }
   };
 
   return (
@@ -90,7 +132,10 @@ const CoinDetailComponent = () => {
               </div>
               <div className="mt-2 flex gap-2 md:hidden">
                 <button className="flex w-full items-center justify-center gap-1 rounded-md bg-panel-bg p-2 sm:gap-2">
-                  <img src="/v3/socials/circles.svg" alt="Socials" />
+                  <img
+                    src="https://coinmooner.com/v3/socials/telegram.svg"
+                    alt="Socials"
+                  />
                   <div className="text-xs font-medium text-white">Socials</div>
                   <svg className="h-3 w-3">
                     <use
@@ -118,39 +163,39 @@ const CoinDetailComponent = () => {
               <div className="hidden mt-5 flex flex-wrap gap-2 md:flex">
                 <a
                   className="flex items-center rounded bg-panel-bg px-2 py-3 text-xs font-light text-white transition-colors hover:bg-gray-500"
-                  href="https://t.me/pepeunchained"
+                  href={coin?.socials?.telegram}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
                   <img
                     className="mr-2 h-4 w-4"
-                    src="/v3/socials/telegram.svg"
+                    src="https://coinmooner.com/v3/socials/telegram.svg"
                     alt="Telegram logo"
                   />
                   <span>Telegram</span>
                 </a>
                 <a
                   className="flex items-center rounded bg-panel-bg px-2 py-3 text-xs font-light text-white transition-colors hover:bg-gray-500"
-                  href="https://x.com/pepe_unchained"
+                  href={coin?.socials?.twitter}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
                   <img
                     className="mr-2 h-4 w-4"
-                    src="/v3/socials/twitter.svg"
+                    src="https://coinmooner.com/v3/socials/twitter.svg"
                     alt="Twitter logo"
                   />
                   <span>Twitter</span>
                 </a>
                 <a
                   className="flex items-center rounded bg-panel-bg px-2 py-3 text-xs font-light text-white transition-colors hover:bg-gray-500"
-                  href="http://www.pepeunchained.com/"
+                  href={coin?.socials?.website}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
                   <img
                     className="mr-2 h-4 w-4"
-                    src="/v3/socials/web.svg"
+                    src="https://coinmooner.com/v3/socials/web.svg"
                     alt="Website icon"
                   />
                   <span>Website</span>
@@ -358,12 +403,14 @@ const CoinDetailComponent = () => {
                 <div className="my-3 flex items-center justify-between">
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">
                     <div className="mb-2 text-2xl font-bold text-white">
-                      250265
+                      {coin?.votesCount}
                     </div>
                     <p>Total Votes</p>
                   </div>
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">
-                    <div className="mb-2 text-2xl font-bold text-white">-2</div>
+                    <div className="mb-2 text-2xl font-bold text-white">
+                      {coin?.last24HoursVote}
+                    </div>
                     <p>Votes Today</p>
                   </div>
                 </div>
@@ -371,8 +418,10 @@ const CoinDetailComponent = () => {
                   <button
                     type="button"
                     className="border-2 bg-mediumslateblue-200 border-purple-100 hover:bg-purple-100 active:bg-purple-200 transition-colors rounded-md text-white px-4 py-1 w-24"
+                    disabled={coin?.hasVoted}
+                    onClick={handleAddVote}
                   >
-                    Vote
+                    {coin?.hasVoted ? "Voted" : "Vote"}
                   </button>
                 </div>
                 <div className="mt-2.5 text-center text-xs font-medium text-neutral-400">
@@ -402,63 +451,6 @@ const CoinDetailComponent = () => {
                     <p>times</p>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex w-full flex-col gap-4 rounded-lg bg-panel-bg p-5">
-                <div className="text-sm font-bold text-white">Safety</div>
-                <div className="flex w-full items-center justify-between text-xs font-medium text-neutral-400">
-                  <div>Audit:</div>
-                  <span>Audit not provided</span>
-                </div>
-                <div className="flex w-full items-center justify-between text-xs font-medium text-neutral-400">
-                  <div>KYC:</div>
-                  <span>KYC not provided</span>
-                </div>
-                <div className="flex h-16 items-center justify-between rounded-md bg-gray-500 bg-opacity-40 p-2">
-                  <a
-                    href="https://bscheck.eu/ethereum/N/A"
-                    className="flex flex-col"
-                    target="_blank"
-                    rel="noreferrer nofollow noopener"
-                  >
-                    <span className="text-xs text-stone-400">
-                      No Report - Click to generate
-                    </span>
-                    <p className="text-[10px] font-normal text-neutral-400">
-                      Powered by BSC check
-                    </p>
-                  </a>
-                  <img
-                    height="18"
-                    width="60"
-                    src="/partners/bsccheck.png"
-                    alt="bsccheck.eu"
-                  />
-                </div>
-                <div className="flex h-16 items-center justify-between rounded-md bg-gray-500 bg-opacity-40 p-2">
-                  <a
-                    className=""
-                    target="_blank"
-                    rel="noreferrer nofollow noopener"
-                    href="https://tools.staysafu.org/scan?a=N/A"
-                  >
-                    <span className="text-xs text-stone-400">No Result</span>
-                    <p className="text-[10px] font-normal text-neutral-400">
-                      Powered By StaySafu
-                    </p>
-                  </a>
-                  <img height="32" width="32" src="/v3/staysafu.png" alt="" />
-                </div>
-              </div>
-
-              <div className="flex w-full flex-col gap-4 rounded-lg bg-panel-bg p-5">
-                <div className="text-sm font-bold text-white">Charts</div>
-                <div className="flex flex-col gap-2 md:grid md:grid-cols-2 lg:flex lg:flex-col"></div>
-              </div>
-
-              <div className="flex w-full flex-col gap-4 rounded-lg bg-panel-bg p-5">
-                <div className="text-sm font-bold text-white">Markets</div>
-                <div className="flex flex-col gap-4 md:flex md:flex-row md:justify-between lg:flex lg:flex-col lg:gap-4"></div>
               </div>
             </div>
           </div>

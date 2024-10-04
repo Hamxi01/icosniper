@@ -28,7 +28,7 @@ const ThreeBox = () => {
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const response = await fetch("/api/coins"); // Update the API endpoint accordingly
+        const response = await fetch("/api/coins/new-coins"); // Update the API endpoint accordingly
         const data = await response.json();
 
         if (data.coins) {

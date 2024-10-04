@@ -11,7 +11,7 @@ import LaunchpadBlog from "./_components/launchpadBlog";
 import NewsBlog from "./_components/newsBlog";
 import SponsoredBlog from "./_components/sponsoredBlog";
 import FinanceBlog from "./_components/financeBlog";
-import InterviewBlog from "./_components/interviewBlog";
+import TutorialsBlog from "./_components/tutorialsBlog";
 
 const page = () => {
   const currentCategory = "";
@@ -22,29 +22,28 @@ const page = () => {
         <MyBreadcrumb />
       </div>
       <LatestBlog />
-      <hr className="my-4" />
+
       <NFTBlog />
-      <hr className="mt-6 mb-4" />
+
       <DeFiBlog />
-      <hr className="mt-6 mb-4" />
+
       <DappsBlog />
-      <hr className="mt-6 mb-4" />
+
       <AltcoinsBlog />
-      <hr className="mt-6 mb-4" />
+
       <GameFiBlog />
-      <hr className="mt-6 mb-4" />
+
       <ExchangeBlog />
-      <hr className="mt-6 mb-4" />
+
       <LaunchpadBlog />
-      <hr className="mt-6 mb-4" />
+
       <NewsBlog />
-      <hr className="mt-6 mb-4" />
+
       <SponsoredBlog />
-      <div className="mb-10"></div>
+
       <FinanceBlog />
-      <div className="mb-10"></div>
-      <InterviewBlog />
-      <div className="mb-10"></div>
+
+      <TutorialsBlog />
     </main>
   );
 };

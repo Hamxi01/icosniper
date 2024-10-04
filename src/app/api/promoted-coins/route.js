@@ -100,6 +100,9 @@ export async function GET(request) {
       })
     );
 
+    // Sort the modified promoted coins by vote count in descending order
+    modifiedPromotedCoins.sort((a, b) => b.coin.voteCount - a.coin.voteCount);
+
     return NextResponse.json({ promotedCoins: modifiedPromotedCoins });
   } catch (error) {
     console.error("Error fetching promoted coins:", error); // Log the complete error

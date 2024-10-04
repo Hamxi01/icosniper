@@ -8,7 +8,7 @@ const DappsBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("dapps"); // Await the fetching
+      const data = await fetchBlogs("Dapps"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -34,6 +34,7 @@ const DappsBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

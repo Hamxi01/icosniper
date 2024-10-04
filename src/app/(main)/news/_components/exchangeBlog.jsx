@@ -8,7 +8,7 @@ const ExchangeBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("exchange"); // Await the fetching
+      const data = await fetchBlogs("Exchange News"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -34,6 +34,7 @@ const ExchangeBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

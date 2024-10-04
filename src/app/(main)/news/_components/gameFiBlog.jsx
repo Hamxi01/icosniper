@@ -8,7 +8,7 @@ const GameFiBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("gamefi"); // Await the fetching
+      const data = await fetchBlogs("GameFi"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -34,6 +34,7 @@ const GameFiBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

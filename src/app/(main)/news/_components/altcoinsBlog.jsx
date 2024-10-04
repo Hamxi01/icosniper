@@ -8,7 +8,7 @@ const AltcoinsBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("altcoins"); // Await the fetching
+      const data = await fetchBlogs("Altcoins"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -34,6 +34,7 @@ const AltcoinsBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

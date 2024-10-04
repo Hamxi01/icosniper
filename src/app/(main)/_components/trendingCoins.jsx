@@ -141,14 +141,14 @@ const TrendingCoins = () => {
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Chain</TableHead>
-                    <TableHead>Market Cap</TableHead>
+                    <TableHead className="text-center">Market Cap</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Volume</TableHead>
                     <TableHead>24h</TableHead>
-                    <TableHead>Launch Date</TableHead>
-                    <TableHead>Votes</TableHead>
-                    <TableHead>Votes 24</TableHead>
-                    <TableHead>Vote</TableHead>
+                    <TableHead className="text-center">Launch Date</TableHead>
+                    <TableHead className="text-center">Votes</TableHead>
+                    <TableHead className="text-center">Votes 24</TableHead>
+                    <TableHead className="text-right">Vote</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -185,7 +185,7 @@ const TrendingCoins = () => {
                           "N/A"
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {coin?.marketcap ? (
                           coin?.marketcap < 1 ? (
                             <span>Presale</span>
@@ -193,7 +193,11 @@ const TrendingCoins = () => {
                             `$(coin?.marketcap)`
                           )
                         ) : (
-                          "N/A"
+                          <img
+                            src="/img/Loading.gif"
+                            alt=""
+                            className="w-[25px] mx-auto"
+                          />
                         )}
                       </TableCell>
                       <TableCell>
@@ -205,12 +209,16 @@ const TrendingCoins = () => {
                       <TableCell>
                         <span>-</span>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {formatRelativeTime(new Date(coin?.launchDate))}
                       </TableCell>
-                      <TableCell>{coin?.voteCount}</TableCell>
-                      <TableCell>{coin?.last24HourVotesCount}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
+                        {coin?.voteCount}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {coin?.last24HourVotesCount}
+                      </TableCell>
+                      <TableCell className="text-right">
                         <Button
                           size="xs"
                           className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"

@@ -53,6 +53,11 @@ export async function GET(request) {
         // Include all votes (this will not throw an error if votedUserId is null)
         Votes: true,
       },
+      orderBy: {
+        Votes: {
+          _count: "desc", // Sort coins by total vote count in descending order
+        },
+      },
     });
 
     // Count total coins for pagination

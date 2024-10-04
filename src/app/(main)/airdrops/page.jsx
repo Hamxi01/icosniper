@@ -56,14 +56,20 @@ const page = () => {
       <section className="lg:px-0 px-2 py-10">
         <div className="container mx-auto rounded border p-2 w-full max-w-[1366px]">
           <Tabs defaultValue="all">
-            <TabsList className="w-full grid grid-cols-4">
+            <TabsList className="w-full grid grid-cols-4 h-fit">
               <TabsTrigger
                 value="all"
                 className="border-r-2 border-white rounded-r-none"
                 onClick={() => setCurrentIcoScamTab("")}
               >
                 <div className="flex items-center gap-3">
-                  <Grid2X2Icon /> All
+                  {/* <Grid2X2Icon /> */}
+                  <img
+                    src="/img/Staff.gif"
+                    alt=""
+                    className="w-full max-w-[30px]"
+                  />
+                  All
                 </div>
               </TabsTrigger>
               <TabsTrigger
@@ -72,7 +78,12 @@ const page = () => {
                 onClick={() => setCurrentIcoScamTab("COMPLAIN")}
               >
                 <div className="flex items-center gap-3">
-                  <BoxIcon />
+                  {/* <BoxIcon /> */}
+                  <img
+                    src="/img/reports.gif"
+                    alt=""
+                    className="w-full max-w-[30px]"
+                  />
                   Complain
                 </div>
               </TabsTrigger>
@@ -82,7 +93,12 @@ const page = () => {
                 onClick={() => setCurrentIcoScamTab("UNDER_REVIEW")}
               >
                 <div className="flex items-center gap-3">
-                  <Loader />
+                  {/* <Loader /> */}
+                  <img
+                    src="/img/Downloading-Progress.gif"
+                    alt=""
+                    className="w-full max-w-[30px]"
+                  />
                   Under Review
                 </div>
               </TabsTrigger>
@@ -91,7 +107,12 @@ const page = () => {
                 onClick={() => setCurrentIcoScamTab("SCAM_ICO")}
               >
                 <div className="flex items-center gap-3">
-                  <DeleteIcon />
+                  {/* <DeleteIcon /> */}
+                  <img
+                    src="/img/Thumb-Down.gif"
+                    alt=""
+                    className="w-full max-w-[30px]"
+                  />
                   Scam ICO
                 </div>
               </TabsTrigger>
@@ -115,7 +136,7 @@ const page = () => {
                           <img
                             src={coin?.logo}
                             alt=""
-                            className="max-w-[25px]"
+                            className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
@@ -168,7 +189,7 @@ const page = () => {
                           <img
                             src={coin?.img}
                             alt=""
-                            className="max-w-[25px]"
+                            className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
@@ -209,7 +230,7 @@ const page = () => {
                           <img
                             src={coin?.img}
                             alt=""
-                            className="max-w-[25px]"
+                            className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
@@ -250,7 +271,7 @@ const page = () => {
                           <img
                             src={coin?.img}
                             alt=""
-                            className="max-w-[25px]"
+                            className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>

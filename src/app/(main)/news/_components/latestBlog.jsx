@@ -33,7 +33,7 @@ const LatestBlog = () => {
             <img
               src={news[0]?.thumbnail}
               alt=""
-              className="w-full rounded h-fit max-h-[750px]"
+              className="w-full rounded h-fit max-h-[540px]"
             />
             <h2 className="lg:text-4xl text-2xl font-semibold mt-5">
               <Link href={`/news/single?id=${news[0]?.id}`}>
@@ -78,11 +78,12 @@ const LatestBlog = () => {
               }}
               headingClass={"lg:text-[1rem] text-sm"}
               cardClass={"bg-transparent"}
-              imgClass={"mx-auto w-full h-full max-h-[250px]"}
+              imgClass={"mx-auto w-full h-full max-h-[160px]"}
             />
           ))}
         </div>
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

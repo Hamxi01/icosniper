@@ -8,7 +8,7 @@ const DeFiBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("defi"); // Await the fetching
+      const data = await fetchBlogs("DeFi News"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -34,6 +34,7 @@ const DeFiBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };

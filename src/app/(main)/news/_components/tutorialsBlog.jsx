@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BlogCard from "./blogCard";
 import { fetchBlogs } from "./utils";
 
-const InterviewBlog = () => {
+const TutorialsBlog = () => {
   const [news, setNews] = useState([]); // Initialize with an empty array
 
   useEffect(() => {
@@ -31,8 +31,9 @@ const InterviewBlog = () => {
           />
         ))}
       </div>
+      <hr className="my-4" />
     </section>
   );
 };
 
-export default InterviewBlog;
+export default TutorialsBlog;

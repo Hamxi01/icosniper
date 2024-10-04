@@ -117,14 +117,14 @@ const PromotedCoins = () => {
               <TableHead></TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Chain</TableHead>
-              <TableHead>Market Cap </TableHead>
+              <TableHead className="text-center">Market Cap </TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Volume</TableHead>
               <TableHead>24h</TableHead>
-              <TableHead>Launch Date</TableHead>
-              <TableHead>Votes</TableHead>
-              <TableHead>Votes 24</TableHead>
-              <TableHead>Vote</TableHead>
+              <TableHead className="text-center">Launch Date</TableHead>
+              <TableHead className="text-center">Votes</TableHead>
+              <TableHead className="text-center">Votes 24</TableHead>
+              <TableHead className="text-right">Vote</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -150,7 +150,7 @@ const PromotedCoins = () => {
                     </span>
                   </Link>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   {promotedCoin.coin?.tokenContractAddress?.length > 0 ? (
                     <img
                       src={chainIconRes(
@@ -166,9 +166,9 @@ const PromotedCoins = () => {
                 <TableCell>
                   {promotedCoin.coin?.marketCap < 1 ? (
                     <>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 justify-center">
                         <img
-                          src="https://coinmooner.com/v3/spinner.svg"
+                          src="/img/Loading.gif"
                           alt=""
                           className="w-[25px]"
                         />
@@ -202,14 +202,16 @@ const PromotedCoins = () => {
                     <Minus className="w-4" />
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   {formatRelativeTime(new Date(promotedCoin.coin?.launchDate))}
                 </TableCell>
-                <TableCell>{promotedCoin.coin?.voteCount}</TableCell>
-                <TableCell>
+                <TableCell className="text-center">
+                  {promotedCoin.coin?.voteCount}
+                </TableCell>
+                <TableCell className="text-center">
                   {promotedCoin?.coin?.last24HourVotesCount}
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-right">
                   <Button
                     size="xs"
                     className="py-1 px-3 bg-[#2498d6] hover:bg-[#223645] border-2 border-[#1f6193] text-white"
