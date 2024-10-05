@@ -29,6 +29,8 @@ import {
 } from "../ui/sheet";
 import { useRouter } from "next/navigation";
 import "./header.css";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -68,7 +70,9 @@ const Header = () => {
     </DropdownMenu>
   );
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
+
     localStorage.removeItem("tv3623315");
     router.refresh();
     router.push("/sign-in");

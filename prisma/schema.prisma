@@ -75,6 +75,8 @@ model WatchlistCoin {
   user      User      @relation(fields: [userId], references: [id])
   coinId    Int
   coin      Coin      @relation(fields: [coinId], references: [id])
+
+  @@unique([userId, coinId]) // Compound unique constraint
 }
 
 model Banner {

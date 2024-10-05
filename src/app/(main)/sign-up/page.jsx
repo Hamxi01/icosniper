@@ -8,6 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 const Page = () => {
   const {
@@ -20,6 +26,31 @@ const Page = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+
+  // Handle Email/Password Signup
+  const handleSignup = async (data) => {
+    setErrorMessage(null);
+
+    const email = data.email;
+    const password = data.password;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User signed up:", user);
+
+      if (user) {
+        onSubmit({ email: user?.email, password: data.password });
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      setErrorMessage(err.message);
+    }
+  };
 
   const onSubmit = async (data) => {
     console.log("Form submitted", data); // Log the submitted data
@@ -50,10 +81,27 @@ const Page = () => {
     }
   };
 
+  // Handle Google Sign Up (Same as Google Sign In)
+  const handleGoogleSignUp = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google user signed up:", user);
+
+      if (user) {
+        onSubmit({ email: user?.email, password: "empty" });
+      }
+    } catch (err) {
+      console.error("Google Sign-Up Error:", err);
+      setErrorMessage(err.message);
+    }
+  };
+
   return (
     <main className="container mx-auto flex flex-col items-center px-1 py-20">
       <div className="bg-gray-200 dark:bg-[#141620] rounded-lg p-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleSignup)}>
           <h1 className="mb-8 w-80 text-3xl text-white">Sign Up</h1>
 
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -182,7 +230,11 @@ const Page = () => {
           className="flex justify-center min-h-[44px]"
         >
           <div className="S9gUrf-YoZ4jf" style={{ position: "relative" }}>
-            <div></div>
+            <div className="w-full">
+              <Button className="w-full" onClick={handleGoogleSignUp}>
+                Sign Up with Google
+              </Button>
+            </div>
           </div>
         </div>
       </div>

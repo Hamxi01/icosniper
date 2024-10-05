@@ -124,7 +124,7 @@ const page = () => {
                     <TableHead>#</TableHead>
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -140,7 +140,7 @@ const page = () => {
                           />
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
@@ -148,7 +148,7 @@ const page = () => {
                           </span>
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right min-w-[150px]">
                         {coin?.status === "COMPLAIN" && (
                           <Badge className="bg-yellow-500 text-white">
                             Complain
@@ -177,7 +177,7 @@ const page = () => {
                     <TableHead>#</TableHead>
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -187,13 +187,13 @@ const page = () => {
                       <TableCell>
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
-                            src={coin?.img}
+                            src={coin?.logo}
                             alt=""
                             className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
@@ -201,7 +201,7 @@ const page = () => {
                           </span>
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right min-w-[150px]">
                         <Badge className="bg-yellow-500 text-white">
                           Complain
                         </Badge>
@@ -218,7 +218,7 @@ const page = () => {
                     <TableHead>#</TableHead>
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -228,13 +228,13 @@ const page = () => {
                       <TableCell>
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
-                            src={coin?.img}
+                            src={coin?.logo}
                             alt=""
                             className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
@@ -242,7 +242,7 @@ const page = () => {
                           </span>
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right min-w-[150px]">
                         <Badge className="bg-orange-500 text-white">
                           Under Review
                         </Badge>
@@ -259,7 +259,7 @@ const page = () => {
                     <TableHead>#</TableHead>
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -269,13 +269,13 @@ const page = () => {
                       <TableCell>
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <img
-                            src={coin?.img}
+                            src={coin?.logo}
                             alt=""
                             className="max-w-[50px]"
                           />
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <span className="text-xs text-[#a3a3a3]">
@@ -283,7 +283,7 @@ const page = () => {
                           </span>
                         </Link>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-right min-w-[150px]">
                         <Badge className="bg-red-500 text-white">
                           Scam ICO
                         </Badge>

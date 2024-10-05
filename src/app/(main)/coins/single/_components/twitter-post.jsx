@@ -4,14 +4,19 @@ import { useState, useEffect } from "react";
 
 const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
-const TwitterPosts = async ({ username, coin }) => {
+const TwitterPosts = async ({ coin }) => {
   const [tweets, setTweets] = useState(null);
 
   const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
   useEffect(() => {
     const getUserTweets = async () => {
+      // Extract username from the URL
+      const url = coin?.socials?.twitter;
+      const username = url?.split("/")?.pop(); // This will get the last part of the URL
+
       if (!username || !BEARER_TOKEN) return null;
+
       try {
         // Get the user ID from the username
         const userResponse = await axios.get(

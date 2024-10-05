@@ -8,6 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 const Page = () => {
   const {
@@ -18,6 +24,33 @@ const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+
+  // Handle Email/Password Sign In
+  const handleSignIn = async (data) => {
+    setErrorMessage(null);
+
+    const email = data.email;
+    const password = data.password;
+
+    console.log(`Email: ${email} & Password: ${password}`);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User signed in:", user);
+
+      if (user) {
+        onSubmit({ email: user?.email, password: password });
+      }
+    } catch (err) {
+      console.error("Sign in error:", err);
+      setErrorMessage(err.message);
+    }
+  };
 
   const onSubmit = async (data) => {
     setErrorMessage(""); // Clear any previous error message
@@ -50,10 +83,27 @@ const Page = () => {
     }
   };
 
+  // Handle Google Sign In
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google user signed in:", user);
+
+      if (user) {
+        onSubmit({ email: user?.email, password: "empty" });
+      }
+    } catch (err) {
+      console.error("Google Sign-In Error:", err);
+      setErrorMessage(err.message);
+    }
+  };
+
   return (
     <main className="container mx-auto flex flex-col items-center px-1 py-20">
       <div className="bg-gray-200 dark:bg-[#141620] rounded-lg p-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleSignIn)}>
           <h1 className="mb-8 w-80 text-3xl text-white">Log In</h1>
 
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -124,7 +174,9 @@ const Page = () => {
         <div
           id="google-button-container"
           className="flex justify-center min-h-[44px]"
-        ></div>
+        >
+          <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
+        </div>
       </div>
 
       <div className="mt-5 flex justify-center">

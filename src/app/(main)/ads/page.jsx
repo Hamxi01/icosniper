@@ -17,10 +17,10 @@ const page = () => {
     <section className="py-10 lg:px-0 px-2">
       <div className="container mx-auto w-full max-w-[1366px]">
         <h1 className="lg:text-4xl text-2xl font-semibold dark:text-white mb-7">
-          Advertising & Services
+          COINSNIPER is different from other listings services
         </h1>
         <h2 className="lg:text-2xl text-xl dark:text-white mb-4">
-          Why choose CoinMooner?
+          Here is Why?
         </h2>
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
           <Card className="dark:bg-[#141620]">
@@ -32,8 +32,10 @@ const page = () => {
               />
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">1 Million+</CardTitle>
-              <CardDescription>Monthly Active Users</CardDescription>
+              <CardTitle className="mb-2">AVTIVE members</CardTitle>
+              <CardDescription>
+                Daily giveaway and bounty program
+              </CardDescription>
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
@@ -45,8 +47,8 @@ const page = () => {
               />
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">50 Million+</CardTitle>
-              <CardDescription>Upvotes Placed</CardDescription>
+              <CardTitle className="mb-2">Not a just listing</CardTitle>
+              <CardDescription>Massive exposure in our members</CardDescription>
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
@@ -58,8 +60,10 @@ const page = () => {
               />
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">30000+</CardTitle>
-              <CardDescription>Projects Listed</CardDescription>
+              <CardTitle className="mb-2">REAL MARKETING</CardTitle>
+              <CardDescription>
+                FREE BLOG POST , SNS shout-out ETC….
+              </CardDescription>
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
@@ -71,8 +75,8 @@ const page = () => {
               />
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">Unlimited</CardTitle>
-              <CardDescription>Changes to Your Ad</CardDescription>
+              <CardTitle className="mb-2">FIXED ADS PRICE</CardTitle>
+              <CardDescription>Make simple to start</CardDescription>
             </CardContent>
           </Card>
         </div>
@@ -162,6 +166,89 @@ const page = () => {
               <CardTitle>$300 / day</CardTitle>
             </CardFooter>
           </Card>
+
+          {/* <Card className="dark:bg-[#141620]">
+            <CardHeader>
+              <Image
+                src="/img/pages/ads/rotating-banner-ads.png"
+                alt="Users icon"
+                width={300}
+                height={300}
+                className="h-fit mx-auto w-full max-w-[250px]"
+              />
+            </CardHeader>
+            <CardContent className="text-center">
+              <CardTitle className="mb-2">HOT PRESALE</CardTitle>
+              <CardDescription>
+                One of the spots in our rotating banner section. <br />
+                Traffic is shared. Any video or image format.
+              </CardDescription>
+              <div className="flex items-center gap-4 mx-auto w-full max-w-[270px] mt-4 mb-7 flex-wrap">
+                <div className="py-1 px-3 rounded border border-gray-400 text-sm">
+                  Desktop 728x90
+                </div>
+                <div className="py-1 px-3 rounded border border-gray-400 text-sm">
+                  Mobile 640x120
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-center">
+              <CardTitle>$150 / day</CardTitle>
+            </CardFooter>
+          </Card>
+          <Card className="dark:bg-[#141620]">
+            <CardHeader>
+              <Image
+                src="/img/pages/ads/premium-banner-ads.png"
+                alt="Users icon"
+                width={300}
+                height={300}
+                className="h-fit mx-auto w-full max-w-[250px]"
+              />
+            </CardHeader>
+            <CardContent className="text-center">
+              <CardTitle className="mb-2">Premium Banner Ads</CardTitle>
+              <CardDescription>
+                Premium banner spot at the top of our website. <br />
+                Dedicated spot. Any video or image format.
+              </CardDescription>
+              <div className="flex items-center gap-4 mx-auto w-full max-w-[280px] mt-4 mb-7 flex-wrap">
+                <div className="py-1 px-3 rounded border border-gray-400 text-sm">
+                  Desktop 1440x90
+                </div>
+                <div className="py-1 px-3 rounded border border-gray-400 text-sm">
+                  Mobile 640x200
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-center">
+              <CardTitle>$375 / day</CardTitle>
+            </CardFooter>
+          </Card>
+          <Card className="dark:bg-[#141620]">
+            <CardHeader>
+              <Image
+                src="/img/pages/ads/promoted-spot.png"
+                alt="Users icon"
+                width={300}
+                height={300}
+                className="h-fit mx-auto w-full max-w-[250px]"
+              />
+            </CardHeader>
+            <CardContent className="text-center">
+              <CardTitle className="mb-2">Promoted Spot</CardTitle>
+              <CardDescription>
+                Your project is always shown on our main page.
+                <br />
+                Immediate massive exposure for your coin.
+                <br />
+                No additional media needed.
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="justify-center">
+              <CardTitle>$300 / day</CardTitle>
+            </CardFooter>
+          </Card> */}
         </div>
         <div className="my-10 mx-auto text-center">
           <Button

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import PromotedCoins from "../../_components/promotedCoins";
 import { useToast } from "@/components/global/use-toast";
 import TwitterPosts from "./_components/twitter-post";
+import { Button } from "@/components/ui/button";
 
 const CoinDetailComponent = () => {
   const searchParams = useSearchParams();
@@ -13,6 +14,8 @@ const CoinDetailComponent = () => {
   const [moreCoins, setMoreCoins] = useState([]);
   const [user, setUser] = useState(null);
   const { addToast } = useToast();
+
+  const [watchlist, setWatchlist] = useState();
 
   useEffect(() => {
     const response = JSON.parse(localStorage.getItem("tv3623315"));
@@ -32,7 +35,9 @@ const CoinDetailComponent = () => {
 
     if (id) {
       const fetchCoin = async () => {
-        const data = await fetch(`/api/coins/single?id=${id}`); // Await the fetching
+        const data = await fetch(
+          `/api/coins/single?id=${id}&userId=${user?.id}`
+        ); // Await the fetching
 
         if (data.ok) {
           setCoin(await data.json());
@@ -40,12 +45,61 @@ const CoinDetailComponent = () => {
       };
       fetchCoin();
     }
-  }, [id]);
+  }, [id, user]);
 
-  const [isWatchlisted, setIsWatchlisted] = useState(false);
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      if (!coin) return; // Exit if no coin
 
-  const toggleWatchlist = () => {
-    setIsWatchlisted(!isWatchlisted);
+      // Construct the URL based on user existence
+      const url = user
+        ? `/api/watchlist/count?userId=${user.id}&coinId=${coin.id}`
+        : `/api/watchlist/count?coinId=${coin.id}`;
+
+      try {
+        const response = await fetch(url, { method: "GET" });
+
+        if (response.ok) {
+          const data = await response.json();
+          setWatchlist(data);
+        } else {
+          console.error("Failed to fetch watchlist:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching watchlist:", error);
+      }
+    };
+
+    fetchWatchlist(); // Call the fetch function
+  }, [user, coin]);
+
+  const addToWatchlist = async () => {
+    if (!user) {
+      alert("You need to be logged in to add to your watchlist.");
+      return; // Exit if user is not defined
+    }
+
+    try {
+      const response = await fetch(`/api/watchlist`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ coinId: coin.id, userId: user.id }),
+      });
+
+      if (response.ok) {
+        alert("Added To Watchlist Successfully");
+        // Optionally refresh the watchlist state after adding
+        await fetchWatchlist();
+      } else {
+        console.error("Failed to add to watchlist:", response.statusText);
+        alert("Failed to add to watchlist.");
+      }
+    } catch (error) {
+      console.error("Error adding to watchlist:", error);
+      alert("Error adding to watchlist.");
+    }
   };
 
   const handleAddVote = async () => {
@@ -244,10 +298,7 @@ const CoinDetailComponent = () => {
                 </button>
               </div>
               <div className="relative mt-8 overflow-hidden rounded-md bg-panel-bg p-5">
-                <span>
-                  Pepe Unchained. The future of meme coins. A Layer 2 blockchain
-                  built for Speed, Security, Low Fees—and of course—Memes.
-                </span>
+                {coin?.description}
               </div>
             </div>
             <div className="mt-6 w-full">
@@ -393,24 +444,24 @@ const CoinDetailComponent = () => {
                   <span className="text-xs font-medium text-neutral-400">
                     Overall rank
                   </span>
-                  <span className="text-xs font-medium text-white">38</span>
+                  <span className="text-xs font-medium text-white">0</span>
                 </div>
                 <div className="my-3 flex justify-between">
                   <span className="text-xs font-medium text-neutral-400">
                     Daily rank
                   </span>
-                  <span className="text-xs font-medium text-white">44000</span>
+                  <span className="text-xs font-medium text-white">0</span>
                 </div>
                 <div className="my-3 flex items-center justify-between">
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">
                     <div className="mb-2 text-2xl font-bold text-white">
-                      {coin?.votesCount}
+                      {coin?.voteCount}
                     </div>
                     <p>Total Votes</p>
                   </div>
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">
                     <div className="mb-2 text-2xl font-bold text-white">
-                      {coin?.last24HoursVote}
+                      {coin?.last24HourVotesCount}
                     </div>
                     <p>Votes Today</p>
                   </div>
@@ -434,21 +485,21 @@ const CoinDetailComponent = () => {
                 <div className="my-3 flex items-center justify-between">
                   <div className="flex flex-col items-center gap-2 text-center text-xs font-medium text-neutral-400">
                     <p>Add to watchlist</p>
-                    <button
+                    <Button
                       type="button"
-                      className="h-8 w-14 rounded-full bg-gray-300 p-1 bg-gray-200"
-                      onClick={toggleWatchlist}
+                      onClick={addToWatchlist}
+                      disabled={watchlist?.hasAdded}
                     >
-                      <div className="h-6 w-6 rounded-full bg-white transition-transform duration-300">
-                        <svg className="h-6 w-6 text-gray-200">
-                          <use xlinkHref="#eye-hide"></use>
-                        </svg>
-                      </div>
-                    </button>
+                      {watchlist?.hasAdded
+                        ? "Added To Watchlist"
+                        : "Add To Watchlist"}
+                    </Button>
                   </div>
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">
                     <p>Watchlisted</p>
-                    <div className="text-2xl font-bold text-white">6</div>
+                    <div className="text-2xl font-bold text-white">
+                      {watchlist?.totalWatchlistedCoins}
+                    </div>
                     <p>times</p>
                   </div>
                 </div>

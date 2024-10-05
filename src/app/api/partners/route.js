@@ -17,6 +17,7 @@ export async function GET(request) {
       },
       skip: (page - 1) * limit,
       take: limit,
+      orderBy: { id: "desc" }, // Order by ID in descending order
     });
 
     const totalPartners = await prisma.partner.count({

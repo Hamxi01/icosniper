@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const page = () => {
@@ -70,12 +71,12 @@ const page = () => {
           <div class="flex md:h-16 pb-4 justify-between">
             <h1 class="text-3xl font-medium">Dashboard</h1>
             <div class="flex flex-col md:flex-row items-center gap-2">
-              <a
+              <Link
                 class="border-2 bg-mediumslateblue-200 border-purple-100 hover:bg-purple-100 active:bg-purple-200 transition-colors rounded-md text-white p-1"
-                href="/settings"
+                href="/dashboard/settings"
               >
                 Account Settings
-              </a>
+              </Link>
             </div>
           </div>
           <div class="mt-4">

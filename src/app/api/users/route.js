@@ -65,6 +65,12 @@ export async function DELETE(req) {
   const { id } = await req.json(); // Extract the id from the request body
 
   try {
+    // Delete related entities manually
+    await prisma.vote.deleteMany({ where: { userId: id } });
+    await prisma.watchlistCoin.deleteMany({ where: { userId: id } });
+    await prisma.icoScamComment.deleteMany({ where: { userId: id } });
+    await prisma.coin.deleteMany({ where: { userId: id } });
+
     await prisma.user.delete({
       where: { id }, // Use the id to delete the user
     });

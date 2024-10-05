@@ -43,7 +43,7 @@ const FooterStickyBanner = () => {
   return (
     <>
       {showBanner && bannerContent && (
-        <div className="bg-gray-100 w-full h-[48px] fixed bottom-0 left-0 right-0 flex items-center justify-between px-2 shadow-md z-50">
+        <div className="bg-gray-100 w-full h-[48px] fixed bottom-0 left-0 right-0 flex items-center justify-between shadow-md z-50">
           {/* Banner content */}
           {bannerContent && (
             <a
@@ -58,12 +58,12 @@ const FooterStickyBanner = () => {
                   alt={bannerContent.alt || "Footer Banner"}
                   width={1000}
                   height={200}
-                  className="w-full h-full object-cover rounded max-h-[110px]"
+                  className="w-full h-full object-cover max-h-[110px]"
                 />
               ) : (
                 <video
                   src={bannerContent.media}
-                  className="w-full h-full object-cover rounded max-h-[110px]"
+                  className="w-full h-full object-cover max-h-[110px]"
                   autoPlay
                   loop
                   muted
@@ -74,7 +74,7 @@ const FooterStickyBanner = () => {
           {/* Close button */}
           <button
             onClick={handleClose}
-            className="text-gray-600 hover:text-gray-800"
+            className=" hover:text-gray-800 absolute top-0 right-1 text-white"
             aria-label="Close banner"
           >
             &#10005; {/* Cross icon (close) */}

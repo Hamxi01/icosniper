@@ -30,6 +30,7 @@ export async function GET(request) {
     where,
     skip: (page - 1) * limit,
     take: Number(limit),
+    orderBy: { id: "desc" }, // Order by ID in descending order
   });
 
   const totalCount = await prisma.news.count({ where });

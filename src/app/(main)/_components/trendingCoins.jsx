@@ -83,6 +83,74 @@ const TrendingCoins = () => {
     });
   };
 
+  const formatDate = (dateString) => {
+    const launchDate = new Date(dateString);
+    const now = new Date();
+    const differenceInSeconds = Math.floor((now - launchDate) / 1000);
+
+    let timeAgo = "";
+
+    if (differenceInSeconds < 0) {
+      const futureDifferenceInSeconds = Math.abs(differenceInSeconds);
+
+      if (futureDifferenceInSeconds < 60) {
+        timeAgo = `in ${futureDifferenceInSeconds} second${
+          futureDifferenceInSeconds !== 1 ? "s" : ""
+        }`;
+      } else if (futureDifferenceInSeconds < 3600) {
+        const minutes = Math.floor(futureDifferenceInSeconds / 60);
+        timeAgo = `in ${minutes} minute${minutes !== 1 ? "s" : ""}`;
+      } else if (futureDifferenceInSeconds < 86400) {
+        const hours = Math.floor(futureDifferenceInSeconds / 3600);
+        timeAgo = `in ${hours} hour${hours !== 1 ? "s" : ""}`;
+      } else if (futureDifferenceInSeconds < 604800) {
+        // 7 days
+        const days = Math.floor(futureDifferenceInSeconds / 86400);
+        timeAgo = `in ${days} day${days !== 1 ? "s" : ""}`;
+      } else if (futureDifferenceInSeconds < 2419200) {
+        // 30 days
+        const weeks = Math.floor(futureDifferenceInSeconds / 604800);
+        timeAgo = `in ${weeks} week${weeks !== 1 ? "s" : ""}`;
+      } else if (futureDifferenceInSeconds < 29030400) {
+        // 365 days
+        const months = Math.floor(futureDifferenceInSeconds / 2419200);
+        timeAgo = `in ${months} month${months !== 1 ? "s" : ""}`;
+      } else {
+        const years = Math.floor(futureDifferenceInSeconds / 29030400);
+        timeAgo = `in ${years} year${years !== 1 ? "s" : ""}`;
+      }
+    } else {
+      if (differenceInSeconds < 60) {
+        timeAgo = `${differenceInSeconds} second${
+          differenceInSeconds !== 1 ? "s" : ""
+        } ago`;
+      } else if (differenceInSeconds < 3600) {
+        const minutes = Math.floor(differenceInSeconds / 60);
+        timeAgo = `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+      } else if (differenceInSeconds < 86400) {
+        const hours = Math.floor(differenceInSeconds / 3600);
+        timeAgo = `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+      } else if (differenceInSeconds < 604800) {
+        // 7 days
+        const days = Math.floor(differenceInSeconds / 86400);
+        timeAgo = `${days} day${days !== 1 ? "s" : ""} ago`;
+      } else if (differenceInSeconds < 2419200) {
+        // 30 days
+        const weeks = Math.floor(differenceInSeconds / 604800);
+        timeAgo = `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
+      } else if (differenceInSeconds < 29030400) {
+        // 365 days
+        const months = Math.floor(differenceInSeconds / 2419200);
+        timeAgo = `${months} month${months !== 1 ? "s" : ""} ago`;
+      } else {
+        const years = Math.floor(differenceInSeconds / 29030400);
+        timeAgo = `${years} year${years !== 1 ? "s" : ""} ago`;
+      }
+    }
+
+    return timeAgo;
+  };
+
   const handleAddVote = async (coin) => {
     if (user?.id) {
       try {
@@ -210,7 +278,7 @@ const TrendingCoins = () => {
                         <span>-</span>
                       </TableCell>
                       <TableCell className="text-center">
-                        {formatRelativeTime(new Date(coin?.launchDate))}
+                        {formatDate(new Date(coin?.launchDate))}
                       </TableCell>
                       <TableCell className="text-center">
                         {coin?.voteCount}
