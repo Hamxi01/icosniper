@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import React from "react";
 
-const MyBreadcrumb = () => {
+const MyBreadcrumb = ({ currentCategory }) => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -20,7 +20,9 @@ const MyBreadcrumb = () => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-xs">Blog</BreadcrumbPage>
+          <BreadcrumbPage className="text-xs">
+            {currentCategory ? currentCategory : "Blogs"}
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

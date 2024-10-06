@@ -172,52 +172,55 @@ const Header = () => {
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?News"} className="text-sm">
+                <Link href={"/news?category=News"} className="text-sm">
                   News
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Finance"} className="text-sm">
+                <Link href={"/news?category=Finance"} className="text-sm">
                   Finance
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?DeFi news"} className="text-sm">
+                <Link href={"/news?category=DeFi news"} className="text-sm">
                   DeFi news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Dapps"} className="text-sm">
+                <Link href={"/news?category=Dapps"} className="text-sm">
                   Dapps
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?GameFi"} className="text-sm">
+                <Link href={"/news?category=GameFi"} className="text-sm">
                   GameFi
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Exchange news"} className="text-sm">
+                <Link href={"/news?category=Exchange news"} className="text-sm">
                   Exchange news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Launchpad news"} className="text-sm">
+                <Link
+                  href={"/news?category=Launchpad news"}
+                  className="text-sm"
+                >
                   Launchpad news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Altcoins"} className="text-sm">
+                <Link href={"/news?category=Altcoins"} className="text-sm">
                   Altcoins
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?NFT"} className="text-sm">
+                <Link href={"/news?category=NFT"} className="text-sm">
                   NFT
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?Tutorials"} className="text-sm">
+                <Link href={"/news?category=Tutorials"} className="text-sm">
                   Tutorials
                 </Link>
               </MenubarItem>
