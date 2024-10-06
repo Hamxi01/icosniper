@@ -2,50 +2,29 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
+// const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
 const TwitterPosts = async ({ coin }) => {
   const [tweets, setTweets] = useState(null);
 
-  const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
+  const BEARER_TOKEN = process.env.NEXT_PUBLIC_TWITTER_BEARER_TOKEN;
 
   useEffect(() => {
     const getUserTweets = async () => {
-      // Extract username from the URL
       const url = coin?.socials?.twitter;
-      const username = url?.split("/")?.pop(); // This will get the last part of the URL
+      const username = url?.split("/")?.pop();
 
-      if (!username || !BEARER_TOKEN) return null;
+      if (!username) return null;
 
       try {
-        // Get the user ID from the username
-        const userResponse = await axios.get(
-          `https://api.twitter.com/2/users/by/username/${username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${BEARER_TOKEN}`,
-            },
-          }
-        );
-
-        const userId = userResponse.data.data.id;
-
-        // Fetch the user's tweets using the user ID
-        const tweetsResponse = await axios.get(
-          `https://api.twitter.com/2/users/${userId}/tweets`,
-          {
-            headers: {
-              Authorization: `Bearer ${BEARER_TOKEN}`,
-            },
-          }
-        );
-
-        setTweets(tweetsResponse.data.data);
+        // Call your backend API instead of Twitter directly
+        // const response = await axios.get(`/api/tweets?username=${username}`);
+        // setTweets(response.data.tweets);
       } catch (error) {
         console.error("Error fetching tweets:", error);
-        throw new Error("Could not fetch tweets.");
       }
     };
+
     getUserTweets();
   }, []);
 

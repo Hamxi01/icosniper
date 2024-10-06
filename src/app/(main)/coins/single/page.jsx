@@ -505,7 +505,9 @@ const CoinDetailComponent = () => {
                 </div>
               </div>
             </div>
-            <TwitterPosts username={coin?.socials?.twitter} coin={coin} />
+            {coin && (
+              <TwitterPosts username={coin?.socials?.twitter} coin={coin} />
+            )}
           </div>
         </div>
       </section>

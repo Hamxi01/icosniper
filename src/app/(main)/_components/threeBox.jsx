@@ -23,9 +23,7 @@ const ThreeBox = () => {
     };
 
     fetchBanners();
-  }, []);
 
-  useEffect(() => {
     const fetchCoins = async () => {
       try {
         const response = await fetch("/api/coins/new-coins"); // Update the API endpoint accordingly
@@ -40,9 +38,7 @@ const ThreeBox = () => {
     };
 
     fetchCoins();
-  }, []);
 
-  useEffect(() => {
     const fetchHottestPairs = async () => {
       try {
         const response = await fetch("/api/hottest-pairs"); // Update the API endpoint accordingly
