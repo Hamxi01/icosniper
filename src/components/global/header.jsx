@@ -182,7 +182,7 @@ const Header = () => {
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=DeFi news"} className="text-sm">
+                <Link href={"/news?category=DeFi News"} className="text-sm">
                   DeFi news
                 </Link>
               </MenubarItem>
