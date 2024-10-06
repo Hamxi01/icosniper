@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma"; // Ensure you have prisma set up here
-import { NextResponse } from "next/server";
 
 // GET all coins with pagination and search
 export async function GET(request) {
