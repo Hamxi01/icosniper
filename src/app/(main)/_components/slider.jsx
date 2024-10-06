@@ -15,7 +15,13 @@ import React, { useEffect, useState } from "react";
 import "swiper/swiper-bundle.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
 import Link from "next/link";
 
 const Slider = () => {
@@ -57,14 +63,14 @@ const Slider = () => {
     <section className="lg:px-0 px-2">
       <div className="container mx-auto w-full max-w-[1366px]">
         <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={10}
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
           autoplay={{
-            delay: 1000, // Slide delay in milliseconds
+            delay: 3500, // Slide delay in milliseconds
             disableOnInteraction: false,
           }}
           breakpoints={{
