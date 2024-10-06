@@ -46,7 +46,12 @@ const BlogCard = ({
           )}
         </div>
         <CardTitle className={`${headingClass && headingClass}`}>
-          <Link href={`/news/single?id=${blog?.id}`}>{blog?.title}</Link>
+          <Link
+            href={`/news/single?id=${blog?.id}`}
+            style={{ wordWrap: "break-word" }}
+          >
+            {blog?.title}
+          </Link>
         </CardTitle>
       </CardContent>
     </Card>

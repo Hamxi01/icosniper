@@ -8,7 +8,7 @@ const TutorialsBlog = () => {
 
   useEffect(() => {
     const fetchNews = async () => {
-      const data = await fetchBlogs("interview"); // Await the fetching
+      const data = await fetchBlogs("Tutorials"); // Await the fetching
       console.log("Fetched news:", data);
       setNews(data);
     };
@@ -20,7 +20,7 @@ const TutorialsBlog = () => {
 
   return (
     <section>
-      <h2 className="lg:text-2xl text-xl font-semibold mb-3">INTERVIEW</h2>
+      <h2 className="lg:text-2xl text-xl font-semibold mb-3">Tutorials</h2>
       <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
         {news?.map((blog) => (
           <BlogCard
