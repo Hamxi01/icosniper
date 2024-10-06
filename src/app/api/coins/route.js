@@ -266,9 +266,9 @@ export async function POST(req) {
         contactEmail,
         contactTelegram,
         tokenContractAddress: {
-          create: tokenContractAddresses.map((address) => ({
-            Chain: address.Chain, // Ensure this matches your Prisma schema
-            Address: address.Address, // Ensure this matches your Prisma schema
+          create: tokenContractAddresses?.map((address) => ({
+            Chain: address?.Chain, // Ensure this matches your Prisma schema
+            Address: address?.Address, // Ensure this matches your Prisma schema
           })),
         },
         userId,

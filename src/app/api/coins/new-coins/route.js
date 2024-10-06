@@ -12,7 +12,10 @@ export async function GET(request) {
     });
 
     return new Response(JSON.stringify({ coins }), {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store",
+      },
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: "Error fetching coins" }), {

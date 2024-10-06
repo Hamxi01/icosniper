@@ -101,7 +101,7 @@ const page = () => {
   };
 
   const [contractAddresses, setContractAddresses] = useState([
-    { Chain: "", Address: "" }, // Initial fixed address
+    { Chain: "Ethereum", Address: "" }, // Initial fixed address
   ]);
 
   // Handler to add another contract address

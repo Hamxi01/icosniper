@@ -1,8 +1,7 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock3Icon, FireExtinguisher } from "lucide-react";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 const ThreeBox = () => {
   const [boxBanner, setBoxBanner] = useState(null); // State for the box banner
@@ -10,50 +9,54 @@ const ThreeBox = () => {
   const [hottestPairs, setHottestPairs] = useState([]);
 
   useEffect(() => {
-    // Fetch banners from the API
-    const fetchBanners = async () => {
-      try {
-        // Fetch the box banner (placement: 'box')
-        const boxRes = await fetch("/api/banners?placement=box");
-        const boxData = await boxRes.json();
-        setBoxBanner(boxData[0]); // Expecting 1 banner for box
-      } catch (error) {
-        console.error("Error fetching banners:", error);
-      }
-    };
-
     fetchBanners();
-
-    const fetchCoins = async () => {
-      try {
-        const response = await fetch("/api/coins/new-coins"); // Update the API endpoint accordingly
-        const data = await response.json();
-
-        if (data.coins) {
-          setCoins(data.coins);
-        }
-      } catch (error) {
-        console.error("Error fetching Coins:", error);
-      }
-    };
-
     fetchCoins();
-
-    const fetchHottestPairs = async () => {
-      try {
-        const response = await fetch("/api/hottest-pairs"); // Update the API endpoint accordingly
-        const data = await response.json();
-
-        if (data.hottestPairs) {
-          setHottestPairs(data.hottestPairs);
-        }
-      } catch (error) {
-        console.error("Error fetching hottest pairs:", error);
-      }
-    };
-
     fetchHottestPairs();
   }, []);
+
+  // Fetch banners from the API
+  const fetchBanners = async () => {
+    try {
+      // Fetch the box banner (placement: 'box')
+      const boxRes = await fetch("/api/banners?placement=box", {
+        cache: "no-store", // Force no caching in the fetch request
+      });
+      const boxData = await boxRes.json();
+      setBoxBanner(boxData[0]); // Expecting 1 banner for box
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+    }
+  };
+
+  const fetchCoins = async () => {
+    try {
+      const response = await fetch("/api/coins/new-coins", {
+        cache: "no-store", // Force no caching in the fetch request
+      }); // Update the API endpoint accordingly
+      const data = await response.json();
+
+      if (data.coins) {
+        setCoins(data.coins);
+      }
+    } catch (error) {
+      console.error("Error fetching Coins:", error);
+    }
+  };
+
+  const fetchHottestPairs = async () => {
+    try {
+      const response = await fetch("/api/hottest-pairs", {
+        cache: "no-store", // Force no caching in the fetch request
+      }); // Update the API endpoint accordingly
+      const data = await response.json();
+
+      if (data.hottestPairs) {
+        setHottestPairs(data.hottestPairs);
+      }
+    } catch (error) {
+      console.error("Error fetching hottest pairs:", error);
+    }
+  };
 
   const formatDate = (dateString) => {
     const launchDate = new Date(dateString);
