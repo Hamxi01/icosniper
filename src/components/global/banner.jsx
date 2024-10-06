@@ -1,31 +1,43 @@
 "use client";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Banner = () => {
   const [mainBanner, setMainBanner] = useState(null);
   const [rotatingBanners, setRotatingBanners] = useState([]);
+  const pathname = usePathname(); // Use pathname to detect changes in the URL
 
-  useEffect(() => {
-    // Fetch banners from the API
-    const fetchBanners = async () => {
-      try {
-        // Fetch the main banner (placement: 'main')
-        const mainRes = await fetch("/api/banners?placement=main");
-        const mainData = await mainRes.json();
-        setMainBanner(mainData[0]); // Expecting 1 banner for main
+  const fetchBanners = async () => {
+    try {
+      // Fetch the main banner (placement: 'main')
+      const mainRes = await fetch("/api/banners?placement=main");
+      const mainData = await mainRes.json();
+      setMainBanner(mainData[0]); // Expecting 1 banner for main
 
-        // Fetch the rotating banners (placement: 'rotating')
-        const rotatingRes = await fetch("/api/banners?placement=rotating");
-        const rotatingData = await rotatingRes.json();
+      // Fetch the rotating banners (placement: 'rotating')
+      const rotatingRes = await fetch("/api/banners?placement=rotating");
+      const rotatingData = await rotatingRes.json();
+
+      // Check if rotatingData is an array
+      if (Array.isArray(rotatingData)) {
         setRotatingBanners(rotatingData); // Store all rotating banners
-      } catch (error) {
-        console.error("Error fetching banners:", error);
+      } else {
+        console.error("Rotating banners data is not an array:", rotatingData);
+        setRotatingBanners([]); // Reset to an empty array if not an array
       }
-    };
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+      setRotatingBanners([]); // Reset to an empty array on error
+    }
+  };
 
+  // Fetch banners when the component mounts or pathname changes
+  useEffect(() => {
     fetchBanners();
-  }, []);
+  }, [pathname]); // Include pathname as a dependency
+
+  if (rotatingBanners.length < 1) return "Loading...";
 
   return (
     <section className="pb-4 pt-2 lg:px-0 px-2">
