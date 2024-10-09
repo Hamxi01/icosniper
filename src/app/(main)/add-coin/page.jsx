@@ -671,15 +671,11 @@ const page = () => {
                         <label className="text-white text-base mb-2 block flex justify-between">
                           <div>
                             {item.name}{" "}
-                            <span className="text-violet-500 text-base font-bold">
-                              {/* * */}
-                            </span>
+                            <span className="text-violet-500 text-base font-bold"></span>
                           </div>
                         </label>
                         <input
-                          {...register(`socials.${index}.link`, {
-                            // required: item.name !== "CoinMarketCap", // required only if it's not CoinMarketCap
-                          })}
+                          {...register(`socials.${index}.link`)}
                           className="border rounded-md focus:border-panel-bg focus:outline-indigo-700 h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white pl-10"
                           type="text"
                           placeholder="e.g. https://..."
