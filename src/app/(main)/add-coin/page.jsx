@@ -672,13 +672,13 @@ const page = () => {
                           <div>
                             {item.name}{" "}
                             <span className="text-violet-500 text-base font-bold">
-                              *
+                              {/* * */}
                             </span>
                           </div>
                         </label>
                         <input
                           {...register(`socials.${index}.link`, {
-                            required: true,
+                            // required: item.name !== "CoinMarketCap", // required only if it's not CoinMarketCap
                           })}
                           className="border rounded-md focus:border-panel-bg focus:outline-indigo-700 h-14 bg-panel-bg p-4 placeholder-neutral-400 text-white pl-10"
                           type="text"
