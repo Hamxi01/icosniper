@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 
 const Banner = () => {
   const [mainBanner, setMainBanner] = useState(null);
@@ -103,4 +103,13 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+// Wrap the component in Suspense
+const SuspenseWrapper = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Banner />
+    </Suspense>
+  );
+};
+
+export default SuspenseWrapper;
