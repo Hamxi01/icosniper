@@ -4,7 +4,6 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ToastProvider } from "@/components/global/use-toast";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TrackVisitor from "@/components/global/TrackVisitor";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,7 +36,7 @@ export default function RootLayout({ children }) {
         >
           <ToastProvider>
             {/* <Component {...pageProps} /> */}
-            <TrackVisitor />
+
             {children}
           </ToastProvider>
           <ToastContainer />
