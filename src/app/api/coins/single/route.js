@@ -48,12 +48,50 @@ export async function GET(request) {
       ? coin.Votes.some((vote) => vote.userId === userId) // Check if the userId exists in the Votes
       : false; // Default to false if no userId is provided
 
+    // ====================
+    // Calculate Rankings
+    // ====================
+
+    // 1. Overall rank based on total votes
+    const allCoinsWithTotalVotes = await prisma.coin.findMany({
+      include: {
+        _count: {
+          select: { Votes: true }, // Get the total vote count for each coin
+        },
+      },
+    });
+
+    const overallRank =
+      allCoinsWithTotalVotes
+        .sort((a, b) => b._count.Votes - a._count.Votes) // Sort coins by total votes (descending)
+        .findIndex((c) => c.id === coin.id) + 1; // Find the rank of the current coin (+1 for 1-based index)
+
+    // 2. Daily rank based on last 24-hour votes
+    const allCoinsWithDailyVotes = await prisma.coin.findMany({
+      include: {
+        Votes: {
+          where: {
+            date: {
+              gte: twentyFourHoursAgo, // Get votes only from the last 24 hours
+            },
+          },
+        },
+      },
+    });
+
+    const dailyRank =
+      allCoinsWithDailyVotes
+        .sort((a, b) => b.Votes.length - a.Votes.length) // Sort coins by last 24-hour votes (descending)
+        .findIndex((c) => c.id === coin.id) + 1; // Find the rank of the current coin (+1 for 1-based index)
+
     // Construct the response object with additional fields
     const responseCoin = {
       ...coin,
       voteCount, // Total votes for the coin
       last24HourVotesCount, // Count of votes in the last 24 hours for this coin
       hasVoted, // Whether the user has voted
+      overallRank, // Overall rank based on total votes
+      dailyRank, // Daily rank based on last 24-hour votes
     };
 
     return new Response(JSON.stringify(responseCoin), {

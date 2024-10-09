@@ -444,13 +444,17 @@ const CoinDetailComponent = () => {
                   <span className="text-xs font-medium text-neutral-400">
                     Overall rank
                   </span>
-                  <span className="text-xs font-medium text-white">0</span>
+                  <span className="text-xs font-medium text-white">
+                    {coin?.overallRank}
+                  </span>
                 </div>
                 <div className="my-3 flex justify-between">
                   <span className="text-xs font-medium text-neutral-400">
                     Daily rank
                   </span>
-                  <span className="text-xs font-medium text-white">0</span>
+                  <span className="text-xs font-medium text-white">
+                    {coin?.dailyRank}
+                  </span>
                 </div>
                 <div className="my-3 flex items-center justify-between">
                   <div className="flex flex-col justify-center text-center text-xs font-medium text-neutral-400">

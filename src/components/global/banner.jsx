@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Banner = () => {
   const [mainBanner, setMainBanner] = useState(null);
   const [rotatingBanners, setRotatingBanners] = useState([]);
-  const pathname = usePathname(); // Use pathname to detect changes in the URL
+
+  const pathname = usePathname(); // Detect path changes
+  const searchParams = useSearchParams(); // Detect query parameters
 
   const fetchBanners = async () => {
     try {
@@ -32,10 +34,10 @@ const Banner = () => {
     }
   };
 
-  // Fetch banners when the component mounts or pathname changes
+  // Fetch banners when the component mounts or when pathname or query parameters change
   useEffect(() => {
     fetchBanners();
-  }, [pathname]); // Include pathname as a dependency
+  }, [pathname, searchParams]); // Listen for changes in both pathname and searchParams
 
   if (rotatingBanners.length < 1) return "Loading...";
 
