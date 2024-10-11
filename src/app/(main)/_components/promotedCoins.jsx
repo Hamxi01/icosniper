@@ -200,7 +200,7 @@ const PromotedCoins = () => {
               <TableRow key={promotedCoin.coin?.id}>
                 <TableCell>{promotedCoin.coin?.id}</TableCell>
                 <TableCell>
-                  <Link href={`/coins/single?id=${promotedCoin?.coin?.id}`}>
+                  <Link href={`/coins/${promotedCoin?.coin?.id}`}>
                     <img
                       src={promotedCoin.coin?.logo}
                       alt=""
@@ -209,7 +209,7 @@ const PromotedCoins = () => {
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Link href={`/coins/single?id=${promotedCoin?.coin?.id}`}>
+                  <Link href={`/coins/${promotedCoin?.coin?.id}`}>
                     <p className="font-bold text-white">
                       {promotedCoin.coin?.name}
                     </p>

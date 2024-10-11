@@ -261,7 +261,7 @@ const ThreeBox = () => {
               {coins?.slice(0, 4).map((coin, index) => (
                 <a
                   key={coin.id}
-                  href={`/coins/single?id=${coin.id}`}
+                  href={`/coins/${coin.id}`}
                   className="flex items-center justify-between gap-4"
                 >
                   <div className="flex items-center gap-2 text-sm">
@@ -309,7 +309,7 @@ const ThreeBox = () => {
               {hottestPairs.slice(0, 4).map((pair, index) => (
                 <a
                   key={pair.id}
-                  href={`/coins/single?id=${pair.id}`}
+                  href={`/coins/${pair.id}`}
                   className="flex items-center justify-between gap-4"
                 >
                   <div className="flex items-center gap-2 text-sm">

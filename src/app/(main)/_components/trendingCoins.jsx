@@ -226,7 +226,7 @@ const TrendingCoins = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/coins/single?id=${coin?.id}`}>
+                        <Link href={`/coins/${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -235,7 +235,7 @@ const TrendingCoins = () => {
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={`/coins/single?id=${coin?.id}`}>
+                        <Link href={`/coins/${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.name}</p>
                           <span className="text-xs text-[#a3a3a3]">
                             {coin?.symbol}
