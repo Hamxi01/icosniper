@@ -138,7 +138,7 @@ const MainComponent = () => {
               {/* Render Quill description as HTML */}
               {singleNews?.description && (
                 <div
-                  className="reset-headings" // Apply the reset styles here
+                  className="reset-headings ql-editor"
                   dangerouslySetInnerHTML={{
                     __html: singleNews?.description,
                   }}
@@ -293,7 +293,13 @@ const MainComponent = () => {
 };
 
 const NewsSinglePage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    }
+  >
     <MainComponent />
   </Suspense>
 );

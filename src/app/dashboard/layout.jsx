@@ -27,7 +27,11 @@ const Layout = ({ children }) => {
 
   if (user === undefined) {
     // Still checking for user data, show a loading state
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    );
   }
 
   return (

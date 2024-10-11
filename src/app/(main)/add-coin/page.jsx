@@ -213,7 +213,11 @@ const page = () => {
 
   if (user === undefined) {
     // Still checking for user data, show a loading state
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -876,7 +880,7 @@ const page = () => {
                 </div>
                 <a
                   class="flex items-center justify-center gap-2 rounded bg-cyan-600  px-3 py-3 text-xs text-white transition-colors hover:bg-cyan-500 md:h-16 lg:text-sm  lg:font-bold"
-                  href="https://t.me/CoinMoonerAdverts/"
+                  href="https://t.me/ICOSNIPER78"
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >

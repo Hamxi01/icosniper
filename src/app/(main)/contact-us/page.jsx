@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   ChevronRight,
-  GithubIcon,
+  Facebook,
   MailIcon,
   SendIcon,
   TwitterIcon,
@@ -37,23 +37,23 @@ const page = () => {
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-8">
           <div className="">
             <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-5">
-              <Link href={"https://t.me/ICOSNIPERAD"}>
+              <Link href={"https://t.me/ICOSNIPER78"}>
                 <Card className="dark:bg-[#141620]">
                   <CardHeader className="flex items-center flex-row gap-2">
                     <SendIcon /> Telegram
                   </CardHeader>
                   <CardContent>
-                    <CardDescription>https://t.me/ICOSNIPERAD</CardDescription>
+                    <CardDescription>https://t.me/ICOSNIPER78</CardDescription>
                   </CardContent>
                 </Card>
               </Link>
-              <Link href={"/"}>
+              <Link href={"mailto:contact@icosniper.com"}>
                 <Card className="dark:bg-[#141620]">
                   <CardHeader className="flex items-center flex-row gap-2">
                     <MailIcon /> Email
                   </CardHeader>
                   <CardContent>
-                    <CardDescription>contact@coinmooner.com</CardDescription>
+                    <CardDescription>contact@icosniper.com</CardDescription>
                   </CardContent>
                 </Card>
               </Link>
@@ -62,14 +62,22 @@ const page = () => {
               <CardHeader>
                 <CardTitle className="mb-4">Follow Us</CardTitle>
                 <div className="flex items-center gap-3">
-                  <Link href={"/"}>
+                  <Link href={"https://x.com/ICOSNIPER"} target="_blank">
                     <TwitterIcon />
                   </Link>
-                  <Link href={"/"}>
+                  <Link
+                    href={"https://www.youtube.com/@ICOSNIPER"}
+                    target="_blank"
+                  >
                     <YoutubeIcon />
                   </Link>
-                  <Link href={"/"}>
-                    <GithubIcon />
+                  <Link
+                    href={
+                      "https://www.facebook.com/profile.php?id=61560189342231"
+                    }
+                    target="_blank"
+                  >
+                    <Facebook />
                   </Link>
                 </div>
               </CardHeader>

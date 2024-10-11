@@ -20,7 +20,7 @@ const InfoBox = () => {
               alt="InfoBox 1"
               width={500}
               height={500}
-              className="w-full h-fit rounded-lg"
+              className="w-full h-fit max-h-[288px] rounded-lg"
             />
           </CardHeader>
           <CardContent>

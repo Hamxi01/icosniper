@@ -128,17 +128,17 @@ const ThreeBox = () => {
 
   return (
     <section className="lg:px-0 px-2 py-3">
-      <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-7 w-full max-w-[1366px]">
+      <div className="container mx-auto grid lg:grid-cols-3 grid-cols-1 gap-5 w-full max-w-[1366px] min-h-[235px]">
         {/* Box Banner */}
-        <Card className="bg-[#223645] ">
-          <CardHeader>
+        <Card className="bg-[#223645] !p-0">
+          {/* <CardHeader>
             <CardTitle className="flex items-center gap-4 text-lg">
               <span>ADS</span>
               <img src="/img/time.gif" alt="" className="w-full max-w-[40px]" />
-              {/* <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" /> */}
+              <Clock3Icon className="bg-[#7c4eff] rounded-full text-black w-5 h-5" />
             </CardTitle>
-          </CardHeader>
-          <CardContent>
+          </CardHeader> */}
+          <CardContent className="p-1 h-full">
             {/* Render the box banner */}
             {boxBanner && (
               <a
@@ -153,12 +153,12 @@ const ThreeBox = () => {
                     alt={boxBanner.alt || "Box Banner"}
                     width={300}
                     height={100}
-                    className="w-full h-[170px] object-cover rounded"
+                    className="w-full h-full object-cover rounded"
                   />
                 ) : (
                   <video
                     src={boxBanner.media}
-                    className="w-full h-[170px] object-cover rounded"
+                    className="w-full h-full object-cover rounded"
                     autoPlay
                     loop
                     muted

@@ -149,7 +149,7 @@ const Header = () => {
         <Menubar className="dark:text-white dark:border-slate-500 lg:flex hidden border-0">
           <MenubarMenu>
             <MenubarTrigger asChild>
-              <Link href={"/"} className="text-[1rem]">
+              <Link href={"/"} className="text-[1rem] cursor-pointer">
                 Coins
               </Link>
             </MenubarTrigger>
@@ -157,70 +157,99 @@ const Header = () => {
           <MenubarSeparator />
           <MenubarMenu>
             <MenubarTrigger asChild>
-              <Link href={"/airdrops"} className="text-[1rem]">
+              <Link href={"/airdrops"} className="text-[1rem] cursor-pointer">
                 ICO Scam
               </Link>
             </MenubarTrigger>
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger className="text-[1rem]">News</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem] cursor-pointer">
+              News
+            </MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
-                <Link href={"/news"} className="text-sm">
+                <Link href={"/news"} className="text-sm cursor-pointer">
                   Latest
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=News"} className="text-sm">
+                <Link
+                  href={"/news?category=News"}
+                  className="text-sm cursor-pointer"
+                >
                   News
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=Finance"} className="text-sm">
+                <Link
+                  href={"/news?category=Finance"}
+                  className="text-sm cursor-pointer"
+                >
                   Finance
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=DeFi News"} className="text-sm">
+                <Link
+                  href={"/news?category=DeFi News"}
+                  className="text-sm cursor-pointer"
+                >
                   DeFi news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=Dapps"} className="text-sm">
+                <Link
+                  href={"/news?category=Dapps"}
+                  className="text-sm cursor-pointer"
+                >
                   Dapps
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=GameFi"} className="text-sm">
+                <Link
+                  href={"/news?category=GameFi"}
+                  className="text-sm cursor-pointer"
+                >
                   GameFi
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=Exchange news"} className="text-sm">
+                <Link
+                  href={"/news?category=Exchange news"}
+                  className="text-sm cursor-pointer"
+                >
                   Exchange news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
                 <Link
                   href={"/news?category=Launchpad news"}
-                  className="text-sm"
+                  className="text-sm cursor-pointer"
                 >
                   Launchpad news
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=Altcoins"} className="text-sm">
+                <Link
+                  href={"/news?category=Altcoins"}
+                  className="text-sm cursor-pointer"
+                >
                   Altcoins
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=NFT"} className="text-sm">
+                <Link
+                  href={"/news?category=NFT"}
+                  className="text-sm cursor-pointer"
+                >
                   NFT
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/news?category=Tutorials"} className="text-sm">
+                <Link
+                  href={"/news?category=Tutorials"}
+                  className="text-sm cursor-pointer"
+                >
                   Tutorials
                 </Link>
               </MenubarItem>
@@ -228,20 +257,22 @@ const Header = () => {
           </MenubarMenu>
           <MenubarSeparator />
           <MenubarMenu>
-            <MenubarTrigger className="text-[1rem]">About Us</MenubarTrigger>
+            <MenubarTrigger className="text-[1rem] cursor-pointer">
+              About Us
+            </MenubarTrigger>
             <MenubarContent>
               <MenubarItem asChild>
-                <Link href={"/contact-us"} className="text-sm">
+                <Link href={"/contact-us"} className="text-sm cursor-pointer">
                   Contact Us
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/ads"} className="text-sm">
+                <Link href={"/ads"} className="text-sm cursor-pointer">
                   Advertise
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
-                <Link href={"/partners"} className="text-sm">
+                <Link href={"/partners"} className="text-sm cursor-pointer">
                   Partners
                 </Link>
               </MenubarItem>

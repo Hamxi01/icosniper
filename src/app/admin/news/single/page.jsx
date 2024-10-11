@@ -302,7 +302,13 @@ const AddEditBlogPage = () => {
 // Wrap the component in Suspense
 const SuspenseWrapper = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="container mx-auto max-w-[1366px] w-full text-center">
+          Loading...
+        </div>
+      }
+    >
       <AddEditBlogPage />
     </Suspense>
   );

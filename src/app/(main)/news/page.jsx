@@ -68,7 +68,13 @@ const MainComponent = () => {
 };
 
 const News = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    }
+  >
     <MainComponent />
   </Suspense>
 );

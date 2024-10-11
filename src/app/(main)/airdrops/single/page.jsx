@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -123,7 +124,7 @@ const MainComponent = () => {
   return (
     <section className="py-10 lg:px-0 px-2">
       <div className="container mx-auto grid xl:grid-cols-3 grid-cols-1 gap-8 w-full max-w-[1366px]">
-        <Card>
+        <Card className="max-h-[fit-content]">
           <CardHeader></CardHeader>
           <CardContent className="flex items-center gap-3">
             <img
@@ -137,6 +138,7 @@ const MainComponent = () => {
               </h2>
             </div>
           </CardContent>
+          <CardFooter></CardFooter>
         </Card>
         <Card className="xl:col-span-2 col-span-1">
           <CardHeader></CardHeader>
@@ -267,7 +269,13 @@ const MainComponent = () => {
 };
 
 const AirdropSinglePage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    }
+  >
     <MainComponent />
   </Suspense>
 );

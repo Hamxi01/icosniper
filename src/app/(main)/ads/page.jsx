@@ -91,7 +91,7 @@ const page = () => {
                 alt="Users icon"
                 width={300}
                 height={300}
-                className="h-fit mx-auto w-full max-w-[250px]"
+                className="h-fit mx-auto w-full max-w-[190px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -110,7 +110,7 @@ const page = () => {
               </div>
             </CardContent>
             <CardFooter className="justify-center">
-              <CardTitle>$150 / day</CardTitle>
+              <CardTitle>{/* $150 / day */}</CardTitle>
             </CardFooter>
           </Card>
           <Card className="dark:bg-[#141620]">
@@ -120,7 +120,7 @@ const page = () => {
                 alt="Users icon"
                 width={300}
                 height={300}
-                className="h-fit mx-auto w-full max-w-[250px]"
+                className="h-fit mx-auto w-full max-w-[190px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -139,7 +139,7 @@ const page = () => {
               </div>
             </CardContent>
             <CardFooter className="justify-center">
-              <CardTitle>$375 / day</CardTitle>
+              <CardTitle>{/* $375 / day */}</CardTitle>
             </CardFooter>
           </Card>
           <Card className="dark:bg-[#141620]">
@@ -149,7 +149,7 @@ const page = () => {
                 alt="Users icon"
                 width={300}
                 height={300}
-                className="h-fit mx-auto w-full max-w-[250px]"
+                className="h-fit mx-auto w-full max-w-[190px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -163,7 +163,7 @@ const page = () => {
               </CardDescription>
             </CardContent>
             <CardFooter className="justify-center">
-              <CardTitle>$300 / day</CardTitle>
+              <CardTitle>{/* $300 / day */}</CardTitle>
             </CardFooter>
           </Card>
 
@@ -255,16 +255,16 @@ const page = () => {
             asChild
             className="bg-[#4c3cce] hover:bg-[#6857f3] border-[#6857f3] py-7 px-12 text-lg dark:text-white mx-auto"
           >
-            <Link href="">START ADVERTISING</Link>
+            <Link href="https://t.me/ICOSNIPER78">START ADVERTISING</Link>
           </Button>
         </div>
-        <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-10 mb-10">
+        <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-10 mb-10 min-h-[320px]">
           <Card className="dark:bg-[#141620]">
             <CardHeader className="text-center mb-5">
-              <CardTitle>Discounts</CardTitle>
+              <CardTitle>{/* Discounts */}</CardTitle>
             </CardHeader>
             <CardContent className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-              <div className="flex flex-col gap-3">
+              {/* <div className="flex flex-col gap-3">
                 <Card className="dark:bg-[#272535]">
                   <CardContent className="text-center pt-4 px-0">
                     <CardTitle className="text-md">3+ days</CardTitle>
@@ -285,7 +285,9 @@ const page = () => {
               <div className="flex flex-col gap-3">
                 <Card className="dark:bg-[#272535]">
                   <CardContent className="text-center pt-4 px-0">
-                    <CardTitle className="text-md">7+ days</CardTitle>
+                    <CardTitle className="text-md">
+                      7+ days
+                    </CardTitle>
                     <CardDescription className="text-xs">
                       of any ad booked
                     </CardDescription>
@@ -295,7 +297,9 @@ const page = () => {
                   <CardContent className="text-center pt-4 px-0">
                     <CardTitle className="text-md">
                       20%
-                      <CardDescription className="text-xs">off</CardDescription>
+                      <CardDescription className="text-xs">
+                        off
+                      </CardDescription>
                     </CardTitle>
                   </CardContent>
                 </Card>
@@ -303,7 +307,9 @@ const page = () => {
               <div className="flex flex-col gap-3">
                 <Card className="dark:bg-[#272535]">
                   <CardContent className="text-center pt-4 px-0">
-                    <CardTitle className="text-md">15+ days</CardTitle>
+                    <CardTitle className="text-md">
+                      15+ days
+                    </CardTitle>
                     <CardDescription className="text-xs">
                       of any ad booked
                     </CardDescription>
@@ -313,54 +319,56 @@ const page = () => {
                   <CardContent className="text-center pt-4 px-0">
                     <CardTitle className="text-md">
                       35%
-                      <CardDescription className="text-xs">off</CardDescription>
+                      <CardDescription className="text-xs">
+                        off
+                      </CardDescription>
                     </CardTitle>
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
             <CardHeader>
-              <Image
+              {/* <Image
                 src="/img/pages/ads/email-blast.png"
                 alt="Users icon"
                 width={300}
                 height={300}
                 className="h-fit mx-auto w-full max-w-[130px]"
-              />
+              /> */}
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">Email Blast</CardTitle>
+              <CardTitle className="mb-2">{/* Email Blast */}</CardTitle>
               <CardDescription>
-                Send your message to our 30,000+ email subscribers.
+                {/* Send your message to our 30,000+ email subscribers. */}
                 <br />
-                Your message will be sent in a dedicated email.
+                {/* Your message will be sent in a dedicated email. */}
               </CardDescription>
             </CardContent>
             <CardFooter className="justify-center">
-              <CardTitle>Request a quote</CardTitle>
+              <CardTitle>{/* Request a quote */}</CardTitle>
             </CardFooter>
           </Card>
           <Card className="dark:bg-[#141620]">
             <CardHeader>
-              <Image
+              {/* <Image
                 src="/img/pages/ads/contract-audit.png"
                 alt="Users icon"
                 width={300}
                 height={300}
                 className="h-fit mx-auto w-full max-w-[130px]"
-              />
+              /> */}
             </CardHeader>
             <CardContent className="text-center">
-              <CardTitle className="mb-2">Contract Audit</CardTitle>
+              <CardTitle className="mb-2">{/* Contract Audit */}</CardTitle>
               <CardDescription>
-                We will audit your smart contract for security vulnerabilities.
-                <br />A report will be provided to share with your community.
+                {/* We will audit your smart contract for security vulnerabilities.
+                <br />A report will be provided to share with your community. */}
               </CardDescription>
             </CardContent>
             <CardFooter className="justify-center">
-              <CardTitle>From $400</CardTitle>
+              <CardTitle>{/* From $400 */}</CardTitle>
             </CardFooter>
           </Card>
         </div>
@@ -371,23 +379,23 @@ const page = () => {
           Reach out to us on Telegram or email to get started.
         </p>
         <div className="w-full max-w-md grid md:grid-cols-2 grid-cols-1 gap-5 mx-auto">
-          <Link href={"/"}>
+          <Link href={"https://t.me/ICOSNIPER78"}>
             <Card className="dark:bg-[#141620]">
               <CardHeader className="flex items-center flex-row gap-2">
                 <SendIcon /> Telegram
               </CardHeader>
               <CardContent>
-                <CardDescription>@CoinMoonerAdverts</CardDescription>
+                <CardDescription>@ICOSNIPER78</CardDescription>
               </CardContent>
             </Card>
           </Link>
-          <Link href={"/"}>
+          <Link href={"mailto:contact@icosniper.com"}>
             <Card className="dark:bg-[#141620]">
               <CardHeader className="flex items-center flex-row gap-2">
                 <MailIcon /> Email
               </CardHeader>
               <CardContent>
-                <CardDescription>contact@coinmooner.com</CardDescription>
+                <CardDescription>contact@icosniper.com</CardDescription>
               </CardContent>
             </Card>
           </Link>

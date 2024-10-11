@@ -39,10 +39,15 @@ const Banner = () => {
     fetchBanners();
   }, [pathname, searchParams]); // Listen for changes in both pathname and searchParams
 
-  if (rotatingBanners.length < 1) return "Loading...";
+  if (rotatingBanners.length < 1)
+    return (
+      <div className="container mx-auto max-w-[1366px] w-full text-center">
+        Loading...
+      </div>
+    );
 
   return (
-    <section className="pb-4 pt-2 lg:px-0 px-2">
+    <section className="pb-0 pt-2 lg:px-0 px-2">
       <div className="container mx-auto w-full max-w-[1366px]">
         <div className="mb-3">
           {/* Render the main banner */}
@@ -106,7 +111,13 @@ const Banner = () => {
 // Wrap the component in Suspense
 const SuspenseWrapper = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="container mx-auto max-w-[1366px] w-full">
+          Loading...
+        </div>
+      }
+    >
       <Banner />
     </Suspense>
   );

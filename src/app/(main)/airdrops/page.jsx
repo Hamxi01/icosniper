@@ -45,6 +45,13 @@ const page = () => {
     }
   };
 
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + "...";
+  };
+
   useEffect(() => {
     fetchIcoScams(page, limit, query, currentIcoScamTab);
   }, [page, limit, query, currentIcoScamTab]);
@@ -143,9 +150,9 @@ const page = () => {
                       <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
-                          <span className="text-xs text-[#a3a3a3]">
-                            {coin?.description}
-                          </span>
+                          <div className="text-xs text-[#a3a3a3]">
+                            {truncateText(coin?.description, 50)}
+                          </div>
                         </Link>
                       </TableCell>
                       <TableCell className="text-right min-w-[150px]">
@@ -196,9 +203,9 @@ const page = () => {
                       <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
-                          <span className="text-xs text-[#a3a3a3]">
-                            {coin?.description}
-                          </span>
+                          <div className="text-xs text-[#a3a3a3]">
+                            {truncateText(coin?.description, 50)}
+                          </div>
                         </Link>
                       </TableCell>
                       <TableCell className="text-right min-w-[150px]">
@@ -237,9 +244,9 @@ const page = () => {
                       <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
-                          <span className="text-xs text-[#a3a3a3]">
-                            {coin?.description}
-                          </span>
+                          <div className="text-xs text-[#a3a3a3]">
+                            {truncateText(coin?.description, 50)}
+                          </div>
                         </Link>
                       </TableCell>
                       <TableCell className="text-right min-w-[150px]">
@@ -278,9 +285,9 @@ const page = () => {
                       <TableCell className="w-full">
                         <Link href={`/airdrops/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
-                          <span className="text-xs text-[#a3a3a3]">
-                            {coin?.description}
-                          </span>
+                          <div className="text-xs text-[#a3a3a3]">
+                            {truncateText(coin?.description, 50)}
+                          </div>
                         </Link>
                       </TableCell>
                       <TableCell className="text-right min-w-[150px]">

@@ -125,7 +125,9 @@ const CoinsPage = () => {
         </Button>
       </div>
       {loading ? (
-        <p className="text-center">Loading...</p>
+        <p className="container mx-auto max-w-[1366px] w-full text-center">
+          Loading...
+        </p>
       ) : (
         <>
           <Table>

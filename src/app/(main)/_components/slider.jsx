@@ -51,7 +51,9 @@ const Slider = () => {
 
   // Show loading state
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto max-w-[1366px] w-full">Loading...</div>
+    );
   }
 
   // Show error state
@@ -85,8 +87,8 @@ const Slider = () => {
               item,
               index // Show first 6 news items
             ) => (
-              <SwiperSlide key={item.id}>
-                <Card>
+              <SwiperSlide key={item.id} className="h-full">
+                <Card className="h-full">
                   <CardHeader className="p-0 pb-3">
                     <Image
                       src={item.thumbnail} // Assuming the news item has an image property
