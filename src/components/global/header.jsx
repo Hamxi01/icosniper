@@ -38,7 +38,11 @@ const Header = () => {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("tv3623315"));
-    setUser(userData);
+    if (userData) {
+      setUser(userData);
+    } else {
+      setUser(null); // Ensure user is set to null if not found
+    }
   }, []);
 
   const { setTheme } = useTheme();
@@ -71,12 +75,16 @@ const Header = () => {
   );
 
   const handleLogout = async () => {
-    await signOut(auth);
-
-    localStorage.removeItem("tv3623315");
-    router.refresh();
-    router.push("/sign-in");
+    try {
+      await signOut(auth); // Wait for sign-out to complete
+      localStorage.removeItem("tv3623315"); // Remove item from local storage
+      setUser(null); // Update user state to null
+      router.push("/sign-in"); // Navigate to sign-in page
+    } catch (error) {
+      console.error("Error during sign out:", error); // Log any errors
+    }
   };
+
   // bg-gradient-to-b to-[#6254d42e] from-[#0b162700]
 
   return (

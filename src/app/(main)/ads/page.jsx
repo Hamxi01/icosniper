@@ -24,14 +24,14 @@ const page = () => {
         </h2>
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
           <Card className="dark:bg-[#141620]">
-            <CardHeader>
+            <CardHeader className="p-2">
               <img
                 src="/img/pages/ads/users-icon.svg"
                 alt="Users icon"
                 className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center p-2">
               <CardTitle className="mb-2">AVTIVE members</CardTitle>
               <CardDescription>
                 Daily giveaway and bounty program
@@ -39,27 +39,27 @@ const page = () => {
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
-            <CardHeader>
+            <CardHeader className="p-2">
               <img
                 src="/img/pages/ads/votes.svg"
                 alt="Users icon"
                 className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center p-2">
               <CardTitle className="mb-2">Not a just listing</CardTitle>
               <CardDescription>Massive exposure in our members</CardDescription>
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
-            <CardHeader>
+            <CardHeader className="p-2">
               <img
                 src="/img/pages/ads/listed.svg"
                 alt="Users icon"
                 className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center p-2">
               <CardTitle className="mb-2">REAL MARKETING</CardTitle>
               <CardDescription>
                 FREE BLOG POST , SNS shout-out ETC….
@@ -67,14 +67,14 @@ const page = () => {
             </CardContent>
           </Card>
           <Card className="dark:bg-[#141620]">
-            <CardHeader>
+            <CardHeader className="p-2">
               <img
                 src="/img/pages/ads/infinity.svg"
                 alt="Users icon"
                 className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center p-2">
               <CardTitle className="mb-2">FIXED ADS PRICE</CardTitle>
               <CardDescription>Make simple to start</CardDescription>
             </CardContent>
