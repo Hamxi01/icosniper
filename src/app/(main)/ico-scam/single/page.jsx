@@ -147,7 +147,9 @@ const MainComponent = () => {
               {icoScam.title} Description:
             </CardTitle>
             <CardDescription className="text-md">
-              {icoScam.description}
+              <div style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+                {icoScam.description}
+              </div>
             </CardDescription>
           </CardContent>
         </Card>

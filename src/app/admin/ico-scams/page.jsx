@@ -111,7 +111,15 @@ const IcoScamPage = () => {
       render: (text) => <img src={text} alt="Logo" style={{ width: 50 }} />,
     },
     { title: "Title", dataIndex: "title" },
-    { title: "Description", dataIndex: "description" },
+    {
+      title: "Description",
+      dataIndex: "description",
+      render: (text) => (
+        <div style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+          {text}
+        </div>
+      ),
+    },
     { title: "Status", dataIndex: "status" },
     {
       title: "Actions",

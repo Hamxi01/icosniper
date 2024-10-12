@@ -139,7 +139,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -148,7 +148,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell className="w-full">
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <div className="text-xs text-[#a3a3a3]">
                             {truncateText(coin?.description, 50)}
@@ -192,7 +192,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -201,7 +201,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell className="w-full">
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <div className="text-xs text-[#a3a3a3]">
                             {truncateText(coin?.description, 50)}
@@ -233,7 +233,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -242,7 +242,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell className="w-full">
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <div className="text-xs text-[#a3a3a3]">
                             {truncateText(coin?.description, 50)}
@@ -274,7 +274,7 @@ const page = () => {
                     <TableRow key={coin?.id}>
                       <TableCell>{coin?.id}</TableCell>
                       <TableCell>
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <img
                             src={coin?.logo}
                             alt=""
@@ -283,7 +283,7 @@ const page = () => {
                         </Link>
                       </TableCell>
                       <TableCell className="w-full">
-                        <Link href={`/airdrops/single?id=${coin?.id}`}>
+                        <Link href={`/ico-scam/single?id=${coin?.id}`}>
                           <p className="font-bold text-white">{coin?.title}</p>
                           <div className="text-xs text-[#a3a3a3]">
                             {truncateText(coin?.description, 50)}

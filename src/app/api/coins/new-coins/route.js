@@ -1,26 +1,23 @@
 import prisma from "@/lib/prisma"; // Ensure you have prisma set up here
+import { NextResponse } from "next/server";
 
 // GET all coins with pagination and search
-export async function GET(request) {
+export async function GET() {
   try {
-    // Fetch coins from the database, ordering by id to get the latest coins
     const coins = await prisma.coin.findMany({
-      take: 5, // Fetch 5 coins (you can adjust the number)
+      take: 5, // Fetch 5 coins
       orderBy: {
-        id: "desc", // Order by id in descending order to get the latest coins
+        id: "desc", // Latest coins first
       },
     });
 
-    return new Response(JSON.stringify({ coins }), {
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-store",
-      },
-    });
+    console.log(coins); // Log the complete error
+    return NextResponse.json({ coins });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Error fetching coins" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Error fetching hottest pairs:", error); // Log the complete error
+    return NextResponse.json(
+      { error: "Error fetching coins" },
+      { status: 500 }
+    );
   }
 }
