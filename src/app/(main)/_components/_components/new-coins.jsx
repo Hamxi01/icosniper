@@ -11,16 +11,21 @@ const NewCoins = () => {
 
   const fetchCoins = async () => {
     try {
+      // Added timestamp to ensure fresh request
       const response = await fetch(
         `/api/coins/new-coins?timestamp=${Date.now()}`,
         {
-          cache: "no-store", // Force no caching in the fetch request
+          cache: "no-store", // Ensure no caching
         }
-      ); // Update the API endpoint accordingly
+      );
       const data = await response.json();
+
+      console.log("Coins fetched from API:", data); // Debugging output
 
       if (data.coins) {
         setCoins(data.coins || []);
+      } else {
+        console.error("No coins found in response.");
       }
     } catch (error) {
       console.error("Error fetching Coins:", error);
