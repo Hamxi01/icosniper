@@ -65,7 +65,7 @@ const CoinComponent = ({ coin }) => {
             rel="noopener noreferrer nofollow"
           >
             <img
-              className="mr-2 h-4 w-4"
+              className="mr-2 h-6 w-6"
               src="https://coinmooner.com/v3/socials/telegram.svg"
               alt="Telegram logo"
             />
@@ -78,7 +78,7 @@ const CoinComponent = ({ coin }) => {
             rel="noopener noreferrer nofollow"
           >
             <img
-              className="mr-2 h-4 w-4"
+              className="mr-2 h-6 w-6"
               src="https://coinmooner.com/v3/socials/twitter.svg"
               alt="Twitter logo"
             />
@@ -91,7 +91,7 @@ const CoinComponent = ({ coin }) => {
             rel="noopener noreferrer nofollow"
           >
             <img
-              className="mr-2 h-4 w-4"
+              className="mr-2 h-6 w-6"
               src="https://coinmooner.com/v3/socials/web.svg"
               alt="Website icon"
             />
@@ -101,8 +101,8 @@ const CoinComponent = ({ coin }) => {
             <img
               alt="metamask logo"
               loading="lazy"
-              width="22"
-              height="22"
+              width="40"
+              height="40"
               decoding="async"
               data-nimg="1"
               className="mr-2"

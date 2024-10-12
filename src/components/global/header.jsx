@@ -157,7 +157,7 @@ const Header = () => {
           <MenubarSeparator />
           <MenubarMenu>
             <MenubarTrigger asChild>
-              <Link href={"/airdrops"} className="text-[1rem] cursor-pointer">
+              <Link href={"/ico-scam"} className="text-[1rem] cursor-pointer">
                 ICO Scam
               </Link>
             </MenubarTrigger>

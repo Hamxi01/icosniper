@@ -28,7 +28,7 @@ const page = () => {
               <img
                 src="/img/pages/ads/users-icon.svg"
                 alt="Users icon"
-                className="h-fit mx-auto w-full max-w-[50px]"
+                className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -43,7 +43,7 @@ const page = () => {
               <img
                 src="/img/pages/ads/votes.svg"
                 alt="Users icon"
-                className="h-fit mx-auto w-full max-w-[50px]"
+                className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -56,7 +56,7 @@ const page = () => {
               <img
                 src="/img/pages/ads/listed.svg"
                 alt="Users icon"
-                className="h-fit mx-auto w-full max-w-[50px]"
+                className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
             <CardContent className="text-center">
@@ -71,7 +71,7 @@ const page = () => {
               <img
                 src="/img/pages/ads/infinity.svg"
                 alt="Users icon"
-                className="h-fit mx-auto w-full max-w-[50px]"
+                className="h-fit mx-auto w-full max-w-[40px]"
               />
             </CardHeader>
             <CardContent className="text-center">
