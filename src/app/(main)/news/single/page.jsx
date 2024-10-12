@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import {
   FacebookIcon,
+  InstagramIcon,
   LinkedinIcon,
   MailIcon,
   SendIcon,
@@ -154,7 +155,9 @@ const MainComponent = () => {
               <div class="flex justify-between">
                 <Link
                   class="bg-blue-500 hover:bg-blue-600 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 ease-in-out"
-                  href="https://t.me/share/url?url=%2Fnews%2Fwhy-90-of-crypto-companies-are-failing-fca-standards-a-deep-dive-into-rejections"
+                  href={`https://t.me/share/url?url=${encodeURIComponent(
+                    window.location.href
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
@@ -162,23 +165,32 @@ const MainComponent = () => {
                 </Link>
                 <Link
                   class="bg-blue-400 hover:bg-blue-500 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 ease-in-out"
-                  href="https://twitter.com/intent/tweet?url=%2Fnews%2Fwhy-90-of-crypto-companies-are-failing-fca-standards-a-deep-dive-into-rejections"
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                    window.location.href
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
                   <TwitterIcon />
                 </Link>
+                {/* Instagram */}
                 <Link
-                  class="bg-blue-800 hover:bg-blue-900 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 ease-in-out"
-                  href="https://www.linkedin.com/sharing/share-offsite/?url=%2Fnews%2Fwhy-90-of-crypto-companies-are-failing-fca-standards-a-deep-dive-into-rejections"
-                  target="_blank"
+                  class="bg-pink-500 hover:bg-pink-600 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 ease-in-out"
+                  href="#"
+                  onClick={() =>
+                    alert(
+                      "Instagram does not support direct link sharing. Please copy the link manually."
+                    )
+                  }
                   rel="noopener noreferrer nofollow"
                 >
-                  <LinkedinIcon />
+                  <InstagramIcon />
                 </Link>
                 <Link
                   class="bg-blue-700 hover:bg-blue-800 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 ease-in-out"
-                  href="https://www.facebook.com/sharer/sharer.php?u=%2Fnews%2Fwhy-90-of-crypto-companies-are-failing-fca-standards-a-deep-dive-into-rejections"
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    window.location.href
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
                 >
@@ -186,6 +198,7 @@ const MainComponent = () => {
                 </Link>
               </div>
             </div>
+
             <div class="rounded-lg bg-gray-200 dark:bg-[#141620] pt-6">
               <span class="mx-6 text-lg font-bold">Contents</span>
               <div class="my-2"></div>
