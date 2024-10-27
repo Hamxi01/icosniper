@@ -96,10 +96,10 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <h3 className="text-md mb-4">BLOG</h3>
+          <h3 className="text-md mb-4">NEWS</h3>
           <div className="flex flex-col gap-2 text-sm mb-7">
             <Link
-              href={"/blog?News"}
+           href={"/news?category=News"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               News
@@ -111,49 +111,49 @@ const Footer = () => {
               Finance
             </Link>
             <Link
-              href={"/blog?DeFi news"}
+              href={"/news?category=DeFi news"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               DeFi news
             </Link>
             <Link
-              href={"/blog?Dapps"}
+              href={"/news?category=Dapps"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               Dapps
             </Link>
             <Link
-              href={"/blog?GameFi"}
+              href={"/news?category=GameFi"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               GameFi
             </Link>
             <Link
-              href={"/blog?Exchange news"}
+              href={"/news?category=Exchange news"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               Exchange news
             </Link>
             <Link
-              href={"/blog?Launchpad news"}
+              href={"/news?category=Launchpad news"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               Launchpad news
             </Link>
             <Link
-              href={"/blog?Altcoins"}
+              href={"/news?category=Altcoins"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               Altcoins
             </Link>
             <Link
-              href={"/blog?NFT"}
+              href={"/news?category=NFT"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               NFT
             </Link>
             <Link
-              href={"/blog?Tutorials"}
+              href={"/news?category=Tutorials"}
               className="text-[#a3a3a3] dark:hover:text-white hover:text-black"
             >
               Tutorials
